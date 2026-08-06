@@ -206,7 +206,7 @@ html_content = f"""
 </head>
 <body>
     <div class="container">
-        <h1>Quantitative Portfolio Risk Engine</h1>
+        <h1>Quantitative Portfolio Risk Engine by @Ciceroyce</h1>
         <div class="subtitle">Dynamic Multi-Asset Simulation Dashboard • Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%</div>
         
         <h2>1. Historical Growth (Dynamic Top 8 Assets)</h2>
