@@ -1,6 +1,3 @@
-# Install dependencies
-!pip install yfinance plotly pandas numpy &> /dev/null
-
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -230,4 +227,4 @@ html_content = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("\n-> SUCCESS! Dashboard exported locally as 'index.html'. Ready for GitHub Pages.")
+print("\n-> SUCCESS! Dashboard exported locally as 'index.html'.")
