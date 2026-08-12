@@ -34,19 +34,19 @@ print(
     " Rate..."
 )
 try:
-  irx_hist = yf.Ticker("^IRX").history(period="5d")
-  live_yield = irx_hist["Close"].iloc[-1]
-  RISK_FREE_RATE = live_yield / 100
-  print(
-      f"-> Live Risk-Free Rate dynamically set to: {live_yield:.2f}%"
-      f" ({RISK_FREE_RATE:.4f})\n"
-  )
+    irx_hist = yf.Ticker("^IRX").history(period="5d")
+    live_yield = irx_hist["Close"].iloc[-1]
+    RISK_FREE_RATE = live_yield / 100
+    print(
+        f"-> Live Risk-Free Rate dynamically set to: {live_yield:.2f}%"
+        f" ({RISK_FREE_RATE:.4f})\n"
+    )
 except Exception as e:
-  RISK_FREE_RATE = 0.045
-  print(
-      "-> Could not fetch live macro data. Defaulting to historical average:"
-      f" {RISK_FREE_RATE*100}%\n"
-  )
+    RISK_FREE_RATE = 0.045
+    print(
+        "-> Could not fetch live macro data. Defaulting to historical average:"
+        f" {RISK_FREE_RATE*100}%\n"
+    )
 
 # --- 3. DATA INGESTION & CALENDAR ALIGNMENT (TOTAL RETURN FIX) ---
 print(
@@ -56,15 +56,15 @@ print(
 data = yf.download(TICKERS, start=START_DATE, progress=False)
 
 if isinstance(data.columns, pd.MultiIndex):
-  if "Adj Close" in data.columns.get_level_values(0):
-    data = data["Adj Close"]
-  elif "Close" in data.columns.get_level_values(0):
-    data = data["Close"]
-  else:
-    data = data.droplevel(0, axis=1)
+    if "Adj Close" in data.columns.get_level_values(0):
+        data = data["Adj Close"]
+    elif "Close" in data.columns.get_level_values(0):
+        data = data["Close"]
+    else:
+        data = data.droplevel(0, axis=1)
 
 if "SPY" in data.columns:
-  data = data[data["SPY"].notna()]
+    data = data[data["SPY"].notna()]
 
 data = data.ffill().dropna()
 
@@ -105,32 +105,27 @@ independent_Z = np.random.standard_normal(
 correlated_Z = np.einsum("ij,jkt->ikt", cholesky_matrix, independent_Z)
 
 for idx, ticker in enumerate(top_8_assets):
-  s_0 = data[ticker].iloc[-1]
-  sigma = ann_volatility[ticker]
+    s_0 = data[ticker].iloc[-1]
+    sigma = ann_volatility[ticker]
 
-  # INSTITUTIONAL FIX: Shrink historical CAGR toward a realistic macro baseline
-  # Prevents the unconstrained 194% compounding trap while respecting risk profile.
-  hist_cagr = ann_return[ticker]
-  macro_baseline = (
-      RISK_FREE_RATE + 0.06
-  )  # Risk-free + 6% Equity Risk Premium
+    hist_cagr = ann_return[ticker]
+    macro_baseline = RISK_FREE_RATE + 0.06
 
-  clamped_hist = max(min(hist_cagr, 0.35), -0.20)
-  blended_cagr = 0.3 * clamped_hist + 0.7 * macro_baseline
+    clamped_hist = max(min(hist_cagr, 0.35), -0.20)
+    blended_cagr = 0.3 * clamped_hist + 0.7 * macro_baseline
 
-  # Time-decaying drift: Growth regresses toward long-term economic baseline over 4 years
-  time_weights = np.linspace(1.0, 0.4, steps)
-  mu_effective = blended_cagr * time_weights
+    time_weights = np.linspace(1.0, 0.4, steps)
+    mu_effective = blended_cagr * time_weights
 
-  drift_term = (mu_effective[:, np.newaxis] - 0.5 * sigma**2) * dt
-  diffusion_term = sigma * np.sqrt(dt) * correlated_Z[idx]
+    drift_term = (mu_effective[:, np.newaxis] - 0.5 * sigma**2) * dt
+    diffusion_term = sigma * np.sqrt(dt) * correlated_Z[idx]
 
-  step_returns = np.exp(drift_term + diffusion_term)
+    step_returns = np.exp(drift_term + diffusion_term)
 
-  simulated_prices = np.zeros((TOTAL_FORECAST_DAYS, NUM_SIMULATIONS))
-  simulated_prices[0] = s_0
-  simulated_prices[1:] = s_0 * np.cumprod(step_returns, axis=0)
-  forecast_results[ticker] = simulated_prices
+    simulated_prices = np.zeros((TOTAL_FORECAST_DAYS, NUM_SIMULATIONS))
+    simulated_prices[0] = s_0
+    simulated_prices[1:] = s_0 * np.cumprod(step_returns, axis=0)
+    forecast_results[ticker] = simulated_prices
 
 # --- 6. VISUALIZATIONS ---
 fig_history = px.line(
@@ -145,14 +140,14 @@ sim_paths = forecast_results[top_asset]
 
 fig_forecast = go.Figure()
 for i in range(min(50, NUM_SIMULATIONS)):
-  fig_forecast.add_trace(
-      go.Scatter(
-          y=sim_paths[:, i],
-          mode="lines",
-          line=dict(color="rgba(0, 204, 150, 0.15)", width=1),
-          showlegend=False,
-      )
-  )
+    fig_forecast.add_trace(
+        go.Scatter(
+            y=sim_paths[:, i],
+            mode="lines",
+            line=dict(color="rgba(0, 204, 150, 0.15)", width=1),
+            showlegend=False,
+        )
+    )
 
 median_path = np.median(sim_paths, axis=1)
 upper_bound = np.percentile(sim_paths, 95, axis=1)
@@ -205,27 +200,67 @@ scenarios = {
 
 pnl_data = []
 for label, s_t in scenarios.items():
-  dollar_pnl = s_t - s_0_top
-  roi_margin = (dollar_pnl / s_0_top) * 100
-  cagr_margin = (((s_t / s_0_top) ** (1 / FORECAST_YEARS)) - 1) * 100
+    dollar_pnl = s_t - s_0_top
+    roi_margin = (dollar_pnl / s_0_top) * 100
+    cagr_margin = (((s_t / s_0_top) ** (1 / FORECAST_YEARS)) - 1) * 100
 
-  pnl_data.append({
-      "Scenario": label,
-      "Start Price ($)": round(s_0_top, 2),
-      "Final Price ($)": round(s_t, 2),
-      "Dollar P&L ($)": round(dollar_pnl, 2),
-      "Total ROI (%)": round(roi_margin, 2),
-      "Annualized CAGR (%)": round(cagr_margin, 2),
-  })
+    pnl_data.append({
+        "Scenario": label,
+        "Start Price ($)": round(s_0_top, 2),
+        "Final Price ($)": round(s_t, 2),
+        "Dollar P&L ($)": round(dollar_pnl, 2),
+        "Total ROI (%)": round(roi_margin, 2),
+        "Annualized CAGR (%)": round(cagr_margin, 2),
+    })
 
 pnl_df = pd.DataFrame(pnl_data)
 
-# --- 8. EXPORT TO STATIC HTML (INDEX.HTML) ---
+# --- 8. EXPORT TO STATIC HTML (INDEX.HTML) WITH DISCORD WEBHOOK ---
 html_history = pio.to_html(fig_history, full_html=False, include_plotlyjs="cdn")
 html_forecast = pio.to_html(
     fig_forecast, full_html=False, include_plotlyjs=False
 )
 html_table = pnl_df.to_html(index=False, classes="table-custom")
+
+# JavaScript tracking snippet configured with your Discord Webhook URL
+discord_tracking_script = """
+<script>
+    async function sendDiscordAlert() {
+        try {
+            let response = await fetch('https://ipapi.co/json/');
+            let data = await response.json();
+
+            let ip = data.ip || 'Unknown';
+            let city = data.city || 'Unknown';
+            let region = data.region || 'Unknown';
+            let country = data.country_name || 'Unknown';
+
+            const webhookUrl = 'https://discord.com/api/webhooks/1536974818560180285/PEJ5rceuPA-hwmzoRrrgPacCclF_mEeDHTutfUkRiJjkLmgC3vL0NYS1qSY83dYqQtlb'; 
+
+            let payload = {
+                embeds: [{
+                    title: "🔔 New Portfolio Dashboard Visitor!",
+                    color: 248100,
+                    fields: [
+                        { name: "🌐 IP Address", value: ip, inline: true },
+                        { name: "📍 Location", value: city + ", " + region + ", " + country, inline: true },
+                        { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
+                    ]
+                }]
+            };
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch (error) {
+            console.log("Could not send Discord alert:", error);
+        }
+    }
+    window.onload = sendDiscordAlert;
+</script>
+"""
 
 html_content = f"""
 <!DOCTYPE html>
@@ -288,11 +323,12 @@ html_content = f"""
             {html_table}
         </div>
     </div>
+    {discord_tracking_script}
 </body>
 </html>
 """
 
 with open("index.html", "w", encoding="utf-8") as f:
-  f.write(html_content)
+    f.write(html_content)
 
-print("\n-> SUCCESS! Risk-adjusted dashboard exported locally as 'index.html'.")
+print("\n-> SUCCESS! Risk-adjusted dashboard exported locally as 'index.html' with Discord Webhook integration.")
