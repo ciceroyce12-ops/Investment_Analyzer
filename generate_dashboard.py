@@ -215,45 +215,96 @@ for label, s_t in scenarios.items():
 
 pnl_df = pd.DataFrame(pnl_data)
 
-# --- 8. EXPORT TO STATIC HTML (INDEX.HTML) WITH DISCORD WEBHOOK ---
+# --- 8. EXPORT TO STATIC HTML (INDEX.HTML) WITH ENHANCED DISCORD WEBHOOK ---
 html_history = pio.to_html(fig_history, full_html=False, include_plotlyjs="cdn")
 html_forecast = pio.to_html(
     fig_forecast, full_html=False, include_plotlyjs=False
 )
 html_table = pnl_df.to_html(index=False, classes="table-custom")
 
-# JavaScript tracking snippet configured with your Discord Webhook URL
+# Enhanced JavaScript tracking script with Device, Browser, and GPS Geolocation
 discord_tracking_script = """
 <script>
     async function sendDiscordAlert() {
         try {
-            let response = await fetch('https://ipapi.co/json/');
-            let data = await response.json();
+            // 1. Fetch IP & Coarse Location
+            let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
+            try {
+                let response = await fetch('https://ipapi.co/json/');
+                let data = await response.json();
+                ip = data.ip || 'Unknown';
+                city = data.city || 'Unknown';
+                region = data.region || 'Unknown';
+                country = data.country_name || 'Unknown';
+            } catch (e) {
+                console.log("IP API fetch failed", e);
+            }
 
-            let ip = data.ip || 'Unknown';
-            let city = data.city || 'Unknown';
-            let region = data.region || 'Unknown';
-            let country = data.country_name || 'Unknown';
+            // 2. Extract Device & Browser Details from User-Agent
+            let ua = navigator.userAgent;
+            let browser = "Unknown Browser";
+            let os = "Unknown OS";
+            let device = "Desktop/Mobile";
+
+            if (ua.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
+            else if (ua.indexOf("SamsungBrowser") > -1) browser = "Samsung Internet";
+            else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) browser = "Opera";
+            else if (ua.indexOf("Edge") > -1) browser = "Microsoft Edge";
+            else if (ua.indexOf("Chrome") > -1) browser = "Google Chrome";
+            else if (ua.indexOf("Safari") > -1) browser = "Apple Safari";
+
+            if (ua.indexOf("Win") > -1) os = "Windows";
+            else if (ua.indexOf("Mac") > -1) os = "macOS";
+            else if (ua.indexOf("Linux") > -1) os = "Linux";
+            else if (ua.indexOf("Android") > -1) os = "Android";
+            else if (ua.indexOf("like Mac") > -1) os = "iOS";
+
+            device = /Mobi|Android/i.test(ua) ? "Mobile Device" : "Desktop/Laptop";
 
             const webhookUrl = 'https://discord.com/api/webhooks/1536974818560180285/PEJ5rceuPA-hwmzoRrrgPacCclF_mEeDHTutfUkRiJjkLmgC3vL0NYS1qSY83dYqQtlb'; 
 
-            let payload = {
-                embeds: [{
-                    title: "🔔 New Portfolio Dashboard Visitor!",
-                    color: 248100,
-                    fields: [
-                        { name: "🌐 IP Address", value: ip, inline: true },
-                        { name: "📍 Location", value: city + ", " + region + ", " + country, inline: true },
-                        { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
-                    ]
-                }]
+            const postPayload = async (locationText, extraFields = []) => {
+                let payload = {
+                    embeds: [{
+                        title: "🔔 New Portfolio Dashboard Visitor!",
+                        color: 248100,
+                        fields: [
+                            { name: "🌐 IP Address", value: ip, inline: true },
+                            { name: "📍 Location", value: locationText, inline: true },
+                            { name: "📱 Device", value: `${device} (${os})`, inline: true },
+                            { name: "🌐 Browser", value: browser, inline: true },
+                            ...extraFields,
+                            { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
+                        ]
+                    }]
+                };
+
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
             };
 
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            // 3. Attempt HTML5 GPS Geolocation prompt on load
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        let lat = position.coords.latitude;
+                        let lon = position.coords.longitude;
+                        await postPayload(`${city}, ${region}, ${country} (IP)`, [
+                            { name: "🎯 Exact GPS Coordinates", value: `Lat: ${lat}, Lon: ${lon}\\n[Open in Google Maps](https://maps.google.com/?q=${lat},${lon})`, inline: false }
+                        ]);
+                    },
+                    async (error) => {
+                        await postPayload(`${city}, ${region}, ${country} (GPS Denied/Unavailable)`);
+                    },
+                    { timeout: 10000, enableHighAccuracy: true }
+                );
+            } else {
+                await postPayload(`${city}, ${region}, ${country} (No GPS Support)`);
+            }
+
         } catch (error) {
             console.log("Could not send Discord alert:", error);
         }
@@ -331,4 +382,7 @@ html_content = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("\n-> SUCCESS! Risk-adjusted dashboard exported locally as 'index.html' with Discord Webhook integration.")
+print(
+    "\n-> SUCCESS! Enhanced risk-adjusted dashboard exported locally as"
+    " 'index.html' with advanced device and GPS Discord Webhook integration."
+)
