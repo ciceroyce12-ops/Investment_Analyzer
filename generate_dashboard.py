@@ -163,14 +163,14 @@ async function sendDiscordAlert() {
             console.log("IPAPI fallback failed:", e);
         }
 
-        const webhook = 'https://discord.com/api/webhooks/1536974818560180285/PEJ5rceuPA-hwmzoRrrgPacCclF_mEeDHTutfUkRiJjkLmgC3vL0NYS1qSY83dYqQtlb';
+        const webhook = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg';
 
         await fetch(webhook, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 embeds: [{
-                    title: "🔔 New Dashboard Visitor!",
+                    title: "🔔 Investment Visitor!",
                     color: 248100,
                     fields: [
                         {name: "🌐 IP", value: ip, inline: true},
