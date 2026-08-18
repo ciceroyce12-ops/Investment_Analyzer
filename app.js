@@ -16,7 +16,7 @@ function updateDashboard() {
     if (!globalData) return;
 
     const capital = parseFloat(document.getElementById('user-capital').value) || 100000000;
-    const horizon = parseFloat(document.getElementById('user-horizon').value) || 4;
+    const horizon = parseInt(document.getElementById('user-horizon').value) || 4;
     const riskVal = parseInt(document.getElementById('risk-slider').value);
     const optimizerMode = document.getElementById('optimizer-mode').value;
     
@@ -45,8 +45,6 @@ function updateDashboard() {
     
     globalData.top_opportunities.forEach((asset, index) => {
         const baseVal = asset.monte_carlo.median * scaleFactor * horizonMultiplier;
-        const bearVal = asset.monte_carlo.p5 * scaleFactor * horizonMultiplier;
-        const bullVal = asset.monte_carlo.p95 * scaleFactor * horizonMultiplier;
 
         cardsContainer.innerHTML += `
             <div class="asset-card" onclick="this.classList.toggle('active')">
@@ -99,15 +97,31 @@ function updateDashboard() {
         Plotly.newPlot('plotly-line-chart', lineTraces, lineLayout, {responsive: true});
     }
 
-    // 2. Render Monte Carlo 4-Year Fan Chart (Top Opportunity #1)
+    // 2. Render Monte Carlo Fan Chart (Dynamic Horizon & Robust CAGR Interpolation)
     const topAsset = globalData.top_opportunities[0];
     if (topAsset) {
-        const mcTrace1 = { x: ['Year 0', 'Year 1', 'Year 2', 'Year 3', 'Year 4'], y: [capital, capital*1.1, capital*1.25, capital*1.4, topAsset.monte_carlo.p95 * scaleFactor], type: 'scatter', mode: 'lines', name: '95th Percentile (Bull)', line: {color: '#34d399'} };
-        const mcTrace2 = { x: ['Year 0', 'Year 1', 'Year 2', 'Year 3', 'Year 4'], y: [capital, capital*1.05, capital*1.12, capital*1.22, topAsset.monte_carlo.median * scaleFactor], type: 'scatter', mode: 'lines', name: '50th Percentile (Median)', line: {color: '#38bdf8', width: 3} };
-        const mcTrace3 = { x: ['Year 0', 'Year 1', 'Year 2', 'Year 3', 'Year 4'], y: [capital, capital*0.95, capital*0.9, capital*0.85, topAsset.monte_carlo.p5 * scaleFactor], type: 'scatter', mode: 'lines', name: '5th Percentile (Bear)', line: {color: '#f87171'} };
+        const cagrMedian = Math.pow(topAsset.monte_carlo.median / 10000000, 1 / 4) - 1;
+        const cagrP95 = Math.pow(topAsset.monte_carlo.p95 / 10000000, 1 / 4) - 1;
+        const cagrP5 = Math.pow(topAsset.monte_carlo.p5 / 10000000, 1 / 4) - 1;
+
+        const xYears = [];
+        const yP95 = [];
+        const yMedian = [];
+        const yP5 = [];
+
+        for (let i = 0; i <= horizon; i++) {
+            xYears.push(`Year ${i}`);
+            yP95.push(Math.round(capital * Math.pow(1 + cagrP95, i)));
+            yMedian.push(Math.round(capital * Math.pow(1 + cagrMedian, i)));
+            yP5.push(Math.round(capital * Math.pow(1 + cagrP5, i)));
+        }
+
+        const mcTrace1 = { x: xYears, y: yP95, type: 'scatter', mode: 'lines+markers', name: '95th Percentile (Bull)', line: {color: '#34d399'} };
+        const mcTrace2 = { x: xYears, y: yMedian, type: 'scatter', mode: 'lines+markers', name: '50th Percentile (Median)', line: {color: '#38bdf8', width: 3} };
+        const mcTrace3 = { x: xYears, y: yP5, type: 'scatter', mode: 'lines+markers', name: '5th Percentile (Bear)', line: {color: '#f87171'} };
 
         const mcLayout = {
-            title: { text: `Probabilistic 4-Year Fan Chart for #${topAsset.ticker} (10,000 Runs)`, font: { color: '#f8fafc', size: 15 } },
+            title: { text: `Probabilistic ${horizon}-Year Fan Chart for #${topAsset.ticker} (10,000 Runs)`, font: { color: '#f8fafc', size: 15 } },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
             font: { color: '#94a3b8' },
