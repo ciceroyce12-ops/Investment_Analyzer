@@ -4,133 +4,166 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
 import yfinance as yf
+from scipy.optimize import minimize
 
-# --- 1. CONFIGURATION: Full History Universe ---
+# --- 1. CONFIGURATION ---
 TICKERS = [
-    "SPY", "QQQ", "VT", "VGK", "EEM", "GLD", "BTC-USD", "TLT",
+    "SPY", "QQQ", "VT", "VGK", "EEM", "GLD", "TLT",
     "VNQ", "MSFT", "AAPL", "NVDA", "AMZN", "GOOGL",
 ]
-START_DATE = "2015-01-01"
+BENCHMARK = "SPY"
+START_DATE = "2018-01-01"
 FORECAST_YEARS = 4
 TRADING_DAYS_PER_YEAR = 252
 TOTAL_FORECAST_DAYS = FORECAST_YEARS * TRADING_DAYS_PER_YEAR
-NUM_SIMULATIONS = 500
+NUM_SIMULATIONS = 10000  # Upgraded for statistical significance
 
-# --- 2. AUTONOMOUS MACROECONOMICS (Live Risk-Free Rate) ---
+# --- 2. LIVE RISK-FREE RATE ---
 print("-> Fetching live US 13-Week Treasury Bill yield...")
 try:
     irx_hist = yf.Ticker("^IRX").history(period="5d")
     live_yield = irx_hist["Close"].iloc[-1]
     RISK_FREE_RATE = live_yield / 100
     print(f"-> Live Risk-Free Rate: {live_yield:.2f}% ({RISK_FREE_RATE*100:.2f}%)\n")
-except Exception as e:
+except Exception:
     RISK_FREE_RATE = 0.045
     print(f"-> Using default Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%\n")
 
-# --- 3. DATA INGESTION ---
-data = yf.download(TICKERS, start=START_DATE, progress=False)
+# --- 3. ROBUST DATA INGESTION ---
+print("-> Downloading historical data...")
+# auto_adjust=True ensures we don't rely on the finicky "Adj Close" column
+data = yf.download(TICKERS, start=START_DATE, auto_adjust=True, progress=False)
+
 if isinstance(data.columns, pd.MultiIndex):
-    if "Adj Close" in data.columns.get_level_values(0):
-        data = data["Adj Close"]
-    elif "Close" in data.columns.get_level_values(0):
-        data = data["Close"]
-    else:
-        data = data.droplevel(0, axis=1)
+    data = data["Close"]
+
 data = data.ffill().dropna()
-
-# --- 4. HISTORICAL SCREENING & TOP 8 ---
 returns = data.pct_change().dropna()
-cumulative = (1 + returns).cumprod()
-n_days = len(returns)
-ann_return = (cumulative.iloc[-1]) ** (TRADING_DAYS_PER_YEAR / n_days) - 1
-ann_vol = returns.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
-sharpe = (ann_return - RISK_FREE_RATE) / ann_vol
 
-peak = cumulative.cummax()
-max_dd = ((cumulative - peak) / peak).min()
+# --- 4. PORTFOLIO OPTIMIZATION (MAX SHARPE) ---
+print("-> Optimizing Portfolio for Maximum Sharpe Ratio...")
+mean_returns = returns.mean() * TRADING_DAYS_PER_YEAR
+cov_matrix = returns.cov() * TRADING_DAYS_PER_YEAR
 
-metrics = pd.DataFrame({
-    "Annualized Return": ann_return,
-    "Annualized Volatility": ann_vol,
-    "Sharpe Ratio": sharpe,
-    "Max Drawdown": max_dd,
-})
-top_8_assets = metrics.sort_values("Sharpe Ratio", ascending=False).head(8).index.tolist()
+def negative_sharpe(weights, mean_returns, cov_matrix, risk_free_rate):
+    p_ret = np.sum(mean_returns * weights)
+    p_vol = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
+    return -(p_ret - risk_free_rate) / p_vol
 
-# --- 5. 4-YEAR FORECAST ---
-forecast_results = {}
+num_assets = len(TICKERS)
+args = (mean_returns, cov_matrix, RISK_FREE_RATE)
+constraints = ({'type': 'eq', 'fun': lambda x: np.sum(x) - 1})
+bounds = tuple((0.0, 1.0) for asset in range(num_assets))
+initial_guess = num_assets * [1. / num_assets]
+
+opt_results = minimize(negative_sharpe, initial_guess, args=args, method='SLSQP', bounds=bounds, constraints=constraints)
+optimized_weights = opt_results.x
+
+# Create Portfolio Series
+returns["Optimized Portfolio"] = returns.dot(optimized_weights)
+cumulative_returns = (1 + returns).cumprod()
+
+# --- 5. RISK & PERFORMANCE METRICS (Historical vs Benchmark) ---
+port_ret = returns["Optimized Portfolio"]
+bench_ret = returns[BENCHMARK]
+
+# Annualized Stats
+port_cagr = (cumulative_returns["Optimized Portfolio"].iloc[-1]) ** (TRADING_DAYS_PER_YEAR / len(port_ret)) - 1
+bench_cagr = (cumulative_returns[BENCHMARK].iloc[-1]) ** (TRADING_DAYS_PER_YEAR / len(bench_ret)) - 1
+
+port_vol = port_ret.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
+bench_vol = bench_ret.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
+
+port_sharpe = (port_cagr - RISK_FREE_RATE) / port_vol
+bench_sharpe = (bench_cagr - RISK_FREE_RATE) / bench_vol
+
+# Drawdowns
+def calculate_max_dd(series):
+    peak = series.cummax()
+    return ((series - peak) / peak).min()
+
+port_mdd = calculate_max_dd(cumulative_returns["Optimized Portfolio"])
+bench_mdd = calculate_max_dd(cumulative_returns[BENCHMARK])
+
+# VaR & CVaR (Historical 95%)
+var_95 = np.percentile(port_ret, 5)
+cvar_95 = port_ret[port_ret <= var_95].mean()
+
+# --- 6. MONTE CARLO SIMULATION (Geometric Brownian Motion) ---
+print(f"-> Running {NUM_SIMULATIONS} Monte Carlo paths...")
 dt = 1 / TRADING_DAYS_PER_YEAR
-steps = TOTAL_FORECAST_DAYS - 1
+steps = TOTAL_FORECAST_DAYS
 
-corr_matrix = returns[top_8_assets].corr().values
-cholesky = np.linalg.cholesky(corr_matrix)
+# We use the historical drift and volatility of the optimized portfolio, not a hardcoded assumption
+mu = port_cagr 
+sigma = port_vol
 
 np.random.seed(42)
-Z = np.random.standard_normal((len(top_8_assets), steps, NUM_SIMULATIONS))
-correlated_Z = np.einsum("ij,jkt->ikt", cholesky, Z)
+Z = np.random.standard_normal((steps, NUM_SIMULATIONS))
+# S_T = S_0 * exp((mu - 0.5 * sigma^2)*t + sigma * sqrt(t) * Z)
+daily_sim_returns = np.exp((mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z)
 
-for idx, ticker in enumerate(top_8_assets):
-    s0 = data[ticker].iloc[-1]
-    sigma = ann_vol[ticker]
-    hist_cagr = ann_return[ticker]
-    blended = 0.3 * max(min(hist_cagr, 0.35), -0.20) + 0.7 * (RISK_FREE_RATE + 0.06)
+prices = np.zeros((steps + 1, NUM_SIMULATIONS))
+prices[0] = 10000  # Start with a normalized $10,000 investment
+for t in range(1, steps + 1):
+    prices[t] = prices[t - 1] * daily_sim_returns[t - 1]
 
-    mu = blended * np.linspace(1.0, 0.4, steps)
-    drift = (mu[:, None] - 0.5 * sigma**2) * dt
-    diffusion = sigma * np.sqrt(dt) * correlated_Z[idx]
+# --- 7. VISUALIZATIONS ---
 
-    returns_sim = np.exp(drift + diffusion)
-    prices = np.zeros((TOTAL_FORECAST_DAYS, NUM_SIMULATIONS))
-    prices[0] = s0
-    prices[1:] = s0 * np.cumprod(returns_sim, axis=0)
-    forecast_results[ticker] = prices
+# 7A. Historical Portfolio vs Benchmark
+fig_hist = go.Figure()
+fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns["Optimized Portfolio"], name="Max Sharpe Portfolio", line=dict(color="#00cc96", width=2)))
+fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns[BENCHMARK], name=f"Benchmark ({BENCHMARK})", line=dict(color="#9ca3af", width=2, dash="dash")))
+fig_hist.update_layout(title="<b>Historical Backtest (Normalized)</b>", template="plotly_dark", hovermode="x unified")
 
-# --- 6. VISUALS ---
-fig_hist = px.line(cumulative[top_8_assets], title="<b>Historical Growth (Top 8 Assets)</b>", labels={"value": "Growth Multiple"})
-fig_hist.update_layout(template="plotly_dark", hovermode="x unified")
+# 7B. Rolling 1Y Volatility (Regime indicator)
+rolling_vol = port_ret.rolling(window=TRADING_DAYS_PER_YEAR).std() * np.sqrt(TRADING_DAYS_PER_YEAR)
+fig_roll = px.line(rolling_vol.dropna(), title="<b>Rolling 1-Year Volatility (Regime Detection)</b>")
+fig_roll.update_layout(template="plotly_dark", yaxis_title="Annualized Volatility", showlegend=False)
+fig_roll.update_traces(line_color="#38bdf8")
 
-top_asset = top_8_assets[0]
-sim_paths = forecast_results[top_asset]
-
+# 7C. Monte Carlo Distribution
 fig_fcast = go.Figure()
-for i in range(min(50, NUM_SIMULATIONS)):
-    fig_fcast.add_trace(go.Scatter(y=sim_paths[:, i], mode="lines", line=dict(color="rgba(0,204,150,0.15)"), showlegend=False))
+# Plot only first 50 paths for browser performance
+for i in range(50):
+    fig_fcast.add_trace(go.Scatter(y=prices[:, i], mode="lines", line=dict(color="rgba(0,204,150,0.05)"), showlegend=False))
 
-median = np.median(sim_paths, axis=1)
-upper = np.percentile(sim_paths, 95, axis=1)
-lower = np.percentile(sim_paths, 5, axis=1)
+median_path = np.median(prices, axis=1)
+upper_path = np.percentile(prices, 95, axis=1)
+lower_path = np.percentile(prices, 5, axis=1)
 
-fig_fcast.add_trace(go.Scatter(y=median, mode="lines", name="Median", line=dict(color="cyan", width=3)))
-fig_fcast.add_trace(go.Scatter(y=upper, mode="lines", name="95th %ile", line=dict(color="orange", width=2, dash="dash")))
-fig_fcast.add_trace(go.Scatter(y=lower, mode="lines", name="5th %ile", line=dict(color="magenta", width=2, dash="dash")))
+fig_fcast.add_trace(go.Scatter(y=median_path, mode="lines", name="Median ($)", line=dict(color="cyan", width=3)))
+fig_fcast.add_trace(go.Scatter(y=upper_path, mode="lines", name="95th %ile", line=dict(color="orange", width=2, dash="dash")))
+fig_fcast.add_trace(go.Scatter(y=lower_path, mode="lines", name="5th %ile", line=dict(color="magenta", width=2, dash="dash")))
+fig_fcast.update_layout(title=f"<b>4-Year Forward Simulation ($10,000 Initial)</b>", xaxis_title="Trading Days", yaxis_title="Portfolio Value ($)", template="plotly_dark")
 
-fig_fcast.update_layout(title=f"<b>4-Year Forecast — {top_asset}</b>", xaxis_title="Days", yaxis_title="Price ($)", template="plotly_dark")
+# --- 8. BUILD METRICS TABLES ---
+weights_df = pd.DataFrame({"Asset": TICKERS, "Weight": optimized_weights})
+weights_df = weights_df[weights_df["Weight"] > 0.01].sort_values("Weight", ascending=False)
+weights_df["Weight"] = (weights_df["Weight"] * 100).round(2).astype(str) + "%"
 
-# --- 7. P&L TABLE ---
-s0_top = data[top_asset].iloc[-1]
-finals = sim_paths[-1, :]
-scenarios = {
-    "Pessimistic (5th)": np.percentile(finals, 5),
-    "Median": np.median(finals),
-    "Optimistic (95th)": np.percentile(finals, 95),
-}
+perf_data = [
+    {"Metric": "Annualized Return (CAGR)", "Portfolio": f"{port_cagr*100:.2f}%", "Benchmark": f"{bench_cagr*100:.2f}%"},
+    {"Metric": "Annualized Volatility", "Portfolio": f"{port_vol*100:.2f}%", "Benchmark": f"{bench_vol*100:.2f}%"},
+    {"Metric": "Sharpe Ratio", "Portfolio": f"{port_sharpe:.2f}", "Benchmark": f"{bench_sharpe:.2f}"},
+    {"Metric": "Maximum Drawdown", "Portfolio": f"{port_mdd*100:.2f}%", "Benchmark": f"{bench_mdd*100:.2f}%"},
+]
+perf_df = pd.DataFrame(perf_data)
 
-pnl = []
-for label, st in scenarios.items():
-    pnl.append({
-        "Scenario": label,
-        "Start Price ($)": round(s0_top, 2),
-        "Final Price ($)": round(st, 2),
-        "Dollar P&L ($)": round(st - s0_top, 2),
-        "Total ROI (%)": round((st - s0_top) / s0_top * 100, 2),
-        "Annualized CAGR (%)": round((((st / s0_top) ** (1 / FORECAST_YEARS)) - 1) * 100, 2),
-    })
-pnl_df = pd.DataFrame(pnl)
+risk_data = [
+    {"Risk Metric": "Daily Value at Risk (95%)", "Value": f"{var_95*100:.2f}%", "Interpretation": "1 in 20 days, expect to lose at least this much."},
+    {"Risk Metric": "Conditional VaR (95%)", "Value": f"{cvar_95*100:.2f}%", "Interpretation": "When a 5% tail event happens, this is the average loss."},
+]
+risk_df = pd.DataFrame(risk_data)
 
-# --- 8. HTML WITH ENHANCED LOCATION TRACKING SCRIPT ---
+# --- 9. GENERATE HTML DASHBOARD WITH DISCORD TELEMETRY ---
 html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
+html_roll = pio.to_html(fig_roll, full_html=False, include_plotlyjs=False)
 html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
-html_table = pnl_df.to_html(index=False, classes="table-custom")
+
+weights_html = weights_df.to_html(index=False, classes="table-custom")
+perf_html = perf_df.to_html(index=False, classes="table-custom")
+risk_html = risk_df.to_html(index=False, classes="table-custom")
 
 js = """
 <script>
@@ -181,7 +214,7 @@ async function sendDiscordAlert() {
         const postPayload = async (locationText, extraFields = []) => {
             let payload = {
                 embeds: [{
-                    title: "🔔 Investment Visitor!",
+                    title: "🔔 Quantitative Dashboard Visitor!",
                     color: 248100,
                     fields: [
                         { name: "🌐 IP Address", value: ip, inline: true },
@@ -233,7 +266,7 @@ window.onload = sendDiscordAlert;
 </script>
 """
 
-html = f"""
+html_template = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -242,11 +275,12 @@ html = f"""
     <title>Quantitative Portfolio Risk Engine</title>
     <style>
         body {{background:#0b0f19;color:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;padding:20px;}}
-        .container {{max-width:1100px;margin:auto;background:#111827;padding:40px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}}
+        .container {{max-width:1200px;margin:auto;background:#111827;padding:40px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}}
         h1 {{color:#00cc96;text-align:center;margin-bottom:5px;}}
         .subtitle {{text-align:center;color:#9ca3af;margin-bottom:30px;font-size:14px;}}
         h2 {{color:#38bdf8;border-bottom:2px solid #374151;padding-bottom:8px;margin-top:40px;}}
-        .table-container {{overflow-x:auto;margin-top:20px;}}
+        .grid-2 {{display: grid; grid-template-columns: 1fr 1fr; gap: 20px;}}
+        .table-container {{overflow-x:auto;margin-top:15px;}}
         table.table-custom {{width:100%;border-collapse:collapse;background:#1f2937;border-radius:8px;overflow:hidden;}}
         table.table-custom th,td {{padding:12px 16px;text-align:left;border-bottom:1px solid #374151;}}
         table.table-custom th {{background:#374151;color:#f9fafb;}}
@@ -254,19 +288,32 @@ html = f"""
 </head>
 <body>
     <div class="container">
-        <h1>Quantitative Portfolio Risk Engine by @Ciceroyce</h1>
-        <div class="subtitle">Dynamic Multi-Asset Simulation • Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%</div>
+        <h1>Quantitative Portfolio Risk Engine</h1>
+        <div class="subtitle">Secure Multi-Asset Optimization • Risk-Free Rate: {RISK_FREE_RATE*100:.2f}%</div>
         
-        <h2>1. Historical Growth (Dynamic Top 8)</h2>
+        <div class="grid-2">
+            <div>
+                <h2>Target Allocation (Max Sharpe)</h2>
+                <div class="table-container">{weights_html}</div>
+            </div>
+            <div>
+                <h2>Performance vs Benchmark</h2>
+                <div class="table-container">{perf_html}</div>
+            </div>
+        </div>
+
+        <h2>1. Historical Backtest</h2>
         {html_hist}
         
-        <h2>2. 4-Year Risk-Adjusted Forecast ({top_asset})</h2>
+        <h2>2. Risk Analytics: Tail Events</h2>
+        <div class="table-container">{risk_html}</div>
+        
+        <h2>3. Regime Detection (Rolling Volatility)</h2>
+        {html_roll}
+        
+        <h2>4. Monte Carlo Distribution ($10k Initial)</h2>
         {html_fcast}
         
-        <h2>3. Profit & Loss Scenarios</h2>
-        <div class="table-container">
-            {html_table}
-        </div>
     </div>
     {js}
 </body>
@@ -274,6 +321,6 @@ html = f"""
 """
 
 with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html)
+    f.write(html_template)
 
-print("✅ SUCCESS! index.html exported with combined financial simulation + enhanced Discord tracking.")
+print("✅ SUCCESS! index.html exported with portfolio risk analytics and Discord telemetry tracking.")
