@@ -1,4 +1,0 @@
-yfinance
-plotly
-pandas
-numpy
