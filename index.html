@@ -9,8 +9,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Investment Intelligence Laboratory</h1>
-        <p>Institutional Quantitative Engine • FX-Normalized IDR Projections</p>
+        <header class="dashboard-header">
+            <h1>⚡ Investment Intelligence Laboratory</h1>
+            <p>Institutional Multi-Asset Quantitative Engine • FX-Normalized IDR Projections</p>
+        </header>
         
         <!-- User Controls -->
         <div class="control-panel">
@@ -35,11 +37,17 @@
         </div>
 
         <div id="ranking-section" style="margin-top: 30px;">
-            <h2>🥇 Top 4 Quantitative Opportunities (Click card to audit risks)</h2>
+            <h2>🥇 Top 4 Quantitative Opportunities <span style="font-size:12px; color:#64748b; font-weight:normal;">(Click card to audit risks)</span></h2>
             <div id="cards-container" class="cards-grid">Loading top picks...</div>
         </div>
 
-        <div id="chart-section" style="margin-top: 40px;">
+        <!-- NEW: 3-Year Historical Growth Chart -->
+        <div id="history-section" style="margin-top: 40px;">
+            <h2>📈 3-Year Historical Growth Trajectory (Normalized to Base 100)</h2>
+            <div id="plotly-line-chart" style="width:100%; height:420px;"></div>
+        </div>
+
+        <div id="chart-section" style="margin-top: 30px;">
             <h2>📊 Global Asset Class Quantitative Scores (IDR Adjusted)</h2>
             <div id="plotly-bar-chart" style="width:100%; height:420px;"></div>
         </div>
