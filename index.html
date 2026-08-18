@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investment Intelligence Dashboard</title>
+    <title>Investment Intelligence Laboratory</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header class="dashboard-header">
-            <h1>⚡ Investment Intelligence Laboratory</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>🔬 Investment Intelligence Laboratory</h1>
+                <div id="data-timestamp" style="font-size: 11px; color: #64748b;">Loading timestamp...</div>
+            </div>
             <p>Institutional Multi-Asset Quantitative Engine • FX-Normalized IDR Projections</p>
         </header>
         
@@ -18,37 +21,54 @@
         <div class="control-panel">
             <div class="input-group">
                 <label>Capital (IDR):</label>
-                <input type="number" id="user-capital" value="10000000" step="1000000" oninput="updateDashboard()">
+                <input type="number" id="user-capital" value="100000000" step="10000000" oninput="updateDashboard()">
             </div>
             <div class="input-group">
                 <label>Horizon (Years):</label>
                 <input type="number" id="user-horizon" value="4" min="1" max="10" oninput="updateDashboard()">
             </div>
-            <div class="input-group" style="flex: 1.5;">
+            <div class="input-group">
                 <label>Risk Tolerance: <span id="risk-label" style="color: #38bdf8;">Moderate</span></label>
                 <input type="range" id="risk-slider" min="1" max="3" value="2" step="1" oninput="updateDashboard()">
+            </div>
+            <div class="input-group">
+                <label>Optimize For:</label>
+                <select id="optimizer-mode" onchange="updateDashboard()">
+                    <option value="balanced">Balanced</option>
+                    <option value="sharpe">Maximum Sharpe</option>
+                    <option value="return">Maximum Return</option>
+                    <option value="volatility">Minimum Volatility</option>
+                </select>
             </div>
         </div>
 
         <!-- Portfolio Optimizer Result Box -->
         <div id="portfolio-optimizer" class="portfolio-box">
-            <h2>⚖️ Recommended Portfolio Allocation</h2>
+            <h2>⚖️ Decision-Support Portfolio Allocation & Stress Metrics</h2>
             <div id="portfolio-blend" style="font-size: 14px; margin-top: 8px; color: #cbd5e1;">Calculating optimal weights...</div>
         </div>
 
+        <!-- Top 4 Opportunities -->
         <div id="ranking-section" style="margin-top: 30px;">
-            <h2>🥇 Top 4 Quantitative Opportunities <span style="font-size:12px; color:#64748b; font-weight:normal;">(Click card to audit risks)</span></h2>
+            <h2>🥇 Top 4 Quantitative Opportunities <span style="font-size:12px; color:#64748b; font-weight:normal;">(Click any card to audit score breakdown)</span></h2>
             <div id="cards-container" class="cards-grid">Loading top picks...</div>
         </div>
 
-        <!-- NEW: 3-Year Historical Growth Chart -->
+        <!-- 3-Year Historical Growth Chart -->
         <div id="history-section" style="margin-top: 40px;">
-            <h2>📈 3-Year Historical Growth Trajectory (Normalized to Base 100)</h2>
-            <div id="plotly-line-chart" style="width:100%; height:420px;"></div>
+            <h2>📈 3-Year Historical Growth (2023 → 2026 Actual)</h2>
+            <div id="plotly-line-chart" style="width:100%; height:400px;"></div>
         </div>
 
+        <!-- 4-Year Monte Carlo Projection Chart -->
+        <div id="monte-carlo-section" style="margin-top: 30px;">
+            <h2>🎲 4-Year Probabilistic Monte Carlo Projection (2026 → 2030 Fan Chart)</h2>
+            <div id="plotly-mc-chart" style="width:100%; height:400px;"></div>
+        </div>
+
+        <!-- Global Asset Scores Bar Chart -->
         <div id="chart-section" style="margin-top: 30px;">
-            <h2>📊 Global Asset Class Quantitative Scores (IDR Adjusted)</h2>
+            <h2>📊 Global Asset Quantitative Scores (IDR Adjusted)</h2>
             <div id="plotly-bar-chart" style="width:100%; height:420px;"></div>
         </div>
     </div>
