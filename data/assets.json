@@ -6,7 +6,46 @@
             "score": 73.5,
             "annual_return": 30.61,
             "volatility": 23.65,
-            "sharpe": 1.08
+            "sharpe": 1.08,
+            "audit": {
+                "return_score": 81.2,
+                "risk_score": 76.3,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "QQQ",
@@ -14,7 +53,46 @@
             "score": 67.5,
             "annual_return": 24.04,
             "volatility": 21.95,
-            "sharpe": 0.87
+            "sharpe": 0.87,
+            "audit": {
+                "return_score": 68.1,
+                "risk_score": 78.1,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "SPY",
@@ -22,15 +100,93 @@
             "score": 64.1,
             "annual_return": 19.09,
             "volatility": 16.65,
-            "sharpe": 0.85
+            "sharpe": 0.85,
+            "audit": {
+                "return_score": 58.2,
+                "risk_score": 83.3,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "BTC-USD",
             "name": "Bitcoin (Crypto)",
             "score": 48.9,
-            "annual_return": 10.01,
+            "annual_return": 9.99,
             "volatility": 36.86,
-            "sharpe": 0.14
+            "sharpe": 0.14,
+            "audit": {
+                "return_score": 40.0,
+                "risk_score": 63.1,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    1.0435834099617287,
+                    1.074867803372591,
+                    1.12563240902546,
+                    1.167443657244253
+                ],
+                "bear_5th": [
+                    0.5651006053436984,
+                    0.432370087121042,
+                    0.3384191252891315,
+                    0.28244383093635567
+                ],
+                "bull_95th": [
+                    1.8719790755840315,
+                    2.6421511789127075,
+                    3.1131428836556316,
+                    3.720312360654366
+                ]
+            }
         }
     ],
     "full_universe": [
@@ -40,7 +196,46 @@
             "score": 73.5,
             "annual_return": 30.61,
             "volatility": 23.65,
-            "sharpe": 1.08
+            "sharpe": 1.08,
+            "audit": {
+                "return_score": 81.2,
+                "risk_score": 76.3,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "QQQ",
@@ -48,7 +243,46 @@
             "score": 67.5,
             "annual_return": 24.04,
             "volatility": 21.95,
-            "sharpe": 0.87
+            "sharpe": 0.87,
+            "audit": {
+                "return_score": 68.1,
+                "risk_score": 78.1,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "SPY",
@@ -56,39 +290,234 @@
             "score": 64.1,
             "annual_return": 19.09,
             "volatility": 16.65,
-            "sharpe": 0.85
+            "sharpe": 0.85,
+            "audit": {
+                "return_score": 58.2,
+                "risk_score": 83.3,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bear_5th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                "bull_95th": [
+                    NaN,
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            }
         },
         {
             "ticker": "BTC-USD",
             "name": "Bitcoin (Crypto)",
             "score": 48.9,
-            "annual_return": 10.01,
+            "annual_return": 9.99,
             "volatility": 36.86,
-            "sharpe": 0.14
+            "sharpe": 0.14,
+            "audit": {
+                "return_score": 40.0,
+                "risk_score": 63.1,
+                "liquidity_score": 85.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    1.0435834099617287,
+                    1.074867803372591,
+                    1.12563240902546,
+                    1.167443657244253
+                ],
+                "bear_5th": [
+                    0.5651006053436984,
+                    0.432370087121042,
+                    0.3384191252891315,
+                    0.28244383093635567
+                ],
+                "bull_95th": [
+                    1.8719790755840315,
+                    2.6421511789127075,
+                    3.1131428836556316,
+                    3.720312360654366
+                ]
+            }
         },
         {
             "ticker": "TLKM.JK",
             "name": "Telkom Indonesia (Indonesia)",
-            "score": 48.4,
-            "annual_return": 10.44,
+            "score": 48.2,
+            "annual_return": 10.24,
             "volatility": 39.98,
-            "sharpe": 0.14
+            "sharpe": 0.13,
+            "audit": {
+                "return_score": 40.5,
+                "risk_score": 60.0,
+                "liquidity_score": 75.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    1.0344221651265106,
+                    1.054918245682695,
+                    1.0954304059765476,
+                    1.1256470357702444
+                ],
+                "bear_5th": [
+                    0.5308169772643726,
+                    0.3917880195310082,
+                    0.2964104149162148,
+                    0.24047851597933714
+                ],
+                "bull_95th": [
+                    1.9530636740958631,
+                    2.8058180432732214,
+                    3.312179599334821,
+                    3.9706980469548787
+                ]
+            }
         },
         {
             "ticker": "BBRI.JK",
             "name": "Bank Rakyat Indonesia (Indonesia)",
-            "score": 32.4,
-            "annual_return": -7.41,
+            "score": 32.7,
+            "annual_return": -7.08,
             "volatility": 34.03,
-            "sharpe": -0.36
+            "sharpe": -0.35,
+            "audit": {
+                "return_score": 5.8,
+                "risk_score": 66.0,
+                "liquidity_score": 75.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    0.8875526412433707,
+                    0.7787626240382355,
+                    0.6938542008264126,
+                    0.6130962040284831
+                ],
+                "bear_5th": [
+                    0.5041455878929149,
+                    0.3363032903854253,
+                    0.22908957764449694,
+                    0.1656757580318503
+                ],
+                "bull_95th": [
+                    1.5212089557066655,
+                    1.7846975334295405,
+                    1.7727058268581144,
+                    1.785013551283278
+                ]
+            }
         },
         {
             "ticker": "BBCA.JK",
             "name": "Bank Central Asia (Indonesia)",
-            "score": 24.4,
-            "annual_return": -16.33,
-            "volatility": 30.76,
-            "sharpe": -0.69
+            "score": 24.6,
+            "annual_return": -16.12,
+            "volatility": 30.77,
+            "sharpe": -0.69,
+            "audit": {
+                "return_score": 0,
+                "risk_score": 69.2,
+                "liquidity_score": 75.0,
+                "strengths": [
+                    "Strong historical risk-adjusted return",
+                    "High liquidity profile"
+                ],
+                "weaknesses": [
+                    "Exposed to macroeconomic volatility",
+                    "Currency / FX risk factors"
+                ]
+            },
+            "monte_carlo": {
+                "years": [
+                    "Year 1",
+                    "Year 2",
+                    "Year 3",
+                    "Year 4"
+                ],
+                "median": [
+                    0.8183044861504682,
+                    0.6629519382232891,
+                    0.5445850890222801,
+                    0.4441708292569263
+                ],
+                "bear_5th": [
+                    0.4906511233110087,
+                    0.3102348196058315,
+                    0.1999106201771204,
+                    0.13603062019235496
+                ],
+                "bull_95th": [
+                    1.332071015593035,
+                    1.4034327818447558,
+                    1.2719444165095353,
+                    1.1675325646503305
+                ]
+            }
         }
     ]
 }
