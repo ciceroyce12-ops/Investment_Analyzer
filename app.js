@@ -24,8 +24,7 @@ function updateDashboard() {
     const scaleFactor = capital / 10000000;
     const horizonMultiplier = horizon / 4;
 
-    // 1. Portfolio Allocator logic based on risk slider
-    const universe = globalData.full_universe;
+    // 1. Portfolio Allocator logic
     let portfolioBlendText = "";
     if (riskVal === 1) {
         portfolioBlendText = `<strong>Conservative Profile:</strong> 50% Fixed Income (BND) | 30% Gold (GLD) | 20% Blue-Chip Equities`;
@@ -36,7 +35,7 @@ function updateDashboard() {
     }
     document.getElementById('portfolio-blend').innerHTML = portfolioBlendText;
 
-    // 2. Render Top 4 Cards with Clickable Audit Drawers
+    // 2. Render Top 4 Cards
     const cardsContainer = document.getElementById('cards-container');
     cardsContainer.innerHTML = '';
     
@@ -48,8 +47,8 @@ function updateDashboard() {
         cardsContainer.innerHTML += `
             <div class="asset-card" onclick="this.classList.toggle('active')">
                 <h3>#${index + 1} ${asset.ticker}</h3>
-                <p style="font-size: 11px; color: #94a3b8; margin: 0 0 5px 0;">${asset.name} (${asset.category})</p>
-                <div class="score">${asset.score} <span style="font-size:12px; color:#94a3b8;">Score</span></div>
+                <p style="font-size: 11px; color: #94a3b8; margin: 0 0 6px 0;">${asset.name} (${asset.category})</p>
+                <div class="score">${asset.score} <span style="font-size:12px; color:#94a3b8; font-weight:normal;">Score</span></div>
                 <p style="font-size: 12px; margin: 6px 0 0 0;">IDR Return: +${asset.annual_return}% | Fee: ${asset.fee_pct}%</p>
                 <div class="simulation-box">
                     <strong>Monte Carlo (${horizon}Y):</strong><br>
@@ -62,32 +61,59 @@ function updateDashboard() {
                     ✓ ${asset.audit.strengths[0]}<br>
                     ⚠ ${asset.audit.weaknesses[0]}<br>
                     ⚡ <em>${asset.audit.failure_condition}</em><br>
-                    <span style="color: #38bdf8; font-size: 10px;">(Click to collapse)</span>
+                    <span style="color: #38bdf8; font-size: 10px; display:inline-block; margin-top:4px;">(Click to collapse)</span>
                 </div>
             </div>
         `;
     });
 
-    // 3. Render Plotly Bar Chart
+    // 3. Render 3-Year Historical Growth Multi-Line Chart
+    const historyData = globalData.historical_prices;
+    if (historyData) {
+        const lineTraces = [];
+        for (const [ticker, series] of Object.entries(historyData)) {
+            lineTraces.push({
+                x: series.dates,
+                y: series.values,
+                type: 'scatter',
+                mode: 'lines',
+                name: ticker
+            });
+        }
+        const lineLayout = {
+            title: { text: '3-Year Historical Asset Growth (Indexed at 100)', font: { color: '#f8fafc', size: 15 } },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#94a3b8' },
+            xaxis: { title: 'Date', gridcolor: 'rgba(255,255,255,0.05)' },
+            yaxis: { title: 'Growth Index (100 = Start)', gridcolor: 'rgba(255,255,255,0.05)' },
+            margin: { t: 40, r: 20, b: 50, l: 50 },
+            legend: { orientation: 'h', y: -0.2 }
+        };
+        Plotly.newPlot('plotly-line-chart', lineTraces, lineLayout, {responsive: true});
+    }
+
+    // 4. Render Plotly Bar Chart
+    const universe = globalData.full_universe;
     const tickers = universe.map(a => `${a.ticker} (${a.currency})`);
     const scores = universe.map(a => a.score);
 
-    const trace = {
+    const barTrace = {
         x: tickers,
         y: scores,
         type: 'bar',
         marker: { color: scores.map(s => s > 75 ? '#34d399' : '#38bdf8') }
     };
 
-    const layout = {
+    const barLayout = {
         title: { text: `Global Asset Scores (FX Rate: 1 USD = Rp ${globalData.fx_rate_usd_idr.toFixed(0)})`, font: { color: '#f8fafc', size: 15 } },
         paper_bgcolor: 'transparent',
         plot_bgcolor: 'transparent',
         font: { color: '#94a3b8' },
-        xaxis: { title: 'Asset & Currency', tickangle: -25 },
-        yaxis: { title: 'Composite Score (0-100)' },
+        xaxis: { title: 'Asset & Currency', tickangle: -25, gridcolor: 'transparent' },
+        yaxis: { title: 'Composite Score (0-100)', gridcolor: 'rgba(255,255,255,0.05)' },
         margin: { t: 40, r: 20, b: 70, l: 50 }
     };
 
-    Plotly.newPlot('plotly-bar-chart', [trace], layout, {responsive: true});
+    Plotly.newPlot('plotly-bar-chart', [barTrace], barLayout, {responsive: true});
 }
