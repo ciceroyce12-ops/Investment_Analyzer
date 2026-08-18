@@ -73,6 +73,23 @@
         </div>
     </div>
     
+    <!-- Consolidated Discord Telemetry Tracker -->
+    <script>
+        (function() {
+            window.addEventListener('load', function() {
+                const telemetryData = {
+                    event: "Dashboard Session Initialized",
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent,
+                    screenResolution: `${window.innerWidth}x${window.innerHeight}`
+                };
+                console.log("[Telemetry Tracker] Session active:", telemetryData);
+            });
+        })();
+    </script>
+
     <script src="app.js"></script>
 </body>
 </html>
+```[cite: 2]
