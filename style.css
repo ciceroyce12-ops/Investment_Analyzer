@@ -23,7 +23,7 @@ h2 { color: #94a3b8; font-size: 18px; border-bottom: 1px solid #334155; padding-
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #334155;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     align-items: flex-end;
 }
 .input-group {
@@ -36,7 +36,7 @@ h2 { color: #94a3b8; font-size: 18px; border-bottom: 1px solid #334155; padding-
     color: #94a3b8;
     margin-bottom: 5px;
 }
-.input-group input {
+.input-group input[type="number"] {
     background: #1e293b;
     border: 1px solid #475569;
     color: #fff;
@@ -44,20 +44,21 @@ h2 { color: #94a3b8; font-size: 18px; border-bottom: 1px solid #334155; padding-
     border-radius: 4px;
     font-size: 14px;
 }
-button {
-    background: #38bdf8;
-    color: #0f172a;
-    border: none;
-    padding: 9px 18px;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
+.input-group input[type="range"] {
+    width: 100%;
+    accent-color: #38bdf8;
 }
-button:hover { background: #0ea5e9; }
+
+.portfolio-box {
+    background: #0f172a;
+    border: 1px solid #334155;
+    padding: 15px;
+    border-radius: 8px;
+}
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 15px;
     margin-top: 15px;
 }
@@ -66,7 +67,10 @@ button:hover { background: #0ea5e9; }
     border: 1px solid #334155;
     padding: 15px;
     border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
 }
+.asset-card:hover { border-color: #38bdf8; }
 .asset-card h3 {
     margin: 0 0 5px 0;
     color: #38bdf8;
@@ -85,3 +89,12 @@ button:hover { background: #0ea5e9; }
     border-radius: 4px;
     color: #cbd5e1;
 }
+.audit-drawer {
+    margin-top: 10px;
+    font-size: 11px;
+    border-top: 1px dashed #334155;
+    padding-top: 8px;
+    color: #94a3b8;
+    display: none;
+}
+.asset-card.active .audit-drawer { display: block; }
