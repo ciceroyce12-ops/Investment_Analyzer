@@ -10,28 +10,37 @@
 <body>
     <div class="container">
         <h1>Investment Intelligence Laboratory</h1>
-        <p>Global Quantitative Ranking Engine & Multi-Asset Scenario Projections</p>
+        <p>Institutional Quantitative Engine • FX-Normalized IDR Projections</p>
         
-        <!-- Interactive User Controls -->
+        <!-- User Controls -->
         <div class="control-panel">
             <div class="input-group">
                 <label>Capital (IDR):</label>
-                <input type="number" id="user-capital" value="10000000" step="1000000">
+                <input type="number" id="user-capital" value="10000000" step="1000000" oninput="updateDashboard()">
             </div>
             <div class="input-group">
                 <label>Horizon (Years):</label>
-                <input type="number" id="user-horizon" value="4" min="1" max="10">
+                <input type="number" id="user-horizon" value="4" min="1" max="10" oninput="updateDashboard()">
             </div>
-            <button onclick="updateDashboard()">Recalculate Projections</button>
+            <div class="input-group" style="flex: 1.5;">
+                <label>Risk Tolerance: <span id="risk-label" style="color: #38bdf8;">Moderate</span></label>
+                <input type="range" id="risk-slider" min="1" max="3" value="2" step="1" oninput="updateDashboard()">
+            </div>
         </div>
 
-        <div id="ranking-section">
-            <h2>🥇 Top 4 Quantitative Opportunities</h2>
+        <!-- Portfolio Optimizer Result Box -->
+        <div id="portfolio-optimizer" class="portfolio-box">
+            <h2>⚖️ Recommended Portfolio Allocation</h2>
+            <div id="portfolio-blend" style="font-size: 14px; margin-top: 8px; color: #cbd5e1;">Calculating optimal weights...</div>
+        </div>
+
+        <div id="ranking-section" style="margin-top: 30px;">
+            <h2>🥇 Top 4 Quantitative Opportunities (Click card to audit risks)</h2>
             <div id="cards-container" class="cards-grid">Loading top picks...</div>
         </div>
 
         <div id="chart-section" style="margin-top: 40px;">
-            <h2>📊 Global Asset Class Quantitative Scores</h2>
+            <h2>📊 Global Asset Class Quantitative Scores (IDR Adjusted)</h2>
             <div id="plotly-bar-chart" style="width:100%; height:420px;"></div>
         </div>
     </div>
