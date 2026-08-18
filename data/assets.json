@@ -1,30 +1,44 @@
 {
+    "timestamp": "18 Aug 2026 07:55 UTC",
+    "fx_rate_usd_idr": 17855.0,
     "top_opportunities": [
         {
             "ticker": "GLD",
             "name": "Gold Trust",
             "category": "Commodities",
             "currency": "USD",
-            "score": 68.1,
-            "annual_return": 35.71,
-            "volatility": 23.55,
-            "sharpe": 1.26,
-            "fee_pct": 0.2,
+            "score": 78.5,
+            "metrics": {
+                "annual_return": 35.71,
+                "volatility": 23.55,
+                "sharpe": 1.26,
+                "max_drawdown": -20.95,
+                "momentum": 91.4,
+                "valuation": 64.7,
+                "fundamentals": 80,
+                "liquidity": 98,
+                "fee_pct": 0.2
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 16135000.0,
-                "base_median": 37199000.0,
-                "bull_95th": 75807000.0
+                "p5": 17217000.0,
+                "p25": 27018000.0,
+                "median": 37273000.0,
+                "p75": 51025000.0,
+                "p95": 80571000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 97.2
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.26)",
-                    "IDR Return: +35.7%"
-                ],
-                "weaknesses": [
-                    "Volatility: 23.6%",
-                    "Friction: 0.2%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-20.9%"
             }
         },
         {
@@ -32,26 +46,38 @@
             "name": "Nasdaq 100 ETF",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 65.9,
-            "annual_return": 32.34,
-            "volatility": 23.29,
-            "sharpe": 1.13,
-            "fee_pct": 0.25,
+            "score": 78.3,
+            "metrics": {
+                "annual_return": 32.34,
+                "volatility": 23.29,
+                "sharpe": 1.13,
+                "max_drawdown": -20.22,
+                "momentum": 84.7,
+                "valuation": 65.1,
+                "fundamentals": 96,
+                "liquidity": 98,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14373000.0,
-                "base_median": 32629000.0,
-                "bull_95th": 65627000.0
+                "p5": 15318000.0,
+                "p25": 23839000.0,
+                "median": 32693000.0,
+                "p75": 44497000.0,
+                "p95": 69672000.0,
+                "prob_loss": 0.4,
+                "prob_gain_50": 95.4
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.13)",
-                    "IDR Return: +32.3%"
-                ],
-                "weaknesses": [
-                    "Volatility: 23.3%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-20.2%"
             }
         },
         {
@@ -59,26 +85,38 @@
             "name": "S&P 500 ETF",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 63.6,
-            "annual_return": 27.44,
-            "volatility": 18.81,
-            "sharpe": 1.14,
-            "fee_pct": 0.25,
+            "score": 77.9,
+            "metrics": {
+                "annual_return": 27.44,
+                "volatility": 18.81,
+                "sharpe": 1.14,
+                "max_drawdown": -16.07,
+                "momentum": 74.9,
+                "valuation": 71.8,
+                "fundamentals": 95,
+                "liquidity": 99,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14366000.0,
-                "base_median": 27863000.0,
-                "bull_95th": 49002000.0
+                "p5": 15125000.0,
+                "p25": 21622000.0,
+                "median": 27907000.0,
+                "p75": 35799000.0,
+                "p95": 51428000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 95.2
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.14)",
-                    "IDR Return: +27.4%"
-                ],
-                "weaknesses": [
-                    "Volatility: 18.8%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Stable trend baseline"
+                "failure_condition": "Stable trend; susceptible to currency fluctuation.",
+                "worst_rolling_4y": "-16.1%"
             }
         },
         {
@@ -86,26 +124,38 @@
             "name": "Vanguard Total World",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 63.2,
-            "annual_return": 26.66,
-            "volatility": 18.16,
-            "sharpe": 1.14,
-            "fee_pct": 0.25,
+            "score": 77.5,
+            "metrics": {
+                "annual_return": 26.66,
+                "volatility": 18.16,
+                "sharpe": 1.14,
+                "max_drawdown": -13.69,
+                "momentum": 73.3,
+                "valuation": 72.8,
+                "fundamentals": 93,
+                "liquidity": 97,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14301000.0,
-                "base_median": 27136000.0,
-                "bull_95th": 46842000.0
+                "p5": 15031000.0,
+                "p25": 21235000.0,
+                "median": 27178000.0,
+                "p75": 34578000.0,
+                "p95": 49083000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 95.1
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.14)",
-                    "IDR Return: +26.7%"
-                ],
-                "weaknesses": [
-                    "Volatility: 18.2%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Stable trend baseline"
+                "failure_condition": "Stable trend; susceptible to currency fluctuation.",
+                "worst_rolling_4y": "-13.7%"
             }
         }
     ],
@@ -115,26 +165,38 @@
             "name": "Gold Trust",
             "category": "Commodities",
             "currency": "USD",
-            "score": 68.1,
-            "annual_return": 35.71,
-            "volatility": 23.55,
-            "sharpe": 1.26,
-            "fee_pct": 0.2,
+            "score": 78.5,
+            "metrics": {
+                "annual_return": 35.71,
+                "volatility": 23.55,
+                "sharpe": 1.26,
+                "max_drawdown": -20.95,
+                "momentum": 91.4,
+                "valuation": 64.7,
+                "fundamentals": 80,
+                "liquidity": 98,
+                "fee_pct": 0.2
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 16135000.0,
-                "base_median": 37199000.0,
-                "bull_95th": 75807000.0
+                "p5": 17217000.0,
+                "p25": 27018000.0,
+                "median": 37273000.0,
+                "p75": 51025000.0,
+                "p95": 80571000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 97.2
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.26)",
-                    "IDR Return: +35.7%"
-                ],
-                "weaknesses": [
-                    "Volatility: 23.6%",
-                    "Friction: 0.2%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-20.9%"
             }
         },
         {
@@ -142,26 +204,38 @@
             "name": "Nasdaq 100 ETF",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 65.9,
-            "annual_return": 32.34,
-            "volatility": 23.29,
-            "sharpe": 1.13,
-            "fee_pct": 0.25,
+            "score": 78.3,
+            "metrics": {
+                "annual_return": 32.34,
+                "volatility": 23.29,
+                "sharpe": 1.13,
+                "max_drawdown": -20.22,
+                "momentum": 84.7,
+                "valuation": 65.1,
+                "fundamentals": 96,
+                "liquidity": 98,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14373000.0,
-                "base_median": 32629000.0,
-                "bull_95th": 65627000.0
+                "p5": 15318000.0,
+                "p25": 23839000.0,
+                "median": 32693000.0,
+                "p75": 44497000.0,
+                "p95": 69672000.0,
+                "prob_loss": 0.4,
+                "prob_gain_50": 95.4
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.13)",
-                    "IDR Return: +32.3%"
-                ],
-                "weaknesses": [
-                    "Volatility: 23.3%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-20.2%"
             }
         },
         {
@@ -169,26 +243,38 @@
             "name": "S&P 500 ETF",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 63.6,
-            "annual_return": 27.44,
-            "volatility": 18.81,
-            "sharpe": 1.14,
-            "fee_pct": 0.25,
+            "score": 77.9,
+            "metrics": {
+                "annual_return": 27.44,
+                "volatility": 18.81,
+                "sharpe": 1.14,
+                "max_drawdown": -16.07,
+                "momentum": 74.9,
+                "valuation": 71.8,
+                "fundamentals": 95,
+                "liquidity": 99,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14366000.0,
-                "base_median": 27863000.0,
-                "bull_95th": 49002000.0
+                "p5": 15125000.0,
+                "p25": 21622000.0,
+                "median": 27907000.0,
+                "p75": 35799000.0,
+                "p95": 51428000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 95.2
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.14)",
-                    "IDR Return: +27.4%"
-                ],
-                "weaknesses": [
-                    "Volatility: 18.8%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Stable trend baseline"
+                "failure_condition": "Stable trend; susceptible to currency fluctuation.",
+                "worst_rolling_4y": "-16.1%"
             }
         },
         {
@@ -196,53 +282,38 @@
             "name": "Vanguard Total World",
             "category": "Global Equities",
             "currency": "USD",
-            "score": 63.2,
-            "annual_return": 26.66,
-            "volatility": 18.16,
-            "sharpe": 1.14,
-            "fee_pct": 0.25,
+            "score": 77.5,
+            "metrics": {
+                "annual_return": 26.66,
+                "volatility": 18.16,
+                "sharpe": 1.14,
+                "max_drawdown": -13.69,
+                "momentum": 73.3,
+                "valuation": 72.8,
+                "fundamentals": 93,
+                "liquidity": 97,
+                "fee_pct": 0.25
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 14301000.0,
-                "base_median": 27136000.0,
-                "bull_95th": 46842000.0
+                "p5": 15031000.0,
+                "p25": 21235000.0,
+                "median": 27178000.0,
+                "p75": 34578000.0,
+                "p95": 49083000.0,
+                "prob_loss": 0.2,
+                "prob_gain_50": 95.1
             },
             "audit": {
-                "strengths": [
-                    "Solid Sharpe (1.14)",
-                    "IDR Return: +26.7%"
-                ],
-                "weaknesses": [
-                    "Volatility: 18.2%",
-                    "Friction: 0.25%"
-                ],
-                "failure_condition": "Stable trend baseline"
-            }
-        },
-        {
-            "ticker": "BTC-USD",
-            "name": "Bitcoin",
-            "category": "Crypto",
-            "currency": "USD",
-            "score": 61.9,
-            "annual_return": 32.03,
-            "volatility": 39.71,
-            "sharpe": 0.66,
-            "fee_pct": 0.5,
-            "monte_carlo": {
-                "bear_5th": 6470000.0,
-                "base_median": 26187000.0,
-                "bull_95th": 86223000.0
-            },
-            "audit": {
-                "strengths": [
-                    "High Liquidity",
-                    "IDR Return: +32.0%"
-                ],
-                "weaknesses": [
-                    "Volatility: 39.7%",
-                    "Friction: 0.5%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "Stable trend; susceptible to currency fluctuation.",
+                "worst_rolling_4y": "-13.7%"
             }
         },
         {
@@ -250,26 +321,77 @@
             "name": "Total Bond Market ETF",
             "category": "Fixed Income",
             "currency": "USD",
-            "score": 54.1,
-            "annual_return": 10.19,
-            "volatility": 11.56,
-            "sharpe": 0.36,
-            "fee_pct": 0.1,
+            "score": 65.9,
+            "metrics": {
+                "annual_return": 10.19,
+                "volatility": 11.56,
+                "sharpe": 0.36,
+                "max_drawdown": -9.18,
+                "momentum": 40.4,
+                "valuation": 82.7,
+                "fundamentals": 90,
+                "liquidity": 96,
+                "fee_pct": 0.1
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 9715000.0,
-                "base_median": 14618000.0,
-                "bull_95th": 20708000.0
+                "p5": 10029000.0,
+                "p25": 12502000.0,
+                "median": 14633000.0,
+                "p75": 17062000.0,
+                "p95": 21334000.0,
+                "prob_loss": 4.9,
+                "prob_gain_50": 45.5
             },
             "audit": {
-                "strengths": [
-                    "High Liquidity",
-                    "IDR Return: +10.2%"
-                ],
-                "weaknesses": [
-                    "Volatility: 11.6%",
-                    "Friction: 0.1%"
-                ],
-                "failure_condition": "Stable trend baseline"
+                "failure_condition": "Stable trend; susceptible to currency fluctuation.",
+                "worst_rolling_4y": "-9.2%"
+            }
+        },
+        {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "category": "Crypto",
+            "currency": "USD",
+            "score": 60.6,
+            "metrics": {
+                "annual_return": 32.02,
+                "volatility": 39.71,
+                "sharpe": 0.66,
+                "max_drawdown": -49.18,
+                "momentum": 84.0,
+                "valuation": 40.4,
+                "fundamentals": 70,
+                "liquidity": 95,
+                "fee_pct": 0.5
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
+            "monte_carlo": {
+                "p5": 7211000.0,
+                "p25": 15330000.0,
+                "median": 26270000.0,
+                "p75": 44438000.0,
+                "p95": 95462000.0,
+                "prob_loss": 10.9,
+                "prob_gain_50": 75.7
+            },
+            "audit": {
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-49.2%"
             }
         },
         {
@@ -277,26 +399,38 @@
             "name": "Telkom Indonesia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 43.4,
-            "annual_return": 1.38,
-            "volatility": 35.89,
-            "sharpe": -0.13,
-            "fee_pct": 0.15,
+            "score": 45.0,
+            "metrics": {
+                "annual_return": 1.38,
+                "volatility": 35.89,
+                "sharpe": -0.13,
+                "max_drawdown": -42.28,
+                "momentum": 22.8,
+                "valuation": 46.2,
+                "fundamentals": 85,
+                "liquidity": 90,
+                "fee_pct": 0.15
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 2281000.0,
-                "base_median": 8133000.0,
-                "bull_95th": 24033000.0
+                "p5": 2518000.0,
+                "p25": 4999000.0,
+                "median": 8158000.0,
+                "p75": 13157000.0,
+                "p95": 26369000.0,
+                "prob_loss": 61.2,
+                "prob_gain_50": 19.6
             },
             "audit": {
-                "strengths": [
-                    "High Liquidity",
-                    "IDR Return: +1.4%"
-                ],
-                "weaknesses": [
-                    "Volatility: 35.9%",
-                    "Friction: 0.15%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-42.3%"
             }
         },
         {
@@ -304,26 +438,38 @@
             "name": "Bank Central Asia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 40.8,
-            "annual_return": -5.16,
-            "volatility": 27.84,
-            "sharpe": -0.4,
-            "fee_pct": 0.15,
+            "score": 44.3,
+            "metrics": {
+                "annual_return": -5.16,
+                "volatility": 27.84,
+                "sharpe": -0.4,
+                "max_drawdown": -51.79,
+                "momentum": 9.7,
+                "valuation": 58.2,
+                "fundamentals": 92,
+                "liquidity": 95,
+                "fee_pct": 0.15
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 2604000.0,
-                "base_median": 6949000.0,
-                "bull_95th": 16046000.0
+                "p5": 2810000.0,
+                "p25": 4772000.0,
+                "median": 6966000.0,
+                "p75": 10076000.0,
+                "p95": 17237000.0,
+                "prob_loss": 74.6,
+                "prob_gain_50": 8.4
             },
             "audit": {
-                "strengths": [
-                    "High Liquidity",
-                    "IDR Return: +-5.2%"
-                ],
-                "weaknesses": [
-                    "Volatility: 27.8%",
-                    "Friction: 0.15%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-51.8%"
             }
         },
         {
@@ -331,26 +477,38 @@
             "name": "Bank Rakyat Indonesia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 38.8,
-            "annual_return": -6.89,
-            "volatility": 31.91,
-            "sharpe": -0.4,
-            "fee_pct": 0.15,
+            "score": 41.7,
+            "metrics": {
+                "annual_return": -6.89,
+                "volatility": 31.91,
+                "sharpe": -0.4,
+                "max_drawdown": -50.35,
+                "momentum": 6.2,
+                "valuation": 52.1,
+                "fundamentals": 88,
+                "liquidity": 94,
+                "fee_pct": 0.15
+            },
+            "methodology_weights": {
+                "Return": "25%",
+                "Risk": "20%",
+                "Sharpe": "15%",
+                "Drawdown": "15%",
+                "Fundamental": "15%",
+                "Liquidity": "10%"
+            },
             "monte_carlo": {
-                "bear_5th": 2002000.0,
-                "base_median": 6175000.0,
-                "bull_95th": 16130000.0
+                "p5": 2185000.0,
+                "p25": 4012000.0,
+                "median": 6192000.0,
+                "p75": 9457000.0,
+                "p95": 17511000.0,
+                "prob_loss": 77.8,
+                "prob_gain_50": 8.3
             },
             "audit": {
-                "strengths": [
-                    "High Liquidity",
-                    "IDR Return: +-6.9%"
-                ],
-                "weaknesses": [
-                    "Volatility: 31.9%",
-                    "Friction: 0.15%"
-                ],
-                "failure_condition": "Sensitive to sudden market drawdowns > 25%"
+                "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
+                "worst_rolling_4y": "-50.4%"
             }
         }
     ],
@@ -1533,7 +1691,7 @@
                 137.76,
                 137.37,
                 137.2,
-                136.09,
+                136.1,
                 141.16,
                 141.56,
                 142.87,
@@ -3228,9 +3386,8 @@
                 284.64,
                 288.69,
                 278.9,
-                284.59
+                284.53
             ]
         }
-    },
-    "fx_rate_usd_idr": 17855.0
+    }
 }
