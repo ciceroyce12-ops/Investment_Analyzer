@@ -97,12 +97,12 @@ function updateDashboard() {
         Plotly.newPlot('plotly-line-chart', lineTraces, lineLayout, {responsive: true});
     }
 
-    // 2. Render Monte Carlo Fan Chart (Dynamic Horizon & Robust CAGR Interpolation)
+    // 2. Render Monte Carlo Fan Chart (Robust Safe Interpolation)
     const topAsset = globalData.top_opportunities[0];
     if (topAsset) {
-        const cagrMedian = Math.pow(topAsset.monte_carlo.median / 10000000, 1 / 4) - 1;
-        const cagrP95 = Math.pow(topAsset.monte_carlo.p95 / 10000000, 1 / 4) - 1;
-        const cagrP5 = Math.pow(topAsset.monte_carlo.p5 / 10000000, 1 / 4) - 1;
+        const finalMedian = topAsset.monte_carlo.median * scaleFactor * horizonMultiplier;
+        const finalP95 = topAsset.monte_carlo.p95 * scaleFactor * horizonMultiplier;
+        const finalP5 = topAsset.monte_carlo.p5 * scaleFactor * horizonMultiplier;
 
         const xYears = [];
         const yP95 = [];
@@ -111,9 +111,10 @@ function updateDashboard() {
 
         for (let i = 0; i <= horizon; i++) {
             xYears.push(`Year ${i}`);
-            yP95.push(Math.round(capital * Math.pow(1 + cagrP95, i)));
-            yMedian.push(Math.round(capital * Math.pow(1 + cagrMedian, i)));
-            yP5.push(Math.round(capital * Math.pow(1 + cagrP5, i)));
+            const progress = horizon > 0 ? (i / horizon) : 0;
+            yP95.push(Math.round(capital + (finalP95 - capital) * progress));
+            yMedian.push(Math.round(capital + (finalMedian - capital) * progress));
+            yP5.push(Math.round(capital + (finalP5 - capital) * progress));
         }
 
         const mcTrace1 = { x: xYears, y: yP95, type: 'scatter', mode: 'lines+markers', name: '95th Percentile (Bull)', line: {color: '#34d399'} };
