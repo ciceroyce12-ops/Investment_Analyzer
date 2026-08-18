@@ -1,5 +1,94 @@
 {
-    "top_asset": "Bank Central Asia (BBCA.JK)",
-    "score": 87.4,
-    "annualized_return_est": -18.09
+    "top_opportunities": [
+        {
+            "ticker": "GLD",
+            "name": "Gold Trust (Global Commodity)",
+            "score": 73.5,
+            "annual_return": 30.61,
+            "volatility": 23.65,
+            "sharpe": 1.08
+        },
+        {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100 ETF (US)",
+            "score": 67.5,
+            "annual_return": 24.04,
+            "volatility": 21.95,
+            "sharpe": 0.87
+        },
+        {
+            "ticker": "SPY",
+            "name": "S&P 500 ETF (US)",
+            "score": 64.1,
+            "annual_return": 19.09,
+            "volatility": 16.65,
+            "sharpe": 0.85
+        },
+        {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin (Crypto)",
+            "score": 49.0,
+            "annual_return": 10.02,
+            "volatility": 36.86,
+            "sharpe": 0.14
+        }
+    ],
+    "full_universe": [
+        {
+            "ticker": "GLD",
+            "name": "Gold Trust (Global Commodity)",
+            "score": 73.5,
+            "annual_return": 30.61,
+            "volatility": 23.65,
+            "sharpe": 1.08
+        },
+        {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100 ETF (US)",
+            "score": 67.5,
+            "annual_return": 24.04,
+            "volatility": 21.95,
+            "sharpe": 0.87
+        },
+        {
+            "ticker": "SPY",
+            "name": "S&P 500 ETF (US)",
+            "score": 64.1,
+            "annual_return": 19.09,
+            "volatility": 16.65,
+            "sharpe": 0.85
+        },
+        {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin (Crypto)",
+            "score": 49.0,
+            "annual_return": 10.02,
+            "volatility": 36.86,
+            "sharpe": 0.14
+        },
+        {
+            "ticker": "TLKM.JK",
+            "name": "Telkom Indonesia (Indonesia)",
+            "score": 48.4,
+            "annual_return": 10.44,
+            "volatility": 39.98,
+            "sharpe": 0.14
+        },
+        {
+            "ticker": "BBRI.JK",
+            "name": "Bank Rakyat Indonesia (Indonesia)",
+            "score": 32.4,
+            "annual_return": -7.41,
+            "volatility": 34.03,
+            "sharpe": -0.36
+        },
+        {
+            "ticker": "BBCA.JK",
+            "name": "Bank Central Asia (Indonesia)",
+            "score": 24.6,
+            "annual_return": -16.12,
+            "volatility": 30.77,
+            "sharpe": -0.69
+        }
+    ]
 }
