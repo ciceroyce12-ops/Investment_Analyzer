@@ -1,5 +1,5 @@
 {
-    "timestamp": "18 Aug 2026 08:01 UTC",
+    "timestamp": "18 Aug 2026 08:08 UTC",
     "fx_rate_usd_idr": 17850.0,
     "top_opportunities": [
         {
@@ -362,11 +362,11 @@
             "currency": "USD",
             "score": 60.6,
             "metrics": {
-                "annual_return": 32.03,
+                "annual_return": 31.99,
                 "volatility": 39.71,
-                "sharpe": 0.66,
+                "sharpe": 0.65,
                 "max_drawdown": -49.18,
-                "momentum": 84.1,
+                "momentum": 84.0,
                 "valuation": 40.4,
                 "fundamentals": 70,
                 "liquidity": 95,
@@ -381,12 +381,12 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 7212000.0,
-                "p25": 15333000.0,
-                "median": 26275000.0,
-                "p75": 44447000.0,
-                "p95": 95482000.0,
-                "prob_loss": 10.9,
+                "p5": 7202000.0,
+                "p25": 15311000.0,
+                "median": 26239000.0,
+                "p75": 44385000.0,
+                "p95": 95350000.0,
+                "prob_loss": 11.0,
                 "prob_gain_50": 75.7
             },
             "audit": {
@@ -479,11 +479,11 @@
             "currency": "IDR",
             "score": 41.7,
             "metrics": {
-                "annual_return": -7.0,
+                "annual_return": -6.89,
                 "volatility": 31.91,
-                "sharpe": -0.41,
+                "sharpe": -0.4,
                 "max_drawdown": -50.35,
-                "momentum": 6.0,
+                "momentum": 6.2,
                 "valuation": 52.1,
                 "fundamentals": 88,
                 "liquidity": 94,
@@ -498,13 +498,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2175000.0,
-                "p25": 3993000.0,
-                "median": 6164000.0,
-                "p75": 9414000.0,
-                "p95": 17432000.0,
-                "prob_loss": 78.1,
-                "prob_gain_50": 8.2
+                "p5": 2185000.0,
+                "p25": 4012000.0,
+                "median": 6192000.0,
+                "p75": 9457000.0,
+                "p95": 17511000.0,
+                "prob_loss": 77.8,
+                "prob_gain_50": 8.3
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -1146,7 +1146,7 @@
                 69.38,
                 71.43,
                 71.21,
-                70.98
+                71.21
             ]
         },
         "TLKM.JK": {
@@ -1691,7 +1691,7 @@
                 137.76,
                 137.37,
                 137.2,
-                136.09,
+                136.1,
                 141.16,
                 141.56,
                 142.87,
@@ -2702,7 +2702,7 @@
                 122.68,
                 122.85,
                 123.33,
-                123.79,
+                123.8,
                 119.78,
                 123.8,
                 123.7,
@@ -3386,7 +3386,7 @@
                 284.64,
                 288.69,
                 278.9,
-                284.59
+                284.16
             ]
         }
     }
