@@ -6,7 +6,6 @@ import yfinance as yf
 
 os.makedirs("data", exist_ok=True)
 
-# Comprehensive global asset universe with currency & fee profiles
 universe = {
     "BBCA.JK": {
         "name": "Bank Central Asia",
@@ -64,7 +63,6 @@ universe = {
     },
 }
 
-# Fetch USD/IDR exchange rate history for unified FX normalization
 try:
   fx_df = yf.download("IDR=X", period="3y", progress=False)["Close"]
   if isinstance(fx_df, pd.DataFrame):
@@ -74,6 +72,7 @@ except Exception:
   current_fx = 15800.0
 
 asset_data = []
+historical_series = {}
 
 for ticker, meta in universe.items():
   try:
@@ -84,7 +83,6 @@ for ticker, meta in universe.items():
     if isinstance(prices, pd.DataFrame):
       prices = prices.iloc[:, 0]
 
-    # Convert USD asset prices to IDR equivalent using historical FX rates
     if meta["currency"] == "USD":
       try:
         fx_aligned = (
@@ -98,6 +96,15 @@ for ticker, meta in universe.items():
       except Exception:
         prices = prices * current_fx
 
+    # Save weekly normalized price history (Indexed to start at 100)
+    resampled = prices.resample("W").last().dropna()
+    if len(resampled) > 10:
+      norm_history = (resampled / resampled.iloc[0]) * 100
+      historical_series[ticker] = {
+          "dates": [d.strftime("%Y-%m-%d") for d in norm_history.index],
+          "values": [round(float(v), 2) for v in norm_history.values],
+      }
+
     returns = prices.pct_change().dropna()
     if len(returns) < 50:
       continue
@@ -106,7 +113,6 @@ for ticker, meta in universe.items():
     ann_vol = float(returns.std() * np.sqrt(252))
     sharpe = float((ann_return - 0.06) / ann_vol) if ann_vol > 0 else 0.0
 
-    # Composite quantitative score penalized by transaction friction & volatility
     score = round(
         max(
             0,
@@ -121,7 +127,6 @@ for ticker, meta in universe.items():
         1,
     )
 
-    # 4-Year Monte Carlo Projections in IDR
     log_rets = np.log(1 + returns)
     mu, sigma = log_rets.mean(), log_rets.std()
     sim_results = []
@@ -134,23 +139,6 @@ for ticker, meta in universe.items():
     p5 = float(np.percentile(sim_results, 5))
     median = float(np.percentile(sim_results, 50))
     p95 = float(np.percentile(sim_results, 95))
-
-    # Risk Audit (Why NOT this investment?)
-    strengths = [
-        f"Robust Sharpe ratio ({sharpe:.2f})"
-        if sharpe > 0.7
-        else "Acceptable liquidity",
-        f"Annualized IDR return of +{round(ann_return*100, 1)}%",
-    ]
-    weaknesses = [
-        f"Volatility index at {round(ann_vol*100, 1)}%",
-        f"Estimated transaction friction: {meta['fee']*100}%",
-    ]
-    failure_condition = (
-        "Model ranking degrades if market volatility surges > 30%"
-        if ann_vol > 0.2
-        else "Sensitive to rapid IDR currency appreciation"
-    )
 
     asset_data.append({
         "ticker": ticker,
@@ -168,23 +156,36 @@ for ticker, meta in universe.items():
             "bull_95th": round(p95, -3),
         },
         "audit": {
-            "strengths": strengths,
-            "weaknesses": weaknesses,
-            "failure_condition": failure_condition,
+            "strengths": [
+                f"Solid Sharpe ({sharpe:.2f})"
+                if sharpe > 0.7
+                else "High Liquidity",
+                f"IDR Return: +{round(ann_return*100,1)}%",
+            ],
+            "weaknesses": [
+                f"Volatility: {round(ann_vol*100,1)}%",
+                f"Friction: {meta['fee']*100}%",
+            ],
+            "failure_condition": (
+                "Sensitive to sudden market drawdowns > 25%"
+                if ann_vol > 0.2
+                else "Stable trend baseline"
+            ),
         },
     })
   except Exception as e:
-    print(f"Error processing {ticker}: {e}")
+    print(f"Error for {ticker}: {e}")
 
 asset_data = sorted(asset_data, key=lambda x: x["score"], reverse=True)
 
 output = {
     "top_opportunities": asset_data[:4],
     "full_universe": asset_data,
+    "historical_prices": historical_series,
     "fx_rate_usd_idr": current_fx,
 }
 
 with open("data/assets.json", "w") as f:
   json.dump(output, f, indent=4)
 
-print("Institutional engine pipeline completed successfully!")
+print("Visual quantitative engine pipeline completed successfully!")
