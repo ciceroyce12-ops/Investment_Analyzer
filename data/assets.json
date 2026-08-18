@@ -1,6 +1,6 @@
 {
-    "timestamp": "18 Aug 2026 07:55 UTC",
-    "fx_rate_usd_idr": 17855.0,
+    "timestamp": "18 Aug 2026 07:59 UTC",
+    "fx_rate_usd_idr": 17850.0,
     "top_opportunities": [
         {
             "ticker": "GLD",
@@ -362,11 +362,11 @@
             "currency": "USD",
             "score": 60.6,
             "metrics": {
-                "annual_return": 32.02,
+                "annual_return": 32.03,
                 "volatility": 39.71,
                 "sharpe": 0.66,
                 "max_drawdown": -49.18,
-                "momentum": 84.0,
+                "momentum": 84.1,
                 "valuation": 40.4,
                 "fundamentals": 70,
                 "liquidity": 95,
@@ -381,11 +381,11 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 7211000.0,
-                "p25": 15330000.0,
-                "median": 26270000.0,
-                "p75": 44438000.0,
-                "p95": 95462000.0,
+                "p5": 7212000.0,
+                "p25": 15333000.0,
+                "median": 26275000.0,
+                "p75": 44446000.0,
+                "p95": 95479000.0,
                 "prob_loss": 10.9,
                 "prob_gain_50": 75.7
             },
@@ -401,11 +401,11 @@
             "currency": "IDR",
             "score": 45.0,
             "metrics": {
-                "annual_return": 1.38,
+                "annual_return": 1.25,
                 "volatility": 35.89,
                 "sharpe": -0.13,
                 "max_drawdown": -42.28,
-                "momentum": 22.8,
+                "momentum": 22.5,
                 "valuation": 46.2,
                 "fundamentals": 85,
                 "liquidity": 90,
@@ -420,13 +420,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2518000.0,
-                "p25": 4999000.0,
-                "median": 8158000.0,
-                "p75": 13157000.0,
-                "p95": 26369000.0,
-                "prob_loss": 61.2,
-                "prob_gain_50": 19.6
+                "p5": 2504000.0,
+                "p25": 4972000.0,
+                "median": 8114000.0,
+                "p75": 13086000.0,
+                "p95": 26227000.0,
+                "prob_loss": 61.5,
+                "prob_gain_50": 19.4
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -1464,7 +1464,7 @@
                 86.6,
                 89.23,
                 86.27,
-                86.6
+                86.27
             ]
         },
         "SPY": {
@@ -1691,7 +1691,7 @@
                 137.76,
                 137.37,
                 137.2,
-                136.1,
+                136.09,
                 141.16,
                 141.56,
                 142.87,
@@ -3386,7 +3386,7 @@
                 284.64,
                 288.69,
                 278.9,
-                284.53
+                284.58
             ]
         }
     }
