@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investment Intelligence Dashboard</title>
+    <!-- Plotly.js for visual charts -->
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Investment Intelligence Dashboard</h1>
-        <p>Quantitative ranking engine powered by GitHub Actions.</p>
+        <p>Global Quantitative Ranking & Multi-Asset Engine</p>
         
         <div id="ranking-section">
-            <h2>Top Opportunities</h2>
-            <div id="results">Loading data from automated pipeline...</div>
+            <h2>🥇 Top 4 Quantitative Opportunities</h2>
+            <div id="cards-container" class="cards-grid">Loading top picks...</div>
+        </div>
+
+        <div id="chart-section" style="margin-top: 40px;">
+            <h2>📊 Asset Score Visualizer</h2>
+            <div id="plotly-bar-chart" style="width:100%; height:400px;"></div>
         </div>
     </div>
     
