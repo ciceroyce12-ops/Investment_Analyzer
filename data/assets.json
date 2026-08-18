@@ -1,5 +1,5 @@
 {
-    "timestamp": "18 Aug 2026 07:59 UTC",
+    "timestamp": "18 Aug 2026 08:01 UTC",
     "fx_rate_usd_idr": 17850.0,
     "top_opportunities": [
         {
@@ -384,8 +384,8 @@
                 "p5": 7212000.0,
                 "p25": 15333000.0,
                 "median": 26275000.0,
-                "p75": 44446000.0,
-                "p95": 95479000.0,
+                "p75": 44447000.0,
+                "p95": 95482000.0,
                 "prob_loss": 10.9,
                 "prob_gain_50": 75.7
             },
@@ -479,11 +479,11 @@
             "currency": "IDR",
             "score": 41.7,
             "metrics": {
-                "annual_return": -6.89,
+                "annual_return": -7.0,
                 "volatility": 31.91,
-                "sharpe": -0.4,
+                "sharpe": -0.41,
                 "max_drawdown": -50.35,
-                "momentum": 6.2,
+                "momentum": 6.0,
                 "valuation": 52.1,
                 "fundamentals": 88,
                 "liquidity": 94,
@@ -498,13 +498,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2185000.0,
-                "p25": 4012000.0,
-                "median": 6192000.0,
-                "p75": 9457000.0,
-                "p95": 17511000.0,
-                "prob_loss": 77.8,
-                "prob_gain_50": 8.3
+                "p5": 2175000.0,
+                "p25": 3993000.0,
+                "median": 6164000.0,
+                "p75": 9414000.0,
+                "p95": 17432000.0,
+                "prob_loss": 78.1,
+                "prob_gain_50": 8.2
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -1146,7 +1146,7 @@
                 69.38,
                 71.43,
                 71.21,
-                71.21
+                70.98
             ]
         },
         "TLKM.JK": {
@@ -3386,7 +3386,7 @@
                 284.64,
                 288.69,
                 278.9,
-                284.58
+                284.59
             ]
         }
     }
