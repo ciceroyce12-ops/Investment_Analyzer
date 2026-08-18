@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    # This grants permissions so the action can push JSON updates back
     permissions:
       contents: write
 
@@ -32,6 +31,7 @@ jobs:
         run: |
           git config --global user.name "QuantBot"
           git config --global user.email "bot@local.host"
+          git pull origin main --rebase || true
           git add data/assets.json
           git commit -m "Automated data pipeline update [skip ci]" || exit 0
-          git push
+          git push origin main
