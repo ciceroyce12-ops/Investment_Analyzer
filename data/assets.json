@@ -27,8 +27,8 @@
         {
             "ticker": "BTC-USD",
             "name": "Bitcoin (Crypto)",
-            "score": 49.0,
-            "annual_return": 10.02,
+            "score": 48.9,
+            "annual_return": 10.01,
             "volatility": 36.86,
             "sharpe": 0.14
         }
@@ -61,8 +61,8 @@
         {
             "ticker": "BTC-USD",
             "name": "Bitcoin (Crypto)",
-            "score": 49.0,
-            "annual_return": 10.02,
+            "score": 48.9,
+            "annual_return": 10.01,
             "volatility": 36.86,
             "sharpe": 0.14
         },
@@ -85,9 +85,9 @@
         {
             "ticker": "BBCA.JK",
             "name": "Bank Central Asia (Indonesia)",
-            "score": 24.6,
-            "annual_return": -16.12,
-            "volatility": 30.77,
+            "score": 24.4,
+            "annual_return": -16.33,
+            "volatility": 30.76,
             "sharpe": -0.69
         }
     ]
