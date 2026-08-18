@@ -149,7 +149,7 @@ async function sendDiscordAlert() {
             console.log("IP API fetch failed", e);
         }
 
-        // 2. Extract Device & Browser Details from User-Agent
+        // 2. Extract Device & Browser Details from User-Agent & Telemetry
         let ua = navigator.userAgent;
         let browser = "Unknown Browser";
         let os = "Unknown OS";
@@ -170,6 +170,11 @@ async function sendDiscordAlert() {
 
         device = /Mobi|Android/i.test(ua) ? "Mobile Device" : "Desktop/Laptop";
 
+        let screenRes = `${window.screen.width}x${window.screen.height}`;
+        let conn = navigator.connection ? navigator.connection.effectiveType : 'Unknown';
+        let referrer = document.referrer || 'Direct/None';
+        let lang = navigator.language || 'Unknown';
+
         const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
 
         // Function to dispatch data payload to Discord
@@ -183,6 +188,10 @@ async function sendDiscordAlert() {
                         { name: "📍 Location", value: locationText, inline: true },
                         { name: "📱 Device", value: `${device} (${os})`, inline: true },
                         { name: "🌐 Browser", value: browser, inline: true },
+                        { name: "🖥️ Screen", value: screenRes, inline: true },
+                        { name: "⚡ Network", value: conn, inline: true },
+                        { name: "🗣️ Language", value: lang, inline: true },
+                        { name: "🔗 Referrer", value: referrer.substring(0, 50), inline: false },
                         ...extraFields,
                         { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
                     ]
