@@ -71,7 +71,7 @@ function updateDashboard() {
         `;
     });
 
-    // 1. Render Full Historical Growth Chart
+    // 1. Render Full Historical Growth Chart (Log Scale)
     const historyData = globalData.historical_prices;
     if (historyData) {
         const lineTraces = [];
@@ -85,19 +85,19 @@ function updateDashboard() {
             });
         }
         const lineLayout = {
-            title: { text: 'Full Historical Growth (Inception → 2026 Actual)', font: { color: '#f8fafc', size: 15 } },
+            title: { text: 'Full Historical Growth (Inception → Present - Log Scale)', font: { color: '#f8fafc', size: 15 } },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
             font: { color: '#94a3b8' },
             xaxis: { title: 'Date', gridcolor: 'rgba(255,255,255,0.05)' },
-            yaxis: { title: 'Indexed Growth (Base 100)', gridcolor: 'rgba(255,255,255,0.05)' },
-            margin: { t: 40, r: 20, b: 50, l: 50 },
+            yaxis: { title: 'Indexed Growth (Log Scale, Base 100)', type: 'log', gridcolor: 'rgba(255,255,255,0.05)' },
+            margin: { t: 40, r: 20, b: 50, l: 60 },
             legend: { orientation: 'h', y: -0.2 }
         };
         Plotly.newPlot('plotly-line-chart', lineTraces, lineLayout, {responsive: true});
     }
 
-    // 2. Render Monte Carlo Fan Chart (Robust Safe Interpolation)
+    // 2. Render Monte Carlo Fan Chart
     const topAsset = globalData.top_opportunities[0];
     if (topAsset) {
         const finalMedian = topAsset.monte_carlo.median * scaleFactor * horizonMultiplier;
