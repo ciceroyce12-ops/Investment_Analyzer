@@ -162,43 +162,47 @@ for ticker, meta in universe.items():
     p95 = float(np.percentile(sim_array, 95))
     prob_loss = float(np.mean(sim_array < 10000000) * 100)
 
-    # Fetch live news for this ticker via yfinance
+    # Fetch latest news items via yfinance
     news_items = []
     try:
       t_obj = yf.Ticker(ticker)
       raw_news = t_obj.news
       if raw_news:
-        for item in raw_news[:2]:
-          title = None
-          link = "#"
-          publisher = "Market Wire"
-          if isinstance(item, dict):
-            if "title" in item:
-              title = item["title"]
-              link = item.get("link", "#")
-              publisher = item.get("publisher", "Financial News")
-            elif "content" in item and isinstance(item["content"], dict):
-              content = item["content"]
-              title = content.get("title")
-              if "clickThroughUrl" in content and content["clickThroughUrl"]:
-                link = content["clickThroughUrl"].get("url", "#")
-              if "provider" in content and content["provider"]:
-                publisher = content["provider"].get("displayName", "News")
+        for item in raw_news[:3]:
+          content = (
+              item.get("content", {})
+              if isinstance(item.get("content"), dict)
+              else {}
+          )
+          title = item.get("title") or content.get("title")
+          if not title and isinstance(item, dict):
+            title = item.get("headline")
+          publisher = (
+              item.get("publisher")
+              or content.get("provider", {}).get("displayName")
+              or "Financial Wire"
+          )
+          link = (
+              item.get("link")
+              or content.get("clickThroughUrl", {}).get("url")
+              or "#"
+          )
           if title:
-            news_items.append(
-                {"title": title, "link": link, "publisher": publisher}
-            )
+            news_items.append({
+                "title": str(title),
+                "publisher": str(publisher),
+                "link": str(link),
+            })
     except Exception:
       pass
 
     if not news_items:
       news_items = [{
           "title": (
-              f"Stable volume flow and quantitative trend maintained for"
-              f" {ticker}."
+              f"Market performance overview and trend analysis for {ticker}"
           ),
+          "publisher": "Global Market Intelligence",
           "link": "#",
-          "publisher": "Quantitative Desk",
       }]
 
     asset_data.append({
@@ -233,7 +237,7 @@ for ticker, meta in universe.items():
   except Exception as e:
     print(f"Error processing {ticker}: {e}")
 
-# Align all historical series to a common start date (2015-01-01)
+# Align historical series to 2015 common start date
 historical_series = {}
 if price_dict:
   df_all = pd.DataFrame(price_dict)
@@ -259,4 +263,4 @@ output = {
 with open("data/assets.json", "w") as f:
   json.dump(output, f, indent=4)
 
-print("Quantitative engine data with live news successfully generated.")
+print("Quantitative engine data successfully generated.")
