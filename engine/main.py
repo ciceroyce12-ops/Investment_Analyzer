@@ -82,7 +82,7 @@ universe = {
     },
 }
 
-# Download FX data once globally from inception
+# Download FX data once globally
 try:
   fx_df = yf.download("IDR=X", period="max", progress=False)["Close"]
   if isinstance(fx_df, pd.DataFrame):
@@ -93,7 +93,7 @@ except Exception:
   current_fx = 15800.0
 
 asset_data = []
-historical_series = {}
+price_dict = {}
 
 for ticker, meta in universe.items():
   try:
@@ -116,11 +116,7 @@ for ticker, meta in universe.items():
 
     resampled = prices.resample("W").last().dropna()
     if len(resampled) > 10:
-      norm_history = (resampled / resampled.iloc[0]) * 100
-      historical_series[ticker] = {
-          "dates": [d.strftime("%Y-%m-%d") for d in norm_history.index],
-          "values": [round(float(v), 2) for v in norm_history.values],
-      }
+      price_dict[ticker] = resampled
 
     returns = prices.pct_change().dropna()
     if len(returns) < 50:
@@ -196,6 +192,19 @@ for ticker, meta in universe.items():
     })
   except Exception as e:
     print(f"Error processing {ticker}: {e}")
+
+# Align all historical series to a common start date (2015-01-01) for a fair comparison
+historical_series = {}
+if price_dict:
+  df_all = pd.DataFrame(price_dict)
+  df_all = df_all.loc["2015-01-01":].dropna()
+  for ticker in df_all.columns:
+    series = df_all[ticker]
+    norm_history = (series / series.iloc[0]) * 100
+    historical_series[ticker] = {
+        "dates": [d.strftime("%Y-%m-%d") for d in norm_history.index],
+        "values": [round(float(v), 2) for v in norm_history.values],
+    }
 
 asset_data = sorted(asset_data, key=lambda x: x["score"], reverse=True)
 
