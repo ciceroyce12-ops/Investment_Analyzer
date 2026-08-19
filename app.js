@@ -38,23 +38,12 @@ function updateDashboard() {
     }
     document.getElementById('portfolio-blend').innerHTML = portfolioBlendText;
 
-    // Render Top 4 Opportunities Cards with Live News
+    // Render Top 4 Opportunities Cards
     const cardsContainer = document.getElementById('cards-container');
     cardsContainer.innerHTML = '';
     
     globalData.top_opportunities.forEach((asset, index) => {
         const baseVal = asset.monte_carlo.median * scaleFactor * horizonMultiplier;
-
-        let newsItemHtml = '';
-        if (asset.news && asset.news.length > 0) {
-            const n = asset.news[0];
-            newsItemHtml = `
-                <div style="margin-top: 8px; font-size: 11px; background: rgba(56, 189, 248, 0.05); border-left: 2px solid var(--accent); padding: 6px; border-radius: 4px;">
-                    📰 <a href="${n.link}" target="_blank" style="color: #38bdf8; text-decoration: none;">${n.title}</a>
-                    <div style="color: #64748b; font-size: 10px; margin-top: 2px;">Source: ${n.publisher}</div>
-                </div>
-            `;
-        }
 
         cardsContainer.innerHTML += `
             <div class="asset-card" onclick="this.classList.toggle('active')">
@@ -62,11 +51,10 @@ function updateDashboard() {
                 <p style="font-size: 11px; color: #94a3b8; margin: 0 0 6px 0;">${asset.name} (${asset.category})</p>
                 <div class="score">${asset.score} <span style="font-size:12px; color:#64748b; font-weight:normal;">Total Score</span></div>
                 <p style="font-size: 12px; margin: 6px 0 0 0;">IDR Return: +${asset.metrics.annual_return}% | Vol: ${asset.metrics.volatility}%</p>
-                <div style="margin-top: 8px; font-size: 12px; background: rgba(15, 23, 42, 0.6); padding: 6px 8px; border-radius: 6px;">
-                    🎯 <strong>Median Projection:</strong> Rp ${(baseVal/1000000).toFixed(1)}M<br>
+                <div style="margin-top: 10px; font-size: 12px; background: rgba(15, 23, 42, 0.6); padding: 8px; border-radius: 6px;">
+                    🎯 <strong>Monte Carlo Median:</strong> Rp ${(baseVal/1000000).toFixed(1)}M<br>
                     📉 Prob. of Loss: <span style="color:${asset.monte_carlo.prob_loss > 20 ? '#f87171':'#34d399'}">${asset.monte_carlo.prob_loss}%</span>
                 </div>
-                ${newsItemHtml}
                 <div class="audit-drawer">
                     <strong>🔍 Quantitative Breakdown:</strong><br>
                     Sharpe Ratio: ${asset.metrics.sharpe}<br>
@@ -75,6 +63,33 @@ function updateDashboard() {
                     <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:6px 0;">
                     ⚡ <em>${asset.audit.failure_condition}</em>
                 </div>
+            </div>
+        `;
+    });
+
+    // Render Live News Feed for Top 4 Opportunities
+    const newsContainer = document.getElementById('news-container');
+    newsContainer.innerHTML = '';
+
+    globalData.top_opportunities.forEach((asset, index) => {
+        let newsHtml = '';
+        if (asset.news && asset.news.length > 0) {
+            asset.news.forEach(item => {
+                newsHtml += `
+                    <div class="news-item">
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+                        <div class="news-publisher">${item.publisher}</div>
+                    </div>
+                `;
+            });
+        } else {
+            newsHtml = `<div class="news-item">No recent market news headlines available.</div>`;
+        }
+
+        newsContainer.innerHTML += `
+            <div class="news-card">
+                <h4>#${index + 1} ${asset.ticker} (${asset.name})</h4>
+                ${newsHtml}
             </div>
         `;
     });
