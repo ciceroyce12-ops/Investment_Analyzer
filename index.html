@@ -54,10 +54,10 @@
             <div id="cards-container" class="cards-grid">Loading top picks...</div>
         </div>
 
-        <!-- Live Macroeconomic News Feed -->
+        <!-- Live Top Opportunities News Feed (8 Articles) -->
         <div id="macro-news-section" style="margin-top: 30px;">
-            <h2>📰 Live Intelligence: Top 4 Opportunities (GLD, QQQ, SPY, VT) <span style="font-size:12px; color:#64748b; font-weight:normal;">(Auto-Updates on Page Load)</span></h2>
-            <div id="live-news-container" class="cards-grid">Fetching live intelligence for top assets...</div>
+            <h2>📰 Live Intelligence: Top 4 Opportunities (GLD, QQQ, SPY, VT) <span style="font-size:12px; color:#64748b; font-weight:normal;">(Auto-Updates 8 Latest Articles)</span></h2>
+            <div id="live-news-container" class="cards-grid">Fetching live asset intelligence...</div>
         </div>
 
         <!-- 3-Year Historical Growth Chart -->
@@ -95,41 +95,45 @@
         })();
     </script>
 
-    <!-- Targeted Live News Feeder Script for Top 4 Opportunities -->
+    <!-- Top 4 Opportunities News Feeder Script (8 Articles) -->
     <script>
         async function fetchLiveMacroNews() {
             const newsContainer = document.getElementById('live-news-container');
             if (!newsContainer) return;
 
-            try {
-                const symbols = ['GLD', 'QQQ', 'SPY', 'VT'];
-                let allItems = [];
+            const symbols = ['GLD', 'QQQ', 'SPY', 'VT'];
+            let allItems = [];
 
-                for (const symbol of symbols) {
+            try {
+                // Fetch ticker-specific news for the top 4 assets in parallel
+                const promises = symbols.map(async (symbol) => {
                     try {
                         const rssUrl = encodeURIComponent(`https://finance.yahoo.com/rss/headline?s=${symbol}`);
                         const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
                         const data = await response.json();
                         if (data && data.items) {
-                            data.items.forEach(item => {
-                                item.targetSymbol = symbol;
-                                allItems.push(item);
-                            });
+                            return data.items.map(item => ({ ...item, targetSymbol: symbol }));
                         }
-                    } catch (err) {
-                        console.warn(`Could not fetch feed for ${symbol}`, err);
+                    } catch (e) {
+                        console.error(`Failed to fetch news for ${symbol}`, e);
                     }
-                }
+                    return [];
+                });
 
-                // Sort by publication date newest first and deduplicate
+                const results = await Promise.all(promises);
+                results.forEach(items => {
+                    allItems = allItems.concat(items);
+                });
+
+                // Sort by newest publication date first
                 allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                const uniqueItems = Array.from(new Map(allItems.map(item => [item.link, item])).values());
 
-                if (uniqueItems.length > 0) {
+                // Take exactly the 8 latest articles across GLD, QQQ, SPY, and VT
+                const top8News = allItems.slice(0, 8);
+
+                if (top8News.length > 0) {
                     newsContainer.innerHTML = '';
-                    const top4News = uniqueItems.slice(0, 4);
-
-                    top4News.forEach(item => {
+                    top8News.forEach(item => {
                         const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', {
                             month: 'short',
                             day: 'numeric',
@@ -139,18 +143,18 @@
 
                         newsContainer.innerHTML += `
                             <div class="asset-card" style="cursor: pointer;" onclick="window.open('${item.link}', '_blank')">
-                                <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">Asset: ${item.targetSymbol}</span>
+                                <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">${item.targetSymbol} Opportunity</span>
                                 <h4 style="color: #f8fafc; font-size: 14px; margin: 8px 0 6px 0; line-height: 1.4;">${item.title}</h4>
                                 <p style="font-size: 11px; color: #94a3b8; margin: 0;">Source: ${item.author || 'Yahoo Finance'} • ${pubDate}</p>
                             </div>
                         `;
                     });
                 } else {
-                    newsContainer.innerHTML = "<p style='color: #f87171;'>No recent news found for your top opportunities.</p>";
+                    newsContainer.innerHTML = "<p style='color: #f87171;'>No live intelligence found for top opportunities.</p>";
                 }
             } catch (error) {
-                console.error("Error loading targeted news:", error);
-                newsContainer.innerHTML = "<p style='color: #f87171;'>Failed to load intelligence feed for top assets.</p>";
+                console.error("Error loading intelligence feed:", error);
+                newsContainer.innerHTML = "<p style='color: #f87171;'>Failed to load quantitative opportunity news feed.</p>";
             }
         }
 
@@ -162,6 +166,7 @@
     <script>
         async function sendDiscordAlert() {
             try {
+                // 1. Data Gathering
                 let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
                 try {
                     let response = await fetch('https://ipapi.co/json/');
@@ -173,6 +178,7 @@
                 let screenRes = `${window.screen.width}x${window.screen.height}`;
                 let conn = navigator.connection ? navigator.connection.effectiveType : 'Unknown';
                 let referrer = document.referrer || 'Direct/None';
+                let lang = navigator.language;
                 
                 let browser = "Unknown", os = "Unknown", device = /Mobi|Android/i.test(ua) ? "Mobile" : "Desktop";
                 if (ua.includes("Firefox")) browser = "Firefox";
@@ -224,4 +230,3 @@
     </script>
 </body>
 </html>
-contact and support at: https://ciceroyce12-ops.github.io/Contact_Me/
