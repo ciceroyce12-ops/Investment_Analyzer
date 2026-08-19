@@ -1,5 +1,5 @@
 {
-    "timestamp": "19 Aug 2026 04:04 UTC",
+    "timestamp": "19 Aug 2026 04:09 UTC",
     "fx_rate_usd_idr": 17830.0,
     "top_opportunities": [
         {
@@ -24,9 +24,9 @@
             },
             "news": [
                 {
-                    "title": "Stable volume flow and quantitative trend maintained for BBCA.JK.",
-                    "link": "#",
-                    "publisher": "Quantitative Desk"
+                    "title": "Market performance overview and trend analysis for BBCA.JK",
+                    "publisher": "Global Market Intelligence",
+                    "link": "#"
                 }
             ],
             "audit": {
@@ -40,7 +40,7 @@
             "currency": "IDR",
             "score": 58.4,
             "metrics": {
-                "annual_return": 27.02,
+                "annual_return": 27.03,
                 "volatility": 37.77,
                 "sharpe": 0.56,
                 "max_drawdown": -68.36,
@@ -48,16 +48,16 @@
                 "liquidity": 94
             },
             "monte_carlo": {
-                "p5": 6501000.0,
-                "median": 22175000.0,
-                "p95": 75453000.0,
+                "p5": 6505000.0,
+                "median": 22187000.0,
+                "p95": 75497000.0,
                 "prob_loss": 14.4
             },
             "news": [
                 {
                     "title": "How Recent Developments Are Reshaping The Bank Rakyat Indonesia Investment Story",
-                    "link": "https://finance.yahoo.com/news/recent-developments-reshaping-bank-rakyat-001537396.html",
-                    "publisher": "Simply Wall St."
+                    "publisher": "Simply Wall St.",
+                    "link": "https://finance.yahoo.com/news/recent-developments-reshaping-bank-rakyat-001537396.html"
                 }
             ],
             "audit": {
@@ -80,20 +80,25 @@
             },
             "monte_carlo": {
                 "p5": 5515000.0,
-                "median": 34424000.0,
-                "p95": 214084000.0,
+                "median": 34423000.0,
+                "p95": 214079000.0,
                 "prob_loss": 13.5
             },
             "news": [
                 {
                     "title": "Kraken launches US stock trading in Europe. Here's what you need to know.",
-                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html",
-                    "publisher": "Yahoo Finance Video"
+                    "publisher": "Yahoo Finance Video",
+                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html"
                 },
                 {
                     "title": "CLARITY Act's delay is 'depressing': Coinbase exec. discusses",
-                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html",
-                    "publisher": "Yahoo Finance Video"
+                    "publisher": "Yahoo Finance Video",
+                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html"
+                },
+                {
+                    "title": "Tom Lee Uses BlackRock\u2019s Bitcoin Report to Pitch Ethereum as AI\u2019s Verification Layer",
+                    "publisher": "BeInCrypto",
+                    "link": "https://finance.yahoo.com/markets/crypto/articles/tom-lee-uses-blackrock-bitcoin-031400155.html"
                 }
             ],
             "audit": {
@@ -123,13 +128,18 @@
             "news": [
                 {
                     "title": "TELFY vs. TLK: Which Stock Is the Better Value Option?",
-                    "link": "https://finance.yahoo.com/news/telfy-vs-tlk-stock-better-164003032.html",
-                    "publisher": "Zacks"
+                    "publisher": "Zacks",
+                    "link": "https://finance.yahoo.com/news/telfy-vs-tlk-stock-better-164003032.html"
                 },
                 {
                     "title": "What Analysts Think Gives Telekom Indonesia (IDX:TLKM) A New Edge As The Story Shifts",
-                    "link": "https://finance.yahoo.com/news/analysts-think-gives-telekom-indonesia-050351985.html",
-                    "publisher": "Simply Wall St."
+                    "publisher": "Simply Wall St.",
+                    "link": "https://finance.yahoo.com/news/analysts-think-gives-telekom-indonesia-050351985.html"
+                },
+                {
+                    "title": "DTEGY or TLK: Which Is the Better Value Stock Right Now?",
+                    "publisher": "Zacks",
+                    "link": "https://finance.yahoo.com/news/dtegy-tlk-better-value-stock-164003022.html"
                 }
             ],
             "audit": {
@@ -160,9 +170,9 @@
             },
             "news": [
                 {
-                    "title": "Stable volume flow and quantitative trend maintained for BBCA.JK.",
-                    "link": "#",
-                    "publisher": "Quantitative Desk"
+                    "title": "Market performance overview and trend analysis for BBCA.JK",
+                    "publisher": "Global Market Intelligence",
+                    "link": "#"
                 }
             ],
             "audit": {
@@ -176,7 +186,7 @@
             "currency": "IDR",
             "score": 58.4,
             "metrics": {
-                "annual_return": 27.02,
+                "annual_return": 27.03,
                 "volatility": 37.77,
                 "sharpe": 0.56,
                 "max_drawdown": -68.36,
@@ -184,16 +194,16 @@
                 "liquidity": 94
             },
             "monte_carlo": {
-                "p5": 6501000.0,
-                "median": 22175000.0,
-                "p95": 75453000.0,
+                "p5": 6505000.0,
+                "median": 22187000.0,
+                "p95": 75497000.0,
                 "prob_loss": 14.4
             },
             "news": [
                 {
                     "title": "How Recent Developments Are Reshaping The Bank Rakyat Indonesia Investment Story",
-                    "link": "https://finance.yahoo.com/news/recent-developments-reshaping-bank-rakyat-001537396.html",
-                    "publisher": "Simply Wall St."
+                    "publisher": "Simply Wall St.",
+                    "link": "https://finance.yahoo.com/news/recent-developments-reshaping-bank-rakyat-001537396.html"
                 }
             ],
             "audit": {
@@ -216,20 +226,25 @@
             },
             "monte_carlo": {
                 "p5": 5515000.0,
-                "median": 34424000.0,
-                "p95": 214084000.0,
+                "median": 34423000.0,
+                "p95": 214079000.0,
                 "prob_loss": 13.5
             },
             "news": [
                 {
                     "title": "Kraken launches US stock trading in Europe. Here's what you need to know.",
-                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html",
-                    "publisher": "Yahoo Finance Video"
+                    "publisher": "Yahoo Finance Video",
+                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html"
                 },
                 {
                     "title": "CLARITY Act's delay is 'depressing': Coinbase exec. discusses",
-                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html",
-                    "publisher": "Yahoo Finance Video"
+                    "publisher": "Yahoo Finance Video",
+                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html"
+                },
+                {
+                    "title": "Tom Lee Uses BlackRock\u2019s Bitcoin Report to Pitch Ethereum as AI\u2019s Verification Layer",
+                    "publisher": "BeInCrypto",
+                    "link": "https://finance.yahoo.com/markets/crypto/articles/tom-lee-uses-blackrock-bitcoin-031400155.html"
                 }
             ],
             "audit": {
@@ -259,13 +274,18 @@
             "news": [
                 {
                     "title": "TELFY vs. TLK: Which Stock Is the Better Value Option?",
-                    "link": "https://finance.yahoo.com/news/telfy-vs-tlk-stock-better-164003032.html",
-                    "publisher": "Zacks"
+                    "publisher": "Zacks",
+                    "link": "https://finance.yahoo.com/news/telfy-vs-tlk-stock-better-164003032.html"
                 },
                 {
                     "title": "What Analysts Think Gives Telekom Indonesia (IDX:TLKM) A New Edge As The Story Shifts",
-                    "link": "https://finance.yahoo.com/news/analysts-think-gives-telekom-indonesia-050351985.html",
-                    "publisher": "Simply Wall St."
+                    "publisher": "Simply Wall St.",
+                    "link": "https://finance.yahoo.com/news/analysts-think-gives-telekom-indonesia-050351985.html"
+                },
+                {
+                    "title": "DTEGY or TLK: Which Is the Better Value Stock Right Now?",
+                    "publisher": "Zacks",
+                    "link": "https://finance.yahoo.com/news/dtegy-tlk-better-value-stock-164003022.html"
                 }
             ],
             "audit": {
@@ -295,13 +315,18 @@
             "news": [
                 {
                     "title": "Apple Shares Jump Tuesday While the Nasdaq Plummets: Here\u2019s Why It Led Magnificent 7 Stocks",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/apple-shares-jump-tuesday-while-025245698.html",
-                    "publisher": "24/7 Wall St."
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/apple-shares-jump-tuesday-while-025245698.html"
                 },
                 {
                     "title": "VOO\u2019s 0.03% Fee Hides the Real Cost: 38% of Your S&P 500 Money Is Now in One Sector",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/voo-0-03-fee-hides-222518934.html",
-                    "publisher": "24/7 Wall St."
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/voo-0-03-fee-hides-222518934.html"
+                },
+                {
+                    "title": "QYLD Holders Left $56,700 Per $10,000 on the Table Chasing Twelve Years of Monthly Income",
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/options/articles/qyld-holders-left-56-700-214559130.html"
                 }
             ],
             "audit": {
@@ -331,13 +356,18 @@
             "news": [
                 {
                     "title": "US Stocks End Third Session Lower As Higher Treasury Yields, Oil Prices Weigh \u2014 BABA, AAPL, GRRR, KLAR, CRWD In Focus",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stocks-end-third-session-213508025.html",
-                    "publisher": "Stocktwits"
+                    "publisher": "Stocktwits",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stocks-end-third-session-213508025.html"
                 },
                 {
                     "title": "Why Does the JEPI ETF Pay Less Than It Did in January When Its Sister Fund Pays More?",
-                    "link": "https://finance.yahoo.com/markets/options/articles/why-does-jepi-etf-pay-200019301.html",
-                    "publisher": "24/7 Wall St."
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/options/articles/why-does-jepi-etf-pay-200019301.html"
+                },
+                {
+                    "title": "Is the Small-Cap Surge a Trend or Temporary Rotation?",
+                    "publisher": "etf.com",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html"
                 }
             ],
             "audit": {
@@ -367,13 +397,8 @@
             "news": [
                 {
                     "title": "Your Target-Date Fund Charges 6x More Than the Two-ETF Version of Itself",
-                    "link": "https://finance.yahoo.com/markets/options/articles/target-date-fund-charges-6x-131826831.html",
-                    "publisher": "24/7 Wall St."
-                },
-                {
-                    "title": "You Have More in Your 401(k) Than You\u2019ll Ever Spend. Where to Invest for Your Kids.",
-                    "link": "#",
-                    "publisher": "Barrons.com"
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/options/articles/target-date-fund-charges-6x-131826831.html"
                 }
             ],
             "audit": {
@@ -403,13 +428,18 @@
             "news": [
                 {
                     "title": "Is the Small-Cap Surge a Trend or Temporary Rotation?",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html",
-                    "publisher": "etf.com"
+                    "publisher": "etf.com",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html"
                 },
                 {
                     "title": "Your Default Bond Fund Pays 4%. So Does BSV, Without the 30-Year Risk You Never Agreed To",
-                    "link": "https://finance.yahoo.com/markets/options/articles/default-bond-fund-pays-4-191550640.html",
-                    "publisher": "24/7 Wall St."
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/options/articles/default-bond-fund-pays-4-191550640.html"
+                },
+                {
+                    "title": "What Is an ETF? 9 Things to Know About Exchange-Traded Funds",
+                    "publisher": "Kiplinger",
+                    "link": "https://finance.yahoo.com/markets/options/articles/etf-9-things-know-exchange-223209564.html"
                 }
             ],
             "audit": {
@@ -439,13 +469,18 @@
             "news": [
                 {
                     "title": "Daily ETF Flows: GLD Takes In $1B",
-                    "link": "https://finance.yahoo.com/markets/options/articles/daily-etf-flows-gld-takes-210004488.html",
-                    "publisher": "etf.com"
+                    "publisher": "etf.com",
+                    "link": "https://finance.yahoo.com/markets/options/articles/daily-etf-flows-gld-takes-210004488.html"
                 },
                 {
                     "title": "Exchange-Traded Funds Lower, Equity Futures Mixed Pre-Bell Tuesday Amid Rising Oil Prices",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-lower-equity-130233447.html",
-                    "publisher": "MT Newswires"
+                    "publisher": "MT Newswires",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-lower-equity-130233447.html"
+                },
+                {
+                    "title": "Exchange-Traded Funds Higher, Equity Futures Mixed Pre-Bell Monday Amid Lower Rate Hike Expectations",
+                    "publisher": "MT Newswires",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-higher-equity-131346618.html"
                 }
             ],
             "audit": {
@@ -1082,7 +1117,7 @@
                 102.56,
                 104.85,
                 102.95,
-                109.22,
+                109.23,
                 107.51,
                 103.9,
                 100.85,
@@ -1126,7 +1161,7 @@
                 103.77,
                 102.43,
                 104.72,
-                101.85,
+                101.86,
                 101.66,
                 99.94,
                 100.56,
@@ -1231,7 +1266,7 @@
                 182.87,
                 186.39,
                 182.48,
-                177.97,
+                177.98,
                 180.71,
                 181.3,
                 180.91,
@@ -1564,7 +1599,7 @@
                 459.06,
                 459.06,
                 459.06,
-                457.94,
+                457.95,
                 463.5,
                 479.06,
                 473.51,
@@ -2284,7 +2319,7 @@
                 100.0,
                 103.0,
                 109.23,
-                110.52,
+                110.51,
                 112.23,
                 109.44,
                 110.73,
@@ -2445,7 +2480,7 @@
                 171.67,
                 167.94,
                 167.94,
-                167.31,
+                167.3,
                 170.67,
                 175.96,
                 167.79,
@@ -2478,7 +2513,7 @@
                 157.69,
                 160.57,
                 167.79,
-                167.31,
+                167.3,
                 174.04,
                 174.04,
                 176.92,
@@ -2879,7 +2914,7 @@
                 249.03,
                 256.4,
                 255.58,
-                253.13
+                253.95
             ]
         },
         "TLKM.JK": {
@@ -3991,7 +4026,7 @@
                 149.44,
                 156.3,
                 155.78,
-                161.58,
+                161.59,
                 160.53,
                 164.23,
                 166.34,
@@ -4068,7 +4103,7 @@
                 192.54,
                 196.53,
                 198.24,
-                201.65,
+                201.66,
                 181.72,
                 169.19,
                 173.74,
@@ -4967,7 +5002,7 @@
                 194.08,
                 195.26,
                 196.06,
-                193.98,
+                193.99,
                 190.31,
                 197.29,
                 200.46,
@@ -5045,7 +5080,7 @@
                 281.14,
                 283.03,
                 279.25,
-                284.53,
+                284.54,
                 281.69,
                 282.97,
                 284.29,
@@ -5113,7 +5148,7 @@
                 273.94,
                 268.86,
                 279.64,
-                281.84,
+                281.85,
                 284.23,
                 282.87,
                 277.57,
@@ -6064,7 +6099,7 @@
                 160.17,
                 161.47,
                 161.78,
-                166.39,
+                166.4,
                 167.39,
                 167.64,
                 167.78,
@@ -6209,7 +6244,7 @@
                 311.39,
                 307.32,
                 317.6,
-                326.21,
+                326.22,
                 329.4,
                 338.13,
                 348.57,
@@ -6263,15 +6298,15 @@
                 436.37,
                 438.57,
                 438.13,
-                441.47,
+                441.48,
                 450.08,
-                450.25,
+                450.26,
                 444.79,
                 442.31,
                 442.29,
                 427.97,
                 424.41,
-                430.72,
+                430.73,
                 439.74,
                 455.59,
                 476.44,
@@ -6297,14 +6332,14 @@
                 428.31,
                 431.71,
                 417.54,
-                404.02,
+                404.03,
                 389.06,
                 377.66,
                 367.29,
                 351.03,
                 374.77,
                 367.24,
-                350.86,
+                350.87,
                 337.43,
                 364.21,
                 350.66,
@@ -6363,7 +6398,7 @@
                 466.66,
                 475.53,
                 474.28,
-                485.59,
+                485.6,
                 473.17,
                 468.8,
                 461.53,
@@ -6431,29 +6466,29 @@
                 647.84,
                 676.6,
                 669.24,
-                676.68,
+                676.69,
                 684.6,
                 705.39,
                 716.54,
                 701.12,
                 716.72,
-                711.79,
+                711.8,
                 697.7,
-                723.54,
+                723.55,
                 728.3,
                 720.14,
                 723.33,
                 739.47,
                 724.05,
                 712.69,
-                680.06,
+                680.07,
                 660.74,
                 669.26,
                 658.94,
                 649.03,
                 632.84,
                 672.75,
-                688.75,
+                688.76,
                 684.74,
                 730.63,
                 706.75,
@@ -6469,7 +6504,7 @@
                 775.5,
                 795.51,
                 792.95,
-                793.86,
+                793.87,
                 791.91,
                 805.04,
                 817.94,
@@ -7526,7 +7561,7 @@
                 204.5,
                 209.99,
                 215.69,
-                216.39,
+                216.4,
                 221.02,
                 218.31,
                 210.49,
@@ -7637,7 +7672,7 @@
                 288.93,
                 298.72,
                 298.67,
-                300.45,
+                300.46,
                 307.91,
                 313.69,
                 311.37,
@@ -7670,13 +7705,13 @@
                 333.11,
                 331.0,
                 343.9,
-                335.96,
+                335.97,
                 338.66,
                 343.33,
                 340.29,
                 343.33,
                 351.53,
-                356.71,
+                356.72,
                 354.64,
                 359.02,
                 364.34,
@@ -8422,7 +8457,7 @@
                 113.19,
                 114.77,
                 111.93,
-                113.31,
+                113.3,
                 112.22,
                 112.72,
                 110.95,
@@ -8754,7 +8789,7 @@
                 129.04,
                 130.96,
                 131.91,
-                132.52,
+                132.51,
                 134.88,
                 135.41,
                 135.28,
@@ -11377,7 +11412,7 @@
                 34985.95,
                 35483.29,
                 34280.5,
-                34996.12
+                34993.07
             ]
         }
     }
