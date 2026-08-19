@@ -71,7 +71,7 @@ function updateDashboard() {
         `;
     });
 
-    // 1. Render 3-Year Historical Growth Chart
+    // 1. Render Full Historical Growth Chart
     const historyData = globalData.historical_prices;
     if (historyData) {
         const lineTraces = [];
@@ -85,7 +85,7 @@ function updateDashboard() {
             });
         }
         const lineLayout = {
-            title: { text: '3-Year Historical Trajectory (2023 → 2026)', font: { color: '#f8fafc', size: 15 } },
+            title: { text: 'Full Historical Growth (Inception → 2026 Actual)', font: { color: '#f8fafc', size: 15 } },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
             font: { color: '#94a3b8' },
