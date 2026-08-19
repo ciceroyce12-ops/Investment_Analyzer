@@ -1,5 +1,5 @@
 {
-    "timestamp": "19 Aug 2026 03:09 UTC",
+    "timestamp": "19 Aug 2026 03:12 UTC",
     "fx_rate_usd_idr": 17851.0,
     "top_opportunities": [
         {
@@ -362,7 +362,7 @@
             "currency": "USD",
             "score": 60.7,
             "metrics": {
-                "annual_return": 32.21,
+                "annual_return": 32.22,
                 "volatility": 39.76,
                 "sharpe": 0.66,
                 "max_drawdown": -49.18,
@@ -381,11 +381,11 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 7247000.0,
-                "p25": 15422000.0,
-                "median": 26447000.0,
-                "p75": 44768000.0,
-                "p95": 96265000.0,
+                "p5": 7250000.0,
+                "p25": 15428000.0,
+                "median": 26457000.0,
+                "p75": 44785000.0,
+                "p95": 96302000.0,
                 "prob_loss": 10.8,
                 "prob_gain_50": 76.0
             },
@@ -401,11 +401,11 @@
             "currency": "IDR",
             "score": 44.9,
             "metrics": {
-                "annual_return": 1.16,
+                "annual_return": 1.03,
                 "volatility": 35.9,
-                "sharpe": -0.13,
+                "sharpe": -0.14,
                 "max_drawdown": -42.28,
-                "momentum": 22.3,
+                "momentum": 22.1,
                 "valuation": 46.2,
                 "fundamentals": 85,
                 "liquidity": 90,
@@ -420,13 +420,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2496000.0,
-                "p25": 4956000.0,
-                "median": 8087000.0,
-                "p75": 13043000.0,
-                "p95": 26142000.0,
-                "prob_loss": 61.7,
-                "prob_gain_50": 19.3
+                "p5": 2483000.0,
+                "p25": 4929000.0,
+                "median": 8044000.0,
+                "p75": 12973000.0,
+                "p95": 26001000.0,
+                "prob_loss": 62.0,
+                "prob_gain_50": 19.1
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -477,13 +477,13 @@
             "name": "Bank Rakyat Indonesia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 41.7,
+            "score": 41.8,
             "metrics": {
-                "annual_return": -6.87,
+                "annual_return": -6.75,
                 "volatility": 31.91,
                 "sharpe": -0.4,
                 "max_drawdown": -50.35,
-                "momentum": 6.3,
+                "momentum": 6.5,
                 "valuation": 52.1,
                 "fundamentals": 88,
                 "liquidity": 94,
@@ -498,13 +498,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2187000.0,
-                "p25": 4015000.0,
-                "median": 6197000.0,
-                "p75": 9465000.0,
-                "p95": 17527000.0,
-                "prob_loss": 77.7,
-                "prob_gain_50": 8.3
+                "p5": 2197000.0,
+                "p25": 4034000.0,
+                "median": 6226000.0,
+                "p75": 9509000.0,
+                "p95": 17607000.0,
+                "prob_loss": 77.4,
+                "prob_gain_50": 8.4
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -999,7 +999,7 @@
                 90.18,
                 89.29,
                 91.07,
-                90.62,
+                90.63,
                 93.3,
                 96.43,
                 95.54,
@@ -1142,7 +1142,7 @@
                 69.07,
                 71.11,
                 70.89,
-                69.98
+                70.21
             ]
         },
         "TLKM.JK": {
@@ -1458,7 +1458,7 @@
                 87.53,
                 90.19,
                 87.19,
-                86.53
+                86.2
             ]
         },
         "SPY": {
@@ -3378,7 +3378,7 @@
                 288.05,
                 292.14,
                 282.24,
-                288.43
+                288.55
             ]
         }
     }
