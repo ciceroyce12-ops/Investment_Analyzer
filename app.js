@@ -67,7 +67,7 @@ function updateDashboard() {
         `;
     });
 
-    // 1. Full Inception Historical Chart (Base 100)
+    // 1. Unified Historical Chart (Log Scale, Common Start 2015)
     const historyData = globalData.historical_prices;
     if (historyData) {
         const lineTraces = [];
@@ -81,12 +81,12 @@ function updateDashboard() {
             });
         }
         const lineLayout = {
-            title: { text: 'Full Historical Growth (Inception → Present • Base 100)', font: { color: '#f8fafc', size: 15 } },
+            title: { text: 'Global Multi-Asset Growth (2015 → Present • Log Scale)', font: { color: '#f8fafc', size: 15 } },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
             font: { color: '#94a3b8' },
             xaxis: { title: 'Date', gridcolor: 'rgba(255,255,255,0.05)' },
-            yaxis: { title: 'Indexed Growth (Base 100)', gridcolor: 'rgba(255,255,255,0.05)' },
+            yaxis: { title: 'Indexed Growth (Log Scale, Base 100)', type: 'log', gridcolor: 'rgba(255,255,255,0.05)' },
             margin: { t: 40, r: 20, b: 50, l: 60 },
             legend: { orientation: 'h', y: -0.2 }
         };
