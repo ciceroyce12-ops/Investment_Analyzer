@@ -41,7 +41,7 @@
         
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
         }
         .asset-card {
@@ -107,6 +107,30 @@
             padding: 15px;
         }
         .full-width { grid-column: 1 / -1; }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .news-card h4 { margin: 0 0 8px 0; font-size: 14px; color: var(--accent); }
+        .news-item {
+            font-size: 12px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+        .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .news-item a { color: var(--text-main); text-decoration: none; }
+        .news-item a:hover { color: var(--accent); text-decoration: underline; }
+        .news-publisher { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -143,8 +167,12 @@
     </div>
 
     <!-- 📰 Live Intelligence: Top 4 Opportunities -->
-    <div class="section-title">📰 Live Intelligence: Top 4 Opportunities & News</div>
+    <div class="section-title">📰 Live Intelligence: Top 4 Opportunities</div>
     <div id="cards-container" class="cards-grid"></div>
+
+    <!-- 📰 Live News Feed for Top 4 Opportunities -->
+    <div class="section-title">📰 Live Intelligence: Top 4 Opportunities News & Feed</div>
+    <div id="news-container" class="news-grid"></div>
 
     <!-- ⚖️ Decision-Support Portfolio Allocation & Stress Metrics -->
     <div class="section-title">⚖️ Decision-Support Portfolio Allocation & Stress Metrics</div>
