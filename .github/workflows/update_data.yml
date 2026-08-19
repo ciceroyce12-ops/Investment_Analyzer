@@ -33,5 +33,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/assets.json
-          git commit -m "Automated market data update: full inception history" || exit 0
+          git commit -m "Automated market data and live news update" || exit 0
           git push
