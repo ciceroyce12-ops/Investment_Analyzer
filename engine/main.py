@@ -8,30 +8,6 @@ import yfinance as yf
 os.makedirs("data", exist_ok=True)
 
 universe = {
-    "BBCA.JK": {
-        "name": "Bank Central Asia",
-        "category": "Indonesian Equities",
-        "currency": "IDR",
-        "fee": 0.0015,
-        "liquidity": 95,
-        "fundamentals": 92,
-    },
-    "BBRI.JK": {
-        "name": "Bank Rakyat Indonesia",
-        "category": "Indonesian Equities",
-        "currency": "IDR",
-        "fee": 0.0015,
-        "liquidity": 94,
-        "fundamentals": 88,
-    },
-    "TLKM.JK": {
-        "name": "Telkom Indonesia",
-        "category": "Indonesian Equities",
-        "currency": "IDR",
-        "fee": 0.0015,
-        "liquidity": 90,
-        "fundamentals": 85,
-    },
     "SPY": {
         "name": "S&P 500 ETF",
         "category": "Global Equities",
