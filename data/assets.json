@@ -1,5 +1,5 @@
 {
-    "timestamp": "19 Aug 2026 03:20 UTC",
+    "timestamp": "19 Aug 2026 03:22 UTC",
     "fx_rate_usd_idr": 17851.0,
     "top_opportunities": [
         {
@@ -383,9 +383,9 @@
             "monte_carlo": {
                 "p5": 7259000.0,
                 "p25": 15448000.0,
-                "median": 26490000.0,
-                "p75": 44841000.0,
-                "p95": 96423000.0,
+                "median": 26491000.0,
+                "p75": 44842000.0,
+                "p95": 96424000.0,
                 "prob_loss": 10.7,
                 "prob_gain_50": 76.1
             },
@@ -477,13 +477,13 @@
             "name": "Bank Rakyat Indonesia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 41.8,
+            "score": 41.7,
             "metrics": {
-                "annual_return": -6.75,
+                "annual_return": -6.87,
                 "volatility": 31.91,
                 "sharpe": -0.4,
                 "max_drawdown": -50.35,
-                "momentum": 6.5,
+                "momentum": 6.3,
                 "valuation": 52.1,
                 "fundamentals": 88,
                 "liquidity": 94,
@@ -498,13 +498,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2197000.0,
-                "p25": 4034000.0,
-                "median": 6226000.0,
-                "p75": 9509000.0,
-                "p95": 17607000.0,
-                "prob_loss": 77.4,
-                "prob_gain_50": 8.4
+                "p5": 2187000.0,
+                "p25": 4015000.0,
+                "median": 6197000.0,
+                "p75": 9465000.0,
+                "p95": 17527000.0,
+                "prob_loss": 77.7,
+                "prob_gain_50": 8.3
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -999,7 +999,7 @@
                 90.18,
                 89.29,
                 91.07,
-                90.63,
+                90.62,
                 93.3,
                 96.43,
                 95.54,
@@ -1142,7 +1142,7 @@
                 69.07,
                 71.11,
                 70.89,
-                70.21
+                69.98
             ]
         },
         "TLKM.JK": {
