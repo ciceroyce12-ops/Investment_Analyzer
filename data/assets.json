@@ -1,5 +1,5 @@
 {
-    "timestamp": "19 Aug 2026 03:12 UTC",
+    "timestamp": "19 Aug 2026 03:16 UTC",
     "fx_rate_usd_idr": 17851.0,
     "top_opportunities": [
         {
@@ -360,13 +360,13 @@
             "name": "Bitcoin",
             "category": "Crypto",
             "currency": "USD",
-            "score": 60.7,
+            "score": 60.8,
             "metrics": {
-                "annual_return": 32.22,
+                "annual_return": 32.23,
                 "volatility": 39.76,
                 "sharpe": 0.66,
                 "max_drawdown": -49.18,
-                "momentum": 84.4,
+                "momentum": 84.5,
                 "valuation": 40.4,
                 "fundamentals": 70,
                 "liquidity": 95,
@@ -381,12 +381,12 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 7250000.0,
-                "p25": 15428000.0,
-                "median": 26457000.0,
-                "p75": 44785000.0,
-                "p95": 96302000.0,
-                "prob_loss": 10.8,
+                "p5": 7253000.0,
+                "p25": 15435000.0,
+                "median": 26469000.0,
+                "p75": 44805000.0,
+                "p95": 96344000.0,
+                "prob_loss": 10.7,
                 "prob_gain_50": 76.0
             },
             "audit": {
@@ -3378,7 +3378,7 @@
                 288.05,
                 292.14,
                 282.24,
-                288.55
+                288.69
             ]
         }
     }
