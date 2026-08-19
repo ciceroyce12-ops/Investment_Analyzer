@@ -1,5 +1,5 @@
 {
-    "timestamp": "19 Aug 2026 03:00 UTC",
+    "timestamp": "19 Aug 2026 03:09 UTC",
     "fx_rate_usd_idr": 17851.0,
     "top_opportunities": [
         {
@@ -360,13 +360,13 @@
             "name": "Bitcoin",
             "category": "Crypto",
             "currency": "USD",
-            "score": 60.8,
+            "score": 60.7,
             "metrics": {
-                "annual_return": 32.23,
+                "annual_return": 32.21,
                 "volatility": 39.76,
                 "sharpe": 0.66,
                 "max_drawdown": -49.18,
-                "momentum": 84.5,
+                "momentum": 84.4,
                 "valuation": 40.4,
                 "fundamentals": 70,
                 "liquidity": 95,
@@ -381,12 +381,12 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 7253000.0,
-                "p25": 15435000.0,
-                "median": 26468000.0,
-                "p75": 44803000.0,
-                "p95": 96342000.0,
-                "prob_loss": 10.7,
+                "p5": 7247000.0,
+                "p25": 15422000.0,
+                "median": 26447000.0,
+                "p75": 44768000.0,
+                "p95": 96265000.0,
+                "prob_loss": 10.8,
                 "prob_gain_50": 76.0
             },
             "audit": {
@@ -401,11 +401,11 @@
             "currency": "IDR",
             "score": 44.9,
             "metrics": {
-                "annual_return": 1.03,
+                "annual_return": 1.16,
                 "volatility": 35.9,
-                "sharpe": -0.14,
+                "sharpe": -0.13,
                 "max_drawdown": -42.28,
-                "momentum": 22.1,
+                "momentum": 22.3,
                 "valuation": 46.2,
                 "fundamentals": 85,
                 "liquidity": 90,
@@ -420,13 +420,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2483000.0,
-                "p25": 4929000.0,
-                "median": 8044000.0,
-                "p75": 12973000.0,
-                "p95": 26001000.0,
-                "prob_loss": 62.0,
-                "prob_gain_50": 19.1
+                "p5": 2496000.0,
+                "p25": 4956000.0,
+                "median": 8087000.0,
+                "p75": 13043000.0,
+                "p95": 26142000.0,
+                "prob_loss": 61.7,
+                "prob_gain_50": 19.3
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -440,11 +440,11 @@
             "currency": "IDR",
             "score": 44.4,
             "metrics": {
-                "annual_return": -4.87,
-                "volatility": 27.85,
-                "sharpe": -0.39,
+                "annual_return": -5.01,
+                "volatility": 27.84,
+                "sharpe": -0.4,
                 "max_drawdown": -51.79,
-                "momentum": 10.3,
+                "momentum": 10.0,
                 "valuation": 58.2,
                 "fundamentals": 92,
                 "liquidity": 95,
@@ -459,13 +459,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2841000.0,
-                "p25": 4827000.0,
-                "median": 7046000.0,
-                "p75": 10194000.0,
-                "p95": 17443000.0,
-                "prob_loss": 74.1,
-                "prob_gain_50": 8.8
+                "p5": 2826000.0,
+                "p25": 4800000.0,
+                "median": 7008000.0,
+                "p75": 10137000.0,
+                "p95": 17343000.0,
+                "prob_loss": 74.3,
+                "prob_gain_50": 8.6
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -477,13 +477,13 @@
             "name": "Bank Rakyat Indonesia",
             "category": "Indonesian Equities",
             "currency": "IDR",
-            "score": 41.8,
+            "score": 41.7,
             "metrics": {
-                "annual_return": -6.75,
+                "annual_return": -6.87,
                 "volatility": 31.91,
                 "sharpe": -0.4,
                 "max_drawdown": -50.35,
-                "momentum": 6.5,
+                "momentum": 6.3,
                 "valuation": 52.1,
                 "fundamentals": 88,
                 "liquidity": 94,
@@ -498,13 +498,13 @@
                 "Liquidity": "10%"
             },
             "monte_carlo": {
-                "p5": 2197000.0,
-                "p25": 4034000.0,
-                "median": 6226000.0,
-                "p75": 9509000.0,
-                "p95": 17607000.0,
-                "prob_loss": 77.4,
-                "prob_gain_50": 8.4
+                "p5": 2187000.0,
+                "p25": 4015000.0,
+                "median": 6197000.0,
+                "p75": 9465000.0,
+                "p95": 17527000.0,
+                "prob_loss": 77.7,
+                "prob_gain_50": 8.3
             },
             "audit": {
                 "failure_condition": "High sensitivity to rapid macro downturns & volatility spikes.",
@@ -826,7 +826,7 @@
                 76.3,
                 76.9,
                 76.6,
-                77.2
+                76.9
             ]
         },
         "BBRI.JK": {
@@ -999,7 +999,7 @@
                 90.18,
                 89.29,
                 91.07,
-                90.63,
+                90.62,
                 93.3,
                 96.43,
                 95.54,
@@ -1142,7 +1142,7 @@
                 69.07,
                 71.11,
                 70.89,
-                70.21
+                69.98
             ]
         },
         "TLKM.JK": {
@@ -1458,7 +1458,7 @@
                 87.53,
                 90.19,
                 87.19,
-                86.2
+                86.53
             ]
         },
         "SPY": {
@@ -3378,7 +3378,7 @@
                 288.05,
                 292.14,
                 282.24,
-                288.68
+                288.43
             ]
         }
     }
