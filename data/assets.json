@@ -1,42 +1,42 @@
 {
-    "timestamp": "19 Aug 2026 04:14 UTC",
-    "fx_rate_usd_idr": 17830.0,
+    "timestamp": "21 Aug 2026 02:17 UTC",
+    "fx_rate_usd_idr": 17807.0,
     "top_opportunities": [
         {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
             "category": "Crypto",
             "currency": "USD",
-            "score": 55.4,
+            "score": 55.5,
             "metrics": {
-                "annual_return": 46.59,
-                "volatility": 55.78,
-                "sharpe": 0.73,
+                "annual_return": 47.46,
+                "volatility": 55.82,
+                "sharpe": 0.74,
                 "max_drawdown": -82.18,
                 "fundamentals": 70,
                 "liquidity": 95
             },
             "monte_carlo": {
-                "p5": 5516000.0,
-                "median": 34425000.0,
-                "p95": 214090000.0,
-                "prob_loss": 13.5
+                "p5": 5697000.0,
+                "median": 35600000.0,
+                "p95": 221668000.0,
+                "prob_loss": 12.9
             },
             "news": [
                 {
-                    "title": "Kraken launches US stock trading in Europe. Here's what you need to know.",
+                    "title": "Stablecoins join the payment conversation at X",
                     "publisher": "Yahoo Finance Video",
-                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html"
+                    "link": "https://finance.yahoo.com/video/stablecoins-join-payment-conversation-x-182300400.html"
                 },
                 {
-                    "title": "CLARITY Act's delay is 'depressing': Coinbase exec. discusses",
-                    "publisher": "Yahoo Finance Video",
-                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html"
+                    "title": "Bitcoin and ethereum prices today, Thursday, August 20, 2026: Crypto prices surge after President Trump pushes for Clarity Act",
+                    "publisher": "Yahoo Personal Finance",
+                    "link": "https://finance.yahoo.com/personal-finance/investing/article/bitcoin-and-ethereum-prices-today-thursday-august-20-2026-crypto-prices-surge-after-president-trump-pushes-for-clarity-act-154014757.html"
                 },
                 {
-                    "title": "Tom Lee Uses BlackRock\u2019s Bitcoin Report to Pitch Ethereum as AI\u2019s Verification Layer",
-                    "publisher": "BeInCrypto",
-                    "link": "https://finance.yahoo.com/markets/crypto/articles/tom-lee-uses-blackrock-bitcoin-031400155.html"
+                    "title": "Riot Platforms (RIOT) & CleanSpark (CLSK): Bitcoin Miners are Becoming AI Landlords. Riot Just Signed a $9 Billion Lease to Prove It",
+                    "publisher": "Insider Monkey",
+                    "link": "https://finance.yahoo.com/technology/ai/articles/riot-platforms-riot-cleanspark-clsk-014919566.html"
                 }
             ],
             "audit": {
@@ -50,34 +50,34 @@
             "currency": "USD",
             "score": 52.3,
             "metrics": {
-                "annual_return": 83.18,
-                "volatility": 259.86,
+                "annual_return": 83.04,
+                "volatility": 259.82,
                 "sharpe": 0.3,
                 "max_drawdown": -90.77,
                 "fundamentals": 96,
                 "liquidity": 98
             },
             "monte_carlo": {
-                "p5": 732000.0,
-                "median": 17207000.0,
-                "p95": 402026000.0,
-                "prob_loss": 39.1
+                "p5": 729000.0,
+                "median": 17129000.0,
+                "p95": 400003000.0,
+                "prob_loss": 39.3
             },
             "news": [
                 {
-                    "title": "Apple Shares Jump Tuesday While the Nasdaq Plummets: Here\u2019s Why It Led Magnificent 7 Stocks",
-                    "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/apple-shares-jump-tuesday-while-025245698.html"
+                    "title": "US Stock Indices End Lower As Trump\u2019s \u2018Economic Warfare\u2019 Threats Push Yields, Oil Higher \u2014 WMT, CRWV, SBUX, DE, RKLB In Focus",
+                    "publisher": "Stocktwits",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stock-indices-end-lower-213130056.html"
                 },
                 {
-                    "title": "VOO\u2019s 0.03% Fee Hides the Real Cost: 38% of Your S&P 500 Money Is Now in One Sector",
+                    "title": "How Much of Your Portfolio Should Actually Be in FTXL",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/voo-0-03-fee-hides-222518934.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/much-portfolio-actually-ftxl-211532063.html"
                 },
                 {
-                    "title": "QYLD Holders Left $56,700 Per $10,000 on the Table Chasing Twelve Years of Monthly Income",
+                    "title": "Goldman Sachs Just Paid $2.25 Billion for the Family Behind Your 14% Income Fund",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/options/articles/qyld-holders-left-56-700-214559130.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-just-paid-2-210519877.html"
                 }
             ],
             "audit": {
@@ -91,8 +91,8 @@
             "currency": "USD",
             "score": 52.0,
             "metrics": {
-                "annual_return": 79.31,
-                "volatility": 258.77,
+                "annual_return": 79.26,
+                "volatility": 258.73,
                 "sharpe": 0.28,
                 "max_drawdown": -92.07,
                 "fundamentals": 95,
@@ -100,25 +100,25 @@
             },
             "monte_carlo": {
                 "p5": 679000.0,
-                "median": 15431000.0,
-                "p95": 348496000.0,
+                "median": 15411000.0,
+                "p95": 347873000.0,
                 "prob_loss": 41.3
             },
             "news": [
                 {
-                    "title": "US Stocks End Third Session Lower As Higher Treasury Yields, Oil Prices Weigh \u2014 BABA, AAPL, GRRR, KLAR, CRWD In Focus",
+                    "title": "US Stock Indices End Lower As Trump\u2019s \u2018Economic Warfare\u2019 Threats Push Yields, Oil Higher \u2014 WMT, CRWV, SBUX, DE, RKLB In Focus",
                     "publisher": "Stocktwits",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stocks-end-third-session-213508025.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stock-indices-end-lower-213130056.html"
                 },
                 {
-                    "title": "Why Does the JEPI ETF Pay Less Than It Did in January When Its Sister Fund Pays More?",
+                    "title": "How Much of Your Portfolio Should Actually Be in FTXL",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/options/articles/why-does-jepi-etf-pay-200019301.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/much-portfolio-actually-ftxl-211532063.html"
                 },
                 {
-                    "title": "Is the Small-Cap Surge a Trend or Temporary Rotation?",
-                    "publisher": "etf.com",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html"
+                    "title": "Your Active ETF Manager Lost Again, and 87% of Them Have Been Losing for a Decade",
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/active-etf-manager-lost-again-185013518.html"
                 }
             ],
             "audit": {
@@ -132,17 +132,17 @@
             "currency": "USD",
             "score": 52.0,
             "metrics": {
-                "annual_return": 106.68,
-                "volatility": 305.15,
+                "annual_return": 106.56,
+                "volatility": 305.09,
                 "sharpe": 0.33,
                 "max_drawdown": -90.75,
                 "fundamentals": 93,
                 "liquidity": 97
             },
             "monte_carlo": {
-                "p5": 420000.0,
-                "median": 16316000.0,
-                "p95": 629272000.0,
+                "p5": 419000.0,
+                "median": 16266000.0,
+                "p95": 626825000.0,
                 "prob_loss": 41.5
             },
             "news": [
@@ -163,36 +163,36 @@
             "name": "Bitcoin",
             "category": "Crypto",
             "currency": "USD",
-            "score": 55.4,
+            "score": 55.5,
             "metrics": {
-                "annual_return": 46.59,
-                "volatility": 55.78,
-                "sharpe": 0.73,
+                "annual_return": 47.46,
+                "volatility": 55.82,
+                "sharpe": 0.74,
                 "max_drawdown": -82.18,
                 "fundamentals": 70,
                 "liquidity": 95
             },
             "monte_carlo": {
-                "p5": 5516000.0,
-                "median": 34425000.0,
-                "p95": 214090000.0,
-                "prob_loss": 13.5
+                "p5": 5697000.0,
+                "median": 35600000.0,
+                "p95": 221668000.0,
+                "prob_loss": 12.9
             },
             "news": [
                 {
-                    "title": "Kraken launches US stock trading in Europe. Here's what you need to know.",
+                    "title": "Stablecoins join the payment conversation at X",
                     "publisher": "Yahoo Finance Video",
-                    "link": "https://finance.yahoo.com/video/kraken-launches-us-stock-trading-180000187.html"
+                    "link": "https://finance.yahoo.com/video/stablecoins-join-payment-conversation-x-182300400.html"
                 },
                 {
-                    "title": "CLARITY Act's delay is 'depressing': Coinbase exec. discusses",
-                    "publisher": "Yahoo Finance Video",
-                    "link": "https://finance.yahoo.com/video/clarity-acts-delay-is-depressing-coinbase-exec-discusses-144900997.html"
+                    "title": "Bitcoin and ethereum prices today, Thursday, August 20, 2026: Crypto prices surge after President Trump pushes for Clarity Act",
+                    "publisher": "Yahoo Personal Finance",
+                    "link": "https://finance.yahoo.com/personal-finance/investing/article/bitcoin-and-ethereum-prices-today-thursday-august-20-2026-crypto-prices-surge-after-president-trump-pushes-for-clarity-act-154014757.html"
                 },
                 {
-                    "title": "Tom Lee Uses BlackRock\u2019s Bitcoin Report to Pitch Ethereum as AI\u2019s Verification Layer",
-                    "publisher": "BeInCrypto",
-                    "link": "https://finance.yahoo.com/markets/crypto/articles/tom-lee-uses-blackrock-bitcoin-031400155.html"
+                    "title": "Riot Platforms (RIOT) & CleanSpark (CLSK): Bitcoin Miners are Becoming AI Landlords. Riot Just Signed a $9 Billion Lease to Prove It",
+                    "publisher": "Insider Monkey",
+                    "link": "https://finance.yahoo.com/technology/ai/articles/riot-platforms-riot-cleanspark-clsk-014919566.html"
                 }
             ],
             "audit": {
@@ -206,34 +206,34 @@
             "currency": "USD",
             "score": 52.3,
             "metrics": {
-                "annual_return": 83.18,
-                "volatility": 259.86,
+                "annual_return": 83.04,
+                "volatility": 259.82,
                 "sharpe": 0.3,
                 "max_drawdown": -90.77,
                 "fundamentals": 96,
                 "liquidity": 98
             },
             "monte_carlo": {
-                "p5": 732000.0,
-                "median": 17207000.0,
-                "p95": 402026000.0,
-                "prob_loss": 39.1
+                "p5": 729000.0,
+                "median": 17129000.0,
+                "p95": 400003000.0,
+                "prob_loss": 39.3
             },
             "news": [
                 {
-                    "title": "Apple Shares Jump Tuesday While the Nasdaq Plummets: Here\u2019s Why It Led Magnificent 7 Stocks",
-                    "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/apple-shares-jump-tuesday-while-025245698.html"
+                    "title": "US Stock Indices End Lower As Trump\u2019s \u2018Economic Warfare\u2019 Threats Push Yields, Oil Higher \u2014 WMT, CRWV, SBUX, DE, RKLB In Focus",
+                    "publisher": "Stocktwits",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stock-indices-end-lower-213130056.html"
                 },
                 {
-                    "title": "VOO\u2019s 0.03% Fee Hides the Real Cost: 38% of Your S&P 500 Money Is Now in One Sector",
+                    "title": "How Much of Your Portfolio Should Actually Be in FTXL",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/voo-0-03-fee-hides-222518934.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/much-portfolio-actually-ftxl-211532063.html"
                 },
                 {
-                    "title": "QYLD Holders Left $56,700 Per $10,000 on the Table Chasing Twelve Years of Monthly Income",
+                    "title": "Goldman Sachs Just Paid $2.25 Billion for the Family Behind Your 14% Income Fund",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/options/articles/qyld-holders-left-56-700-214559130.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-just-paid-2-210519877.html"
                 }
             ],
             "audit": {
@@ -247,8 +247,8 @@
             "currency": "USD",
             "score": 52.0,
             "metrics": {
-                "annual_return": 79.31,
-                "volatility": 258.77,
+                "annual_return": 79.26,
+                "volatility": 258.73,
                 "sharpe": 0.28,
                 "max_drawdown": -92.07,
                 "fundamentals": 95,
@@ -256,25 +256,25 @@
             },
             "monte_carlo": {
                 "p5": 679000.0,
-                "median": 15431000.0,
-                "p95": 348496000.0,
+                "median": 15411000.0,
+                "p95": 347873000.0,
                 "prob_loss": 41.3
             },
             "news": [
                 {
-                    "title": "US Stocks End Third Session Lower As Higher Treasury Yields, Oil Prices Weigh \u2014 BABA, AAPL, GRRR, KLAR, CRWD In Focus",
+                    "title": "US Stock Indices End Lower As Trump\u2019s \u2018Economic Warfare\u2019 Threats Push Yields, Oil Higher \u2014 WMT, CRWV, SBUX, DE, RKLB In Focus",
                     "publisher": "Stocktwits",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stocks-end-third-session-213508025.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/us-stock-indices-end-lower-213130056.html"
                 },
                 {
-                    "title": "Why Does the JEPI ETF Pay Less Than It Did in January When Its Sister Fund Pays More?",
+                    "title": "How Much of Your Portfolio Should Actually Be in FTXL",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/options/articles/why-does-jepi-etf-pay-200019301.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/much-portfolio-actually-ftxl-211532063.html"
                 },
                 {
-                    "title": "Is the Small-Cap Surge a Trend or Temporary Rotation?",
-                    "publisher": "etf.com",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html"
+                    "title": "Your Active ETF Manager Lost Again, and 87% of Them Have Been Losing for a Decade",
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/active-etf-manager-lost-again-185013518.html"
                 }
             ],
             "audit": {
@@ -288,17 +288,17 @@
             "currency": "USD",
             "score": 52.0,
             "metrics": {
-                "annual_return": 106.68,
-                "volatility": 305.15,
+                "annual_return": 106.56,
+                "volatility": 305.09,
                 "sharpe": 0.33,
                 "max_drawdown": -90.75,
                 "fundamentals": 93,
                 "liquidity": 97
             },
             "monte_carlo": {
-                "p5": 420000.0,
-                "median": 16316000.0,
-                "p95": 629272000.0,
+                "p5": 419000.0,
+                "median": 16266000.0,
+                "p95": 626825000.0,
                 "prob_loss": 41.5
             },
             "news": [
@@ -319,8 +319,8 @@
             "currency": "USD",
             "score": 51.3,
             "metrics": {
-                "annual_return": 92.43,
-                "volatility": 292.35,
+                "annual_return": 92.4,
+                "volatility": 292.29,
                 "sharpe": 0.3,
                 "max_drawdown": -91.8,
                 "fundamentals": 90,
@@ -328,25 +328,15 @@
             },
             "monte_carlo": {
                 "p5": 395000.0,
-                "median": 12895000.0,
-                "p95": 418246000.0,
+                "median": 12896000.0,
+                "p95": 418008000.0,
                 "prob_loss": 45.3
             },
             "news": [
                 {
-                    "title": "Is the Small-Cap Surge a Trend or Temporary Rotation?",
-                    "publisher": "etf.com",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/small-cap-surge-trend-temporary-185620170.html"
-                },
-                {
-                    "title": "Your Default Bond Fund Pays 4%. So Does BSV, Without the 30-Year Risk You Never Agreed To",
+                    "title": "BND Is Flat While Stocks Soar, but Selling Now Locks in the Real Loss",
                     "publisher": "24/7 Wall St.",
-                    "link": "https://finance.yahoo.com/markets/options/articles/default-bond-fund-pays-4-191550640.html"
-                },
-                {
-                    "title": "What Is an ETF? 9 Things to Know About Exchange-Traded Funds",
-                    "publisher": "Kiplinger",
-                    "link": "https://finance.yahoo.com/markets/options/articles/etf-9-things-know-exchange-223209564.html"
+                    "link": "https://finance.yahoo.com/markets/articles/bnd-flat-while-stocks-soar-145523794.html"
                 }
             ],
             "audit": {
@@ -360,34 +350,34 @@
             "currency": "USD",
             "score": 50.2,
             "metrics": {
-                "annual_return": 91.18,
-                "volatility": 275.92,
+                "annual_return": 91.33,
+                "volatility": 275.87,
                 "sharpe": 0.31,
                 "max_drawdown": -90.33,
                 "fundamentals": 80,
                 "liquidity": 98
             },
             "monte_carlo": {
-                "p5": 605000.0,
-                "median": 16960000.0,
-                "p95": 472185000.0,
-                "prob_loss": 40.0
+                "p5": 610000.0,
+                "median": 17082000.0,
+                "p95": 475348000.0,
+                "prob_loss": 39.8
             },
             "news": [
                 {
-                    "title": "Daily ETF Flows: GLD Takes In $1B",
-                    "publisher": "etf.com",
-                    "link": "https://finance.yahoo.com/markets/options/articles/daily-etf-flows-gld-takes-210004488.html"
+                    "title": "Gold Jumps After Surprise Treasury Move",
+                    "publisher": "GuruFocus.com",
+                    "link": "https://finance.yahoo.com/markets/commodities/articles/gold-jumps-surprise-treasury-move-165903080.html"
                 },
                 {
-                    "title": "Exchange-Traded Funds Lower, Equity Futures Mixed Pre-Bell Tuesday Amid Rising Oil Prices",
-                    "publisher": "MT Newswires",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-lower-equity-130233447.html"
+                    "title": "Goldman Targets $5,400 Gold by Year-End: Why GLDM Is the Low-Cost Play",
+                    "publisher": "24/7 Wall St.",
+                    "link": "https://finance.yahoo.com/markets/commodities/articles/goldman-targets-5-400-gold-164631092.html"
                 },
                 {
-                    "title": "Exchange-Traded Funds Higher, Equity Futures Mixed Pre-Bell Monday Amid Lower Rate Hike Expectations",
+                    "title": "Exchange-Traded Funds Lower, Equity Futures Mixed Pre-Bell Thursday Amid Renewed Inflation Concerns",
                     "publisher": "MT Newswires",
-                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-higher-equity-131346618.html"
+                    "link": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-lower-equity-131221407.html"
                 }
             ],
             "audit": {
@@ -1038,7 +1028,7 @@
                 109.45,
                 112.33,
                 110.78,
-                112.62,
+                112.63,
                 111.04,
                 113.57,
                 108.93,
@@ -1134,7 +1124,7 @@
                 130.87,
                 131.36,
                 132.27,
-                133.47,
+                133.48,
                 133.11,
                 133.35,
                 134.09,
@@ -1326,7 +1316,7 @@
                 233.35,
                 236.08,
                 226.45,
-                239.9,
+                239.91,
                 242.36,
                 241.13,
                 234.65,
@@ -1350,7 +1340,7 @@
                 281.14,
                 283.03,
                 279.25,
-                284.53,
+                284.54,
                 281.69,
                 282.97,
                 284.29,
@@ -1402,7 +1392,7 @@
                 256.49,
                 262.24,
                 261.11,
-                267.27,
+                267.28,
                 275.83,
                 277.48,
                 283.54,
@@ -1419,7 +1409,7 @@
                 273.94,
                 268.86,
                 279.64,
-                281.84,
+                281.85,
                 284.23,
                 282.87,
                 277.57,
@@ -1507,7 +1497,7 @@
                 420.8,
                 419.02,
                 412.85,
-                413.29,
+                413.3,
                 403.13,
                 395.72,
                 405.78,
@@ -1602,8 +1592,8 @@
                 591.84,
                 605.22,
                 614.75,
-                625.84,
-                640.25,
+                625.85,
+                640.26,
                 628.27,
                 630.64,
                 635.45,
@@ -1615,7 +1605,7 @@
                 641.0,
                 658.79,
                 659.61,
-                650.63
+                645.9
             ]
         },
         "QQQ": {
@@ -2584,7 +2574,7 @@
                 442.29,
                 427.97,
                 424.41,
-                430.73,
+                430.72,
                 439.74,
                 455.59,
                 476.44,
@@ -2761,7 +2751,7 @@
                 739.47,
                 724.05,
                 712.69,
-                680.06,
+                680.07,
                 660.74,
                 669.26,
                 658.94,
@@ -2785,7 +2775,7 @@
                 775.5,
                 795.51,
                 792.95,
-                793.86,
+                793.87,
                 791.91,
                 805.04,
                 817.94,
@@ -2837,7 +2827,7 @@
                 1059.34,
                 1105.39,
                 1114.63,
-                1110.74
+                1080.52
             ]
         },
         "VT": {
@@ -3960,7 +3950,7 @@
                 288.93,
                 298.72,
                 298.67,
-                300.45,
+                300.46,
                 307.91,
                 313.69,
                 311.37,
@@ -3994,7 +3984,7 @@
                 333.11,
                 331.0,
                 343.9,
-                335.96,
+                335.97,
                 338.66,
                 343.33,
                 340.29,
@@ -4059,7 +4049,7 @@
                 484.35,
                 497.69,
                 499.26,
-                497.04
+                490.57
             ]
         },
         "BND": {
@@ -4750,7 +4740,7 @@
                 113.19,
                 114.77,
                 111.93,
-                113.3,
+                113.31,
                 112.22,
                 112.72,
                 112.75,
@@ -5027,7 +5017,7 @@
                 143.29,
                 142.77,
                 142.87,
-                140.17,
+                140.18,
                 139.84,
                 140.25,
                 141.5,
@@ -5279,9 +5269,9 @@
                 178.63,
                 177.11,
                 177.63,
-                177.4,
+                177.41,
                 176.7,
-                176.01
+                176.22
             ]
         },
         "GLD": {
@@ -6503,7 +6493,7 @@
                 474.2,
                 504.96,
                 507.38,
-                502.58
+                523.15
             ]
         },
         "BTC-USD": {
@@ -7725,7 +7715,7 @@
                 34985.95,
                 35483.29,
                 34280.5,
-                35000.6
+                40564.58
             ]
         }
     }
