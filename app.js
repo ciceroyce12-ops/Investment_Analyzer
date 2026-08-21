@@ -106,6 +106,43 @@ function updateDashboard() {
         `;
     });
 
+    // Render Comprehensive Full Asset Universe Table
+    const fullUniverseContainer = document.getElementById('full-universe-container');
+    if (fullUniverseContainer && globalData.full_universe) {
+        let tableHtml = `
+            <table style="width:100%; border-collapse: collapse; text-align: left; font-size: 13px; color: #94a3b8;">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #f8fafc;">
+                        <th style="padding: 10px;">Ticker</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Composite Score</th>
+                        <th>Annual Return</th>
+                        <th>Volatility</th>
+                        <th>Sharpe</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        globalData.full_universe.forEach(asset => {
+            tableHtml += `
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 10px; color: #38bdf8; font-weight: bold;">${asset.ticker}</td>
+                    <td>${asset.name}</td>
+                    <td>${asset.category}</td>
+                    <td><span style="background: rgba(56, 189, 248, 0.1); padding: 3px 8px; border-radius: 4px; color: #38bdf8;">${asset.score}</span></td>
+                    <td style="color: #34d399;">+${asset.metrics.annual_return}%</td>
+                    <td>${asset.metrics.volatility}%</td>
+                    <td>${asset.metrics.sharpe}</td>
+                </tr>
+            `;
+        });
+
+        tableHtml += `</tbody></table>`;
+        fullUniverseContainer.innerHTML = tableHtml;
+    }
+
     // 1. Unified Historical Chart (Log Scale, Common Start 2015)
     const historyData = globalData.historical_prices;
     if (historyData) {
