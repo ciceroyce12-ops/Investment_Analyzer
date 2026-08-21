@@ -6,11 +6,23 @@ fetch('data/assets.json')
         globalData = data;
         document.getElementById('data-timestamp').innerText = `Market Data Updated: ${data.timestamp} (USD/IDR: Rp ${data.fx_rate_usd_idr.toFixed(0)})`;
         updateDashboard();
+        attachEventListeners();
     })
     .catch(error => {
         console.error("Error loading data:", error);
         document.getElementById('cards-container').innerHTML = "<p style='color: #f87171;'>Run the GitHub Action to generate quantitative data.</p>";
     });
+
+function attachEventListeners() {
+    const inputs = ['user-capital', 'user-horizon', 'risk-slider', 'optimizer-mode'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateDashboard);
+            el.addEventListener('change', updateDashboard);
+        }
+    });
+}
 
 function updateDashboard() {
     if (!globalData) return;
