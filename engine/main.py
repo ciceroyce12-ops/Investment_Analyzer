@@ -7,6 +7,7 @@ import yfinance as yf
 
 os.makedirs("data", exist_ok=True)
 
+# Expanded global investment universe
 universe = {
     "SPY": {
         "name": "S&P 500 ETF",
@@ -32,6 +33,22 @@ universe = {
         "liquidity": 97,
         "fundamentals": 93,
     },
+    "VWO": {
+        "name": "Emerging Markets ETF",
+        "category": "Global Equities",
+        "currency": "USD",
+        "fee": 0.0008,
+        "liquidity": 96,
+        "fundamentals": 88,
+    },
+    "TLT": {
+        "name": "20+ Year Treasury Bond",
+        "category": "Fixed Income",
+        "currency": "USD",
+        "fee": 0.0015,
+        "liquidity": 98,
+        "fundamentals": 85,
+    },
     "BND": {
         "name": "Total Bond Market ETF",
         "category": "Fixed Income",
@@ -56,9 +73,17 @@ universe = {
         "liquidity": 95,
         "fundamentals": 70,
     },
+    "BBCA.JK": {
+        "name": "Bank Central Asia",
+        "category": "Local Equities",
+        "currency": "IDR",
+        "fee": 0.0010,
+        "liquidity": 92,
+        "fundamentals": 94,
+    },
 }
 
-# Download FX data once globally
+# Download FX data once globally[cite: 1]
 try:
     fx_df = yf.download("IDR=X", period="max", progress=False)["Close"]
     if isinstance(fx_df, pd.DataFrame):
@@ -80,6 +105,7 @@ for ticker, meta in universe.items():
         if isinstance(prices, pd.DataFrame):
             prices = prices.iloc[:, 0]
 
+        # Convert to IDR only if asset currency is USD[cite: 1]
         if meta["currency"] == "USD":
             try:
                 if not fx_df.empty:
@@ -138,7 +164,7 @@ for ticker, meta in universe.items():
         p95 = float(np.percentile(sim_array, 95))
         prob_loss = float(np.mean(sim_array < 10000000) * 100)
 
-        # Fetch latest news items via yfinance
+        # Fetch latest news items via yfinance[cite: 1]
         news_items = []
         try:
             t_obj = yf.Ticker(ticker)
@@ -211,7 +237,7 @@ for ticker, meta in universe.items():
     except Exception as e:
         print(f"Error processing {ticker}: {e}")
 
-# Align historical series to 2015 common start date
+# Align historical series to 2015 common start date[cite: 1]
 historical_series = {}
 if price_dict:
     df_all = pd.DataFrame(price_dict)
@@ -244,7 +270,7 @@ def validate_schema(data):
         raise ValueError("Schema validation failed: full_universe is empty or invalid.")
     return True
 
-# Validate output prior to writing JSON
+# Validate output prior to writing JSON[cite: 1]
 validate_schema(output)
 
 with open("data/assets.json", "w") as f:
